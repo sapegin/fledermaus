@@ -6,7 +6,7 @@ import { readFile } from '../lib/core';
 
 describe('markdown', () => {
 
-	describe('renderer', () => {
+	describe('render', () => {
 		it('should render Markdown string to HTML', () => {
 			let result = renderMarkdown(readFile('test/samples/markdown.md'));
 			expect(result).to.eql(readFile('test/expected/markdown.html'));

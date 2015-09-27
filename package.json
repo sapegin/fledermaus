@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "babel": "~5.8.23",
+    "ect": "~0.5.9",
     "fastmatter": "~1.1.0",
     "glob": "~5.0.14",
     "highlight.js": "~8.8.0",
