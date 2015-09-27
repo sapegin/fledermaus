@@ -1,5 +1,4 @@
-// TODO
-var expect = require('chai').expect;
+import { expect } from 'chai';
 
 import * as core from '../lib/core';
 import { readFile } from '../lib/core';
@@ -118,6 +117,29 @@ describe('core', () => {
 			let result = core.readConfig('test/config');
 			// console.log(JSON.stringify(result));
 			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
+		});
+	});
+
+	describe('makeContext', () => {
+		it('should return merged config object', () => {
+			let result = core.makeContext(
+				{
+					title: 'Hello',
+					content: '<b>Test</b>'
+				}, {
+					default: {
+						title: 'Blog',
+						author: 'Artem Sapegin'
+					}
+				}, {
+					siteTitle: function() { return this.config.default.title },
+					heading: function(l) { return `<h${l}>${this.title}</h${l}>` }
+				}
+			);
+			expect(result.title).to.eql('Hello');
+			expect(result.config.default.title).to.eql('Blog');
+			expect(result.siteTitle()).to.eql('Blog');
+			expect(result.heading(2)).to.eql('<h2>Hello</h2>');
 		});
 	});
 
