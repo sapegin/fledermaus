@@ -122,20 +122,18 @@ describe('core', () => {
 
 	describe('makeContext', () => {
 		it('should return merged config object', () => {
-			let result = core.makeContext(
-				{
-					title: 'Hello',
-					content: '<b>Test</b>'
-				}, {
-					default: {
-						title: 'Blog',
-						author: 'Artem Sapegin'
-					}
-				}, {
-					siteTitle: function() { return this.config.default.title },
-					heading: function(l) { return `<h${l}>${this.title}</h${l}>` }
+			let result = core.makeContext({
+				title: 'Hello',
+				content: '<b>Test</b>'
+			}, {
+				default: {
+					title: 'Blog',
+					author: 'Artem Sapegin'
 				}
-			);
+			}, {
+				siteTitle: function() { return this.config.default.title },
+				heading: function(l) { return `<h${l}>${this.title}</h${l}>` }
+			});
 			expect(result.title).to.eql('Hello');
 			expect(result.config.default.title).to.eql('Blog');
 			expect(result.siteTitle()).to.eql('Blog');
