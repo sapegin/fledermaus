@@ -15,4 +15,18 @@ describe('util', () => {
 		});
 	});
 
+	describe('meta', () => {
+		it('should return HTML meta tag', () => {
+			let result = util.meta('description', 'My blog');
+			expect(result).to.eql('<meta name="description" content="My blog">');
+		});
+	});
+
+	describe('og', () => {
+		it('should return HTML meta tag for Open Graph', () => {
+			let result = util.og('description', 'My blog');
+			expect(result).to.eql('<meta property="description" content="My blog">');
+		});
+	});
+
 });
