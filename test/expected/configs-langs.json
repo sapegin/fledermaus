@@ -1,0 +1,19 @@
+{
+    "default": {
+        "title": "Artem Sapegin’s Blog",
+        "author": "Artem Sapegin",
+        "url": "http://blog.sapegin.me",
+        "timezone": "Europe/Berlin",
+        "root": "/"
+    },
+    "langs": {
+        "en": {
+            "title": "Artem Sapegin’s Blog",
+            "author": "Artem Sapegin"
+        },
+        "ru": {
+            "title": "Блог Артёма Сапегина",
+            "author": "Артём Сапегин"
+        }
+    }
+}

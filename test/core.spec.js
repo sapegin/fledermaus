@@ -1,14 +1,8 @@
 // TODO
 var expect = require('chai').expect;
 
-import fs from 'fs';
-
 import * as core from '../lib/core';
-
-// TODO
-function readFile(filepath) {
-	return fs.readFileSync(filepath, {encoding: 'utf8'});
-}
+import { readFile } from '../lib/core';
 
 describe('core', () => {
 
@@ -39,6 +33,93 @@ describe('core', () => {
 		});
 	});
 
+	describe('getSourceFilesList', () => {
+		it('should return a list of source files', () => {
+			let result = core.getSourceFilesList('test/source');
+			expect(result).to.eql([
+				'test/source/en/plugins-requirejs.md',
+				'test/source/en/read-less-tech-books.md',
+				'test/source/ru/debug-mode.md'
+			]);
+		});
+	});
+
+	describe('readFile', () => {
+		it('should return a file content', () => {
+			let result = core.readFile('test/samples/file.txt');
+			expect(result).to.eql('Hello.');
+		});
+	});
+
+	describe('readYamlFile', () => {
+		it('should read and parse YAML file', () => {
+			let result = core.readYamlFile('test/samples/file.yml');
+			expect(result).to.eql({hello: 'world'});
+		});
+	});
+
+	describe('readFiles', () => {
+		it('should return an array with the content of every file from a given array', () => {
+			let result = core.readFiles([
+				'test/source/en/read-less-tech-books.md',
+				'test/source/ru/debug-mode.md'
+			]);
+			expect(result).to.eql(require('./expected/files.json'));
+		});
+	});
+
+	describe('getConfigFilesList', () => {
+		it('should return a list of config files', () => {
+			let result = core.getConfigFilesList('test/config');
+			expect(result).to.eql([
+				'test/config/default.yml',
+				'test/config/en.yml',
+				'test/config/ru.yml'
+			]);
+		});
+	});
+
+	describe('readConfigFiles', () => {
+		it('should read config files to an object', () => {
+			let result = core.readConfigFiles([
+				'test/config/default.yml'
+			]);
+			expect(result).to.eql(require('./expected/configs.json'));
+		});
+	});
+
+	describe('readConfigFiles', () => {
+		it('should read config files (with langs) to an object', () => {
+			let result = core.readConfigFiles([
+				'test/config/default.yml',
+				'test/config/en.yml',
+				'test/config/ru.yml'
+			]);
+			expect(result).to.eql(require('./expected/configs-langs.json'));
+		});
+	});
+
+	describe('mergeConfigs', () => {
+		it('should merge config objects', () => {
+			let result = core.mergeConfigs(require('./expected/configs.json'));
+			expect(result).to.eql(require('./expected/configs-merged.json'));
+		});
+	});
+
+	describe('mergeConfigs', () => {
+		it('should merge config objects (with langs)', () => {
+			let result = core.mergeConfigs(require('./expected/configs-langs.json'));
+			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
+		});
+	});
+
+	describe('readConfig', () => {
+		it('should return merged config object', () => {
+			let result = core.readConfig('test/config');
+			// console.log(JSON.stringify(result));
+			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
+		});
+	});
 
 
 });

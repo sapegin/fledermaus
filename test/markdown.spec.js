@@ -1,14 +1,8 @@
 // TODO
 var expect = require('chai').expect;
 
-import fs from 'fs';
-
 import renderMarkdown from '../lib/markdown';
-
-// TODO
-function readFile(filepath) {
-	return fs.readFileSync(filepath, {encoding: 'utf8'});
-}
+import { readFile } from '../lib/core';
 
 describe('markdown', () => {
 
