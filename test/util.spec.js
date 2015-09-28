@@ -4,6 +4,20 @@ import * as util from '../lib/util';
 
 describe('util', () => {
 
+	describe('readFile', () => {
+		it('should return a file content', () => {
+			let result = util.readFile('test/samples/file.txt');
+			expect(result).to.eql('Hello.');
+		});
+	});
+
+	describe('readYamlFile', () => {
+		it('should read and parse YAML file', () => {
+			let result = util.readYamlFile('test/samples/file.yml');
+			expect(result).to.eql({hello: 'world'});
+		});
+	});
+
 	describe('tmpl', () => {
 		it('should render a simple template', () => {
 			let result = util.tmpl('Hello {wrld}!', {wrld: 'world'});

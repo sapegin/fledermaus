@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import renderTemplate, { init as initTemplates } from '../lib/template';
-import { readFile } from '../lib/core';
+import { readFile } from '../lib/util';
 
 describe('template', () => {
 

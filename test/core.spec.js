@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 
 import * as core from '../lib/core';
-import { readFile } from '../lib/core';
+import { readFile } from '../lib/util';
+
+// console.log(JSON.stringify(result));
 
 describe('core', () => {
 
@@ -43,26 +45,9 @@ describe('core', () => {
 		});
 	});
 
-	describe('readFile', () => {
-		it('should return a file content', () => {
-			let result = core.readFile('test/samples/file.txt');
-			expect(result).to.eql('Hello.');
-		});
-	});
-
-	describe('readYamlFile', () => {
-		it('should read and parse YAML file', () => {
-			let result = core.readYamlFile('test/samples/file.yml');
-			expect(result).to.eql({hello: 'world'});
-		});
-	});
-
-	describe('readFiles', () => {
-		it('should return an array with the content of every file from a given array', () => {
-			let result = core.readFiles([
-				'test/source/en/read-less-tech-books.md',
-				'test/source/ru/debug-mode.md'
-			]);
+	describe('loadSourceFiles', () => {
+		it('should return an object with parsed source files', () => {
+			let result = core.loadSourceFiles('test/source');
 			expect(result).to.eql(require('./expected/files.json'));
 		});
 	});
@@ -112,10 +97,9 @@ describe('core', () => {
 		});
 	});
 
-	describe('readConfig', () => {
+	describe('loadConfig', () => {
 		it('should return merged config object', () => {
-			let result = core.readConfig('test/config');
-			// console.log(JSON.stringify(result));
+			let result = core.loadConfig('test/config');
 			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
 		});
 	});
@@ -140,6 +124,5 @@ describe('core', () => {
 			expect(result.heading(2)).to.eql('<h2>Hello</h2>');
 		});
 	});
-
 
 });

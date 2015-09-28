@@ -2,7 +2,7 @@
 var expect = require('chai').expect;
 
 import renderMarkdown from '../lib/markdown';
-import { readFile } from '../lib/core';
+import { readFile } from '../lib/util';
 
 describe('markdown', () => {
 
