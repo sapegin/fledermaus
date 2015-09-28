@@ -7,8 +7,8 @@ describe('template', () => {
 
 	describe('render', () => {
 		it('should render template to HTML', () => {
-			initTemplates('test/samples');
-			let result = renderTemplate('test/samples/template.ect', {world: 'world'});
+			initTemplates({root: 'test/samples'});
+			let result = renderTemplate('template', {world: 'world'});
 			expect(result).to.eql(readFile('test/expected/template.html'));
 		});
 	});
