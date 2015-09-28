@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import * as core from '../lib/core';
 import { readFile } from '../lib/util';
+import { init as initTemplate } from '../lib/template';
 
 // console.log(JSON.stringify(result));
 
@@ -122,6 +123,23 @@ describe('core', () => {
 			expect(result.config.default.title).to.eql('Blog');
 			expect(result.siteTitle()).to.eql('Blog');
 			expect(result.heading(2)).to.eql('<h2>Hello</h2>');
+		});
+	});
+
+	describe('generatePage', () => {
+		it('should render page using template from frontmatter', () => {
+			initTemplate({root: 'test/samples'});
+			let result = core.generatePage({
+				title: 'Hello',
+				layout: 'layout',
+				sourcePath: 'all/post',
+				content: '<b>Test</b>'
+			}, {
+				default: {}
+			}, {
+			});
+			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+			expect(result.pagePath).to.eql('all/post');
 		});
 	});
 
