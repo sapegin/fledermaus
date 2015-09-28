@@ -102,4 +102,11 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('pageUrl', () => {
+		it('should return URL without changes', () => {
+			let result = helpers.pageUrl('/all/post');
+			expect(result).to.eql('/all/post');
+		});
+	});
+
 });
