@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import rimraf from 'rimraf';
 
 import * as core from '../lib/core';
 import { readFile } from '../lib/util';
@@ -168,6 +169,35 @@ describe('core', () => {
 			expect(result[0].pagePath).to.eql('all/post');
 			expect(result[1].content).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
 			expect(result[1].pagePath).to.eql('all/post2');
+		});
+	});
+
+	describe('savePage', () => {
+		beforeEach(done => rimraf('test/tmp', done));
+		it('should save page to HTML file', () => {
+			core.savePage({
+				pagePath: 'all/post',
+				content: '<h1>Hello</h1>\n<b>Test</b>'
+			}, 'test/tmp');
+			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+		});
+	});
+
+	describe('savePages', () => {
+		beforeEach(done => rimraf('test/tmp', done));
+		it('should save array of page to HTML files', () => {
+			core.savePages([
+				{
+					pagePath: 'all/post',
+					content: '<h1>Hello</h1>\n<b>Test</b>'
+				},
+				{
+					pagePath: 'all/post2',
+					content: '<h1>Bye</h1>\n<b>Foobarbaz</b>'
+				}
+			], 'test/tmp');
+			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+			expect(readFile('test/tmp/all/post2.html')).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
 		});
 	});
 
