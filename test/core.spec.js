@@ -143,4 +143,32 @@ describe('core', () => {
 		});
 	});
 
+	describe('generatePages', () => {
+		it('should render array of pages', () => {
+			initTemplate({root: 'test/samples'});
+			let result = core.generatePages([
+				{
+					title: 'Hello',
+					layout: 'layout',
+					sourcePath: 'all/post',
+					content: '<b>Test</b>'
+				},
+				{
+					title: 'Bye',
+					layout: 'layout',
+					sourcePath: 'all/post2',
+					content: '<b>Foobarbaz</b>'
+				}
+			], {
+				default: {}
+			}, {
+			});
+			expect(result.length).to.eql(2);
+			expect(result[0].content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+			expect(result[0].pagePath).to.eql('all/post');
+			expect(result[1].content).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
+			expect(result[1].pagePath).to.eql('all/post2');
+		});
+	});
+
 });
