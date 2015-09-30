@@ -7,7 +7,8 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "~3.3.0",
-    "mocha": "~2.3.3"
+    "mocha": "~2.3.3",
+    "rimraf": "~2.4.3"
   },
   "dependencies": {
     "babel": "~5.8.23",
@@ -16,7 +17,8 @@
     "glob": "~5.0.14",
     "highlight.js": "~8.8.0",
     "js-yaml": "~3.4.2",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "mkdirp": "~0.5.1"
   },
   "scripts": {
     "test": "mocha --compilers js:babel/register test"

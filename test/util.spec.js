@@ -1,4 +1,6 @@
+import fs from 'fs';
 import { expect } from 'chai';
+import rimraf from 'rimraf';
 
 import * as util from '../lib/util';
 
@@ -8,6 +10,16 @@ describe('util', () => {
 		it('should return a file content', () => {
 			let result = util.readFile('test/samples/file.txt');
 			expect(result).to.eql('Hello.');
+		});
+	});
+
+	describe('writeFile', () => {
+		beforeEach(done => rimraf('test/tmp', done));
+		it('should saves a string to a file on a disk', () => {
+			const filepath = 'test/tmp/file.txt';
+			util.writeFile(filepath, 'Hello.');
+			expect(fs.existsSync(filepath)).to.be.true;
+			expect(fs.readFileSync(filepath, {encoding: 'utf8'})).to.eql('Hello.');
 		});
 	});
 
