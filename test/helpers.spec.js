@@ -109,4 +109,61 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('assetFilepath', () => {
+		it('should return a path for a static file', () => {
+			let func = helpers.assetFilepath.bind({
+				option: helpers.option,
+				config: {
+					default: {
+						assetsFolder: 'test/samples'
+					}
+				}
+			});
+			let result = func('images/photo.jpg');
+			expect(result).to.eql('test/samples/images/photo.jpg');
+		});
+		it('should throw if assets folder was not specifeid in the config', () => {
+			let func = helpers.assetFilepath.bind({
+				option: helpers.option,
+				config: {
+					default: {
+					}
+				}
+			});
+			expect(() => func('images/photo.jpg')).to.throw(Error);
+		});
+	});
+
+	describe('fingerprint', () => {
+		it('should return a fingerprinted URL for a static file', () => {
+			let func = helpers.fingerprint.bind({
+				option: helpers.option,
+				assetFilepath: helpers.assetFilepath,
+				config: {
+					default: {
+						assetsFolder: 'test/samples'
+					}
+				}
+			});
+			let result = func('file.txt');
+			expect(result).to.eql('file.txt?1443126049000');
+		});
+	});
+
+	describe('embedFile', () => {
+		it('should return a static file content', () => {
+			let func = helpers.embedFile.bind({
+				option: helpers.option,
+				assetFilepath: helpers.assetFilepath,
+				config: {
+					default: {
+						assetsFolder: 'test/samples'
+					}
+				}
+			});
+			let result = func('file.txt');
+			expect(result).to.eql('Hello.');
+		});
+	});
+
 });
