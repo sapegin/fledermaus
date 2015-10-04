@@ -22,22 +22,33 @@ describe('core', () => {
 		});
 	});
 
+	describe('renderByType', () => {
+		it('should render string using a renderer that matches the file extension', () => {
+			let result = core.renderByType('Hello *Markdown*!', 'test.md', {md: renderMarkdown});
+			expect(result).to.eql('<p>Hello <em>Markdown</em>!</p>\n');
+		});
+		it('should return source string if no matching renderer found', () => {
+			let result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', {md: renderMarkdown});
+			expect(result).to.eql('<p>Hello <em>HTML</em>!</p>');
+		});
+	});
+
 	describe('parsePage', () => {
 		it('should parse Markdown source with frontmatter to an object', () => {
 			let filepath = 'test/samples/markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(filepath), filepath, renderMarkdown);
+			let result = core.parsePage(readFile(filepath), filepath, {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.json'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			let filepath = 'test/samples/markdown-with-frontmatter.html';
-			let result = core.parsePage(readFile(filepath), filepath, renderMarkdown);
+			let result = core.parsePage(readFile(filepath), filepath, {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.json'));
 		});
 	});
 
 	describe('getSourceFilesList', () => {
 		it('should return a list of source files', () => {
-			let result = core.getSourceFilesList('test/source');
+			let result = core.getSourceFilesList('test/source/**/*.{md,html}');
 			expect(result).to.eql([
 				'test/source/en/plugins-requirejs.md',
 				'test/source/en/read-less-tech-books.md',
@@ -48,7 +59,7 @@ describe('core', () => {
 
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
-			let result = core.loadSourceFiles('test/source');
+			let result = core.loadSourceFiles('test/source/**/*.{md,html}');
 			expect(result).to.eql(require('./expected/files.json'));
 		});
 	});
