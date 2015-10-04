@@ -35,6 +35,33 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('pageLang', () => {
+		it('should return page language if it is specified', () => {
+			let func = helpers.pageLang.bind({
+				config: {
+					default: {
+						lang: 'en'
+					}
+				},
+				lang: 'ru'
+			});
+			let result = func();
+			expect(result).to.eql('ru');
+		});
+		it('should return config language if page language is not specified', () => {
+			let func = helpers.pageLang.bind({
+				option: helpers.option,
+				config: {
+					default: {
+						lang: 'en'
+					}
+				}
+			});
+			let result = func();
+			expect(result).to.eql('en');
+		});
+	});
+
 	describe('__', () => {
 		it('should return localized config option with expanded {} templates', () => {
 			let func = helpers.__.bind({
@@ -62,6 +89,7 @@ describe('helpers', () => {
 		it('should return plural form of a number (English)', () => {
 			let func = helpers.plural.bind({
 				option: helpers.option,
+				pageLang: helpers.pageLang,
 				__: helpers.__,
 				config: {
 					default: {
@@ -82,6 +110,7 @@ describe('helpers', () => {
 		it('should return plural form of a number (Russian)', () => {
 			let func = helpers.plural.bind({
 				option: helpers.option,
+				pageLang: helpers.pageLang,
 				__: helpers.__,
 				config: {
 					default: {
@@ -165,5 +194,29 @@ describe('helpers', () => {
 			expect(result).to.eql('Hello.');
 		});
 	});
+
+	describe('rt', () => {
+		it('should enhance typography for body text', () => {
+			let func = helpers.rt.bind({
+				pageLang: helpers.pageLang,
+				lang: 'en'
+			});
+			let result = func('no-no');
+			expect(result).to.eql('<nobr>no-no</nobr>');
+		});
+	});
+
+	describe('rtt', () => {
+		it('should enhance typography for titles', () => {
+			let func = helpers.rtt.bind({
+				pageLang: helpers.pageLang,
+				lang: 'en'
+			});
+			let result = func('No &amp; No');
+			expect(result).to.eql('No <span class="amp">&amp;</span> No');
+		});
+	});
+
+
 
 });
