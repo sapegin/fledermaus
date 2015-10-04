@@ -147,7 +147,7 @@ describe('core', () => {
 			}, {
 				default: {}
 			}, {
-			}, renderTemplate);
+			}, {ect: renderTemplate});
 			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 			expect(result.pagePath).to.eql('all/post');
 		});
@@ -171,7 +171,7 @@ describe('core', () => {
 			], {
 				default: {}
 			}, {
-			}, renderTemplate);
+			}, {ect: renderTemplate});
 			expect(result.length).to.eql(2);
 			expect(result[0].content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 			expect(result[0].pagePath).to.eql('all/post');
