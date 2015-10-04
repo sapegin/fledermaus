@@ -3,8 +3,8 @@ import rimraf from 'rimraf';
 
 import * as core from '../lib/core';
 import { readFile } from '../lib/util';
-import createTemplateRenderer from '../lib/template';
-import createMarkdownRenderer from '../lib/markdown';
+import createTemplateRenderer from '../lib/renderers/template';
+import createMarkdownRenderer from '../lib/renderers/markdown';
 
 let renderTemplate = createTemplateRenderer({
 	root: 'test/samples'
