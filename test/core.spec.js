@@ -3,7 +3,11 @@ import rimraf from 'rimraf';
 
 import * as core from '../lib/core';
 import { readFile } from '../lib/util';
-import { init as initTemplate } from '../lib/template';
+import createTemplateRenderer from '../lib/template';
+
+let renderTemplate = createTemplateRenderer({
+	root: 'test/samples'
+});
 
 // console.log(JSON.stringify(result));
 
@@ -129,7 +133,6 @@ describe('core', () => {
 
 	describe('generatePage', () => {
 		it('should render page using template from frontmatter', () => {
-			initTemplate({root: 'test/samples'});
 			let result = core.generatePage({
 				title: 'Hello',
 				layout: 'layout',
@@ -138,7 +141,7 @@ describe('core', () => {
 			}, {
 				default: {}
 			}, {
-			});
+			}, renderTemplate);
 			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 			expect(result.pagePath).to.eql('all/post');
 		});
@@ -146,7 +149,6 @@ describe('core', () => {
 
 	describe('generatePages', () => {
 		it('should render array of pages', () => {
-			initTemplate({root: 'test/samples'});
 			let result = core.generatePages([
 				{
 					title: 'Hello',
@@ -163,7 +165,7 @@ describe('core', () => {
 			], {
 				default: {}
 			}, {
-			});
+			}, renderTemplate);
 			expect(result.length).to.eql(2);
 			expect(result[0].content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 			expect(result[0].pagePath).to.eql('all/post');
