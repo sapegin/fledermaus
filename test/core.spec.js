@@ -4,10 +4,12 @@ import rimraf from 'rimraf';
 import * as core from '../lib/core';
 import { readFile } from '../lib/util';
 import createTemplateRenderer from '../lib/template';
+import createMarkdownRenderer from '../lib/markdown';
 
 let renderTemplate = createTemplateRenderer({
 	root: 'test/samples'
 });
+let renderMarkdown = createMarkdownRenderer();
 
 // console.log(JSON.stringify(result));
 
@@ -30,12 +32,12 @@ describe('core', () => {
 	describe('parsePage', () => {
 		it('should parse Markdown source with frontmatter to an object', () => {
 			let filepath = 'test/samples/markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(filepath), filepath);
+			let result = core.parsePage(readFile(filepath), filepath, renderMarkdown);
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.json'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			let filepath = 'test/samples/markdown-with-frontmatter.html';
-			let result = core.parsePage(readFile(filepath), filepath);
+			let result = core.parsePage(readFile(filepath), filepath, renderMarkdown);
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.json'));
 		});
 	});
