@@ -6,6 +6,13 @@ import * as util from '../lib/util';
 
 describe('util', () => {
 
+	describe('removeExtension', () => {
+		it('should remove extension from file path', () => {
+			let result = util.removeExtension('ru/markdown.md');
+			expect(result).to.eql('ru/markdown');
+		});
+	});
+
 	describe('readFile', () => {
 		it('should return a file content', () => {
 			let result = util.readFile('test/samples/file.txt');

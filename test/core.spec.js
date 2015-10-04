@@ -15,13 +15,6 @@ let renderMarkdown = createMarkdownRenderer();
 
 describe('core', () => {
 
-	describe('removeExtension', () => {
-		it('should remove extension from file path', () => {
-			let result = core.removeExtension('ru/markdown.md');
-			expect(result).to.eql('ru/markdown');
-		});
-	});
-
 	describe('filepathToUrl', () => {
 		it('should transform file path to relative URL', () => {
 			let result = core.filepathToUrl('ru/markdown.md');
