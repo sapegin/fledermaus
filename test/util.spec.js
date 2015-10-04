@@ -13,6 +13,13 @@ describe('util', () => {
 		});
 	});
 
+	describe('getExtension', () => {
+		it('should remove extension from file path', () => {
+			let result = util.getExtension('ru/markdown.md');
+			expect(result).to.eql('md');
+		});
+	});
+
 	describe('readFile', () => {
 		it('should return a file content', () => {
 			let result = util.readFile('test/samples/file.txt');
