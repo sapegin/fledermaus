@@ -1,10 +1,27 @@
 {
   "name": "sweet2",
   "version": "0.0.0",
-  "description": "",
-  "author": "",
-  "license": "ISC",
+  "description": "Batman’s toolbelt for static site generation",
+  "homepage": "https://github.com/sapegin/sweet2",
+  "author": {
+    "name": "Artem Sapegin",
+    "url": "http://sapegin.me/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sapegin/sweet2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sapegin/sweet2/issues"
+  },
+  "license": "MIT",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
   "devDependencies": {
     "chai": "~3.3.0",
     "mocha": "~2.3.3",
