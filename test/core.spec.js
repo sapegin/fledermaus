@@ -20,6 +20,14 @@ describe('core', () => {
 			let result = core.filepathToUrl('ru/markdown.md');
 			expect(result).to.eql('/ru/markdown');
 		});
+		it('should strip "index" at the end', () => {
+			let result = core.filepathToUrl('ru/index.md');
+			expect(result).to.eql('/ru');
+		});
+		it('should return "/" if "index" is the only part of URL', () => {
+			let result = core.filepathToUrl('index.md');
+			expect(result).to.eql('/');
+		});
 	});
 
 	describe('renderByType', () => {
