@@ -138,6 +138,23 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('isHome', () => {
+		it('should return true if page is index page', () => {
+			let func = helpers.isHome.bind({
+				url: '/'
+			});
+			let result = func();
+			expect(result).to.be.true;
+		});
+		it('should return false if page is not index page', () => {
+			let func = helpers.isHome.bind({
+				url: '/about'
+			});
+			let result = func();
+			expect(result).to.be.false;
+		});
+	});
+
 	describe('assetFilepath', () => {
 		it('should return a path for a static file', () => {
 			let func = helpers.assetFilepath.bind({
