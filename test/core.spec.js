@@ -159,6 +159,19 @@ describe('core', () => {
 			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 			expect(result.pagePath).to.eql('all/post');
 		});
+		it('should throw layout is not specified', () => {
+			let func = () => {
+				core.generatePage({
+					title: 'Hello',
+					sourcePath: 'all/post',
+					content: '<b>Test</b>'
+				}, {
+					default: {}
+				}, {
+				}, {ect: renderTemplate});
+			}
+			expect(func).to.throw;
+		});
 	});
 
 	describe('generatePages', () => {
