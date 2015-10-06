@@ -59,7 +59,7 @@ describe('core', () => {
 
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
-			let result = core.loadSourceFiles('test/source/**/*.{md,html}');
+			let result = core.loadSourceFiles('test/source/**/*.{md,html}', {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/files.json'));
 		});
 	});
