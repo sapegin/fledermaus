@@ -148,6 +148,22 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('pageAbsUrl', () => {
+		it('should return absolute URL', () => {
+			let func = helpers.pageAbsUrl.bind({
+				option: helpers.option,
+				pageUrl: helpers.pageUrl,
+				config: {
+					default: {
+						url: 'http://example.com'
+					}
+				}
+			});
+			let result = func('/all/post');
+			expect(result).to.eql('http://example.com/all/post');
+		});
+	});
+
 	describe('isHome', () => {
 		it('should return true if page is index page', () => {
 			let func = helpers.isHome.bind({
