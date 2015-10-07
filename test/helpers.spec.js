@@ -33,6 +33,16 @@ describe('helpers', () => {
 			let result = func('foo.bar');
 			expect(result).to.eql('Baz');
 		});
+		it('should throw if option is not specifeid in the config', () => {
+			let func = helpers.option.bind({
+				config: {
+					default: {
+						foo: 42
+					}
+				}
+			});
+			expect(() => func('bar')).to.throw(Error);
+		});
 	});
 
 	describe('pageLang', () => {
@@ -167,16 +177,6 @@ describe('helpers', () => {
 			});
 			let result = func('images/photo.jpg');
 			expect(result).to.eql('test/samples/images/photo.jpg');
-		});
-		it('should throw if assets folder was not specifeid in the config', () => {
-			let func = helpers.assetFilepath.bind({
-				option: helpers.option,
-				config: {
-					default: {
-					}
-				}
-			});
-			expect(() => func('images/photo.jpg')).to.throw(Error);
 		});
 	});
 
