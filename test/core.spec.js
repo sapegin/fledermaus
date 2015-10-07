@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import path from 'path';
 import rimraf from 'rimraf';
 
 import * as core from '../lib/core';
@@ -43,31 +44,33 @@ describe('core', () => {
 
 	describe('parsePage', () => {
 		it('should parse Markdown source with frontmatter to an object', () => {
-			let filepath = 'test/samples/markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(filepath), filepath, {md: renderMarkdown});
+			const folder = 'test/samples';
+			const filepath = 'markdown-with-frontmatter.md';
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.json'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
-			let filepath = 'test/samples/markdown-with-frontmatter.html';
-			let result = core.parsePage(readFile(filepath), filepath, {md: renderMarkdown});
+			const folder = 'test/samples';
+			const filepath = 'markdown-with-frontmatter.html';
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.json'));
 		});
 	});
 
 	describe('getSourceFilesList', () => {
 		it('should return a list of source files', () => {
-			let result = core.getSourceFilesList('test/source/**/*.{md,html}');
+			let result = core.getSourceFilesList('test/source', ['md', 'html']);
 			expect(result).to.eql([
-				'test/source/en/plugins-requirejs.md',
-				'test/source/en/read-less-tech-books.md',
-				'test/source/ru/debug-mode.md'
+				'en/plugins-requirejs.md',
+				'en/read-less-tech-books.md',
+				'ru/debug-mode.md'
 			]);
 		});
 	});
 
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
-			let result = core.loadSourceFiles('test/source/**/*.{md,html}', {md: renderMarkdown});
+			let result = core.loadSourceFiles('test/source', ['md', 'html'], {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/files.json'));
 		});
 	});
@@ -150,7 +153,7 @@ describe('core', () => {
 			let result = core.generatePage({
 				title: 'Hello',
 				layout: 'layout',
-				sourcePath: 'all/post',
+				sourcePath: 'all/post.md',
 				content: '<b>Test</b>'
 			}, {
 				default: {}
@@ -163,7 +166,7 @@ describe('core', () => {
 			let func = () => {
 				core.generatePage({
 					title: 'Hello',
-					sourcePath: 'all/post',
+					sourcePath: 'all/post.md',
 					content: '<b>Test</b>'
 				}, {
 					default: {}
@@ -180,13 +183,13 @@ describe('core', () => {
 				{
 					title: 'Hello',
 					layout: 'layout',
-					sourcePath: 'all/post',
+					sourcePath: 'all/post.md',
 					content: '<b>Test</b>'
 				},
 				{
 					title: 'Bye',
 					layout: 'layout',
-					sourcePath: 'all/post2',
+					sourcePath: 'all/post2.md',
 					content: '<b>Foobarbaz</b>'
 				}
 			], {
