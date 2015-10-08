@@ -20,6 +20,26 @@ describe('markdown', () => {
 			let result = render(readFile('test/samples/markdown-with-code.md'));
 			expect(result).to.eql(readFile('test/expected/markdown-with-code.html'));
 		});
+		it('should render custom tags', () => {
+			let render = createMarkdownRenderer({
+				customTags: {
+					foo: ({ bar }) => `<div>baz ${bar}</div>\n`
+				}
+			});
+			let result = render(readFile('test/samples/markdown-with-tag.md'));
+			expect(result).to.eql(readFile('test/expected/markdown-with-tag.html'));
+		});
+		it('should throw if tag function is not specified', () => {
+			let func = () => {
+				let render = createMarkdownRenderer({
+					customTags: {
+						notfoo: () => ''
+					}
+				});
+				let result = render(readFile('test/samples/markdown-with-tag.md'));
+			}
+			expect(func).to.throw;
+		});
 	});
 
 });
