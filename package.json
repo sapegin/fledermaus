@@ -35,11 +35,14 @@
     "highlight.js": "~8.8.0",
     "js-yaml": "~3.4.2",
     "lodash": "~3.10.1",
+    "marked": "~0.3.5",
     "mkdirp": "~0.5.1",
     "parse5": "~1.5.0",
     "richtypo": "~0.1.8"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel/register test"
+    "test": "mocha --compilers js:babel/register test",
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
   }
 }

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import createTemplateRenderer from '../lib/renderers/template';
-import { readFile } from '../lib/util';
+import createTemplateRenderer from '../src/renderers/template';
+import { readFile } from '../src/util';
 
 describe('template', () => {
 

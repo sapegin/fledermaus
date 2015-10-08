@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import path from 'path';
 import rimraf from 'rimraf';
 
-import * as core from '../lib/core';
-import { readFile } from '../lib/util';
-import createTemplateRenderer from '../lib/renderers/template';
-import createMarkdownRenderer from '../lib/renderers/markdown';
+import * as core from '../src/core';
+import { readFile } from '../src/util';
+import createTemplateRenderer from '../src/renderers/template';
+import createMarkdownRenderer from '../src/renderers/markdown';
 
 let renderTemplate = createTemplateRenderer({
 	root: 'test/samples'

@@ -2,7 +2,7 @@ import fs from 'fs';
 import { expect } from 'chai';
 import rimraf from 'rimraf';
 
-import * as util from '../lib/util';
+import * as util from '../src/util';
 
 describe('util', () => {
 

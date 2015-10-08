@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import createMarkdownRenderer from '../lib/renderers/markdown';
-import { readFile } from '../lib/util';
+import createMarkdownRenderer from '../src/renderers/markdown';
+import { readFile } from '../src/util';
 
 describe('markdown', () => {
 
