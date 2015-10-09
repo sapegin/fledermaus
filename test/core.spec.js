@@ -148,6 +148,48 @@ describe('core', () => {
 		});
 	});
 
+	describe('filterDocuments', () => {
+		it('should return filtered array of documents', () => {
+			let result = core.filterDocuments([
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md'
+				},
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md'
+				}
+			], /^all\//);
+			expect(result.length).to.eql(2);
+			expect(result[0].title).to.eql('Post 1');
+		});
+		it('should filter documents by language', () => {
+			let result = core.filterDocuments([
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md',
+					lang: 'en'
+				},
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md',
+					lang: 'ru'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md',
+					lang: 'ru'
+				}
+			], /^all\//, 'ru');
+			expect(result.length).to.eql(1);
+			expect(result[0].title).to.eql('Post 2');
+		});
+	});
+
 	describe('generatePage', () => {
 		it('should render page using template from frontmatter', () => {
 			let result = core.generatePage({

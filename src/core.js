@@ -91,6 +91,16 @@ export function makeContext(document, config, helpers) {
 	return _.merge({}, helpers, { config }, document);
 }
 
+export function filterDocuments(documents, regexp, lang) {
+	return documents.filter((document) => {
+		if (lang && document.lang !== lang) {
+			return false;
+		}
+
+		return regexp.test(document.sourcePath);
+	});
+}
+
 export function generatePage(document, config, helpers, renderers) {
 	if (!document.layout) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
