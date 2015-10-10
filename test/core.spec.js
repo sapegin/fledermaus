@@ -246,6 +246,38 @@ describe('core', () => {
 		});
 	});
 
+	describe('getPageNumberUrl', () => {
+		it('should return pagination page number', () => {
+			let result = core.getPageNumberUrl('all', 5);
+			expect(result).to.eql('all/page/5');
+		});
+	});
+
+	describe('generatePagination', () => {
+		it('should return an array of pages with pagination info', () => {
+			let result = core.generatePagination(
+				[
+					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>'},
+					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>'},
+					{ title: 'Post 3', layout: 'post', sourcePath: 'all/post3.md', content: '<b>3</b>'},
+					{ title: 'Post 4', layout: 'post', sourcePath: 'all/post4.md', content: '<b>4</b>'},
+					{ title: 'Post 5', layout: 'post', sourcePath: 'all/post5.md', content: '<b>5</b>'},
+					{ title: 'Post 6', layout: 'post', sourcePath: 'all/post6.md', content: '<b>6</b>'},
+					{ title: 'Post 7', layout: 'post', sourcePath: 'all/post7.md', content: '<b>7</b>'},
+					{ title: 'Post 8', layout: 'post', sourcePath: 'all/post8.md', content: '<b>8</b>'},
+					{ title: 'Post 9', layout: 'post', sourcePath: 'all/post9.md', content: '<b>9</b>'},
+					{ title: 'Post 10', layout: 'post', sourcePath: 'all/post10.md', content: '<b>10</b>'}
+				],
+				{
+					urlPrefix: '/all',
+					documentsPerPage: 3,
+					layout: 'pagination'
+				}
+			);
+			expect(result).to.eql(require('./expected/pagination.json'));
+		});
+	});
+
 	describe('savePage', () => {
 		beforeEach(done => rimraf('test/tmp', done));
 		it('should save page to HTML file', () => {

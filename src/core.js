@@ -87,10 +87,6 @@ export function loadConfig(folder) {
 	return mergeConfigs(configs);
 }
 
-export function makeContext(document, config, helpers) {
-	return _.merge({}, helpers, { config }, document);
-}
-
 export function filterDocuments(documents, regexp, lang) {
 	return documents.filter((document) => {
 		if (lang && document.lang !== lang) {
@@ -99,6 +95,42 @@ export function filterDocuments(documents, regexp, lang) {
 
 		return regexp.test(document.sourcePath);
 	});
+}
+
+export function getPageNumberUrl(urlPrefix, pageNumber) {
+	return `${urlPrefix}/page/${pageNumber}`;
+}
+
+export function generatePagination(documents, { urlPrefix, documentsPerPage, layout } = {}) {
+	if (!urlPrefix) {
+		throw new Error(`"urlPrefix" not specified for generatePagination().`);
+	}
+	if (!documentsPerPage) {
+		throw new Error(`"documentsPerPage" not specified for generatePagination().`);
+	}
+	if (!layout) {
+		throw new Error(`"layout" not specified for generatePagination().`);
+	}
+
+	let totalPages = Math.ceil(documents.length / documentsPerPage);
+
+	return _.range(totalPages).map((pageNumber) => {
+		pageNumber++;
+		let url = getPageNumberUrl(urlPrefix, pageNumber);
+		let begin = (pageNumber - 1) * documentsPerPage;
+		return {
+			previousUrl: pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
+			nextUrl: pageNumber < totalPages ? getPageNumberUrl(urlPrefix, pageNumber + 1) : null,
+			sourcePath: url.replace(/^\//, ''),
+			documents: documents.slice(begin, begin + documentsPerPage),
+			layout,
+			url
+		};
+	});
+}
+
+export function makeContext(document, config, helpers) {
+	return _.merge({}, helpers, { config }, document);
 }
 
 export function generatePage(document, config, helpers, renderers) {
