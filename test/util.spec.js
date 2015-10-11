@@ -44,6 +44,13 @@ describe('util', () => {
 		});
 	});
 
+	describe('formatFieldsForSortByOrder', () => {
+		it('should prepare fields list in short format to _.sortByOrder()', () => {
+			let result = util.formatFieldsForSortByOrder(['foo', '-bar']);
+			expect(result).to.eql([['foo', 'bar'], ['asc', 'desc']]);
+		});
+	});
+
 	describe('tmpl', () => {
 		it('should render a simple template', () => {
 			let result = util.tmpl('Hello {wrld}!', {wrld: 'world'});

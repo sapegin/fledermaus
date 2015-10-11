@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import yaml from 'js-yaml';
+import _ from 'lodash';
 
 /**
  * Remove extension from file name.
@@ -58,6 +59,22 @@ export function readYamlFile(filepath) {
 	catch (e) {
 		console.log(`Cannot read YAML file ${filepath}:`, e);
 	}
+}
+
+/**
+ * Prepare fields list in short format to _.sortByOrder()
+ * @param {Array} shortFields ['foo', '-bar']
+ * @return {Array}
+ */
+export function formatFieldsForSortByOrder(shortFields) {
+	return _.unzip(shortFields.map((field) => {
+		if (field[0] === '-') {
+			return [field.substr(1), 'desc'];
+		}
+		else {
+			return [field, 'asc'];
+		}
+	}));
 }
 
 /**

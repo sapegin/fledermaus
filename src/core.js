@@ -3,7 +3,14 @@ import glob from 'glob';
 import fastmatter from 'fastmatter';
 import _ from 'lodash';
 
-import { getExtension, removeExtension, readFile, writeFile, readYamlFile } from './util';
+import {
+	getExtension,
+	removeExtension,
+	readFile,
+	writeFile,
+	readYamlFile,
+	formatFieldsForSortByOrder
+} from './util';
 
 export function filepathToUrl(filepath) {
 	let url = '/' + removeExtension(filepath)
@@ -95,6 +102,11 @@ export function filterDocuments(documents, regexp, lang) {
 
 		return regexp.test(document.sourcePath);
 	});
+}
+
+export function orderDocuments(documents, fields) {
+	fields = formatFieldsForSortByOrder(fields);
+	return _.sortByOrder(documents, ...fields);
 }
 
 export function getPageNumberUrl(urlPrefix, pageNumber) {

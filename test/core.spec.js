@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import path from 'path';
 import rimraf from 'rimraf';
+import _ from 'lodash';
 
 import * as core from '../src/core';
 import { readFile } from '../src/util';
@@ -187,6 +188,63 @@ describe('core', () => {
 			], /^all\//, 'ru');
 			expect(result.length).to.eql(1);
 			expect(result[0].title).to.eql('Post 2');
+		});
+	});
+
+	describe.only('orderDocuments', () => {
+		it('should sort array of documents', () => {
+			let result = core.orderDocuments([
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md'
+				},
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md'
+				}
+			], ['title']);
+			expect(_.pluck(result, 'title')).to.eql(['About', 'Post 1', 'Post 2']);
+		});
+		it('should sort array of documents backwards', () => {
+			let result = core.orderDocuments([
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md'
+				},
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md'
+				}
+			], ['-title']);
+			expect(_.pluck(result, 'title')).to.eql(['Post 2', 'Post 1', 'About']);
+		});
+		it('should sort array by miltiple fields', () => {
+			let result = core.orderDocuments([
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md',
+					layout: 'post'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md',
+					layout: 'about'
+				},
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md',
+					layout: 'post'
+				}
+			], ['-layout', 'title']);
+			expect(_.pluck(result, 'title')).to.eql(['Post 1', 'Post 2', 'About']);
 		});
 	});
 
