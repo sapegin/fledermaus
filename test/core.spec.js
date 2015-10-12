@@ -43,6 +43,14 @@ describe('core', () => {
 		});
 	});
 
+	describe('parseCustomFields', () => {
+		it('should return attributes with parsed custom fields', () => {
+			let ddd = {title: 'Post', date: 'Nov 8, 2013'};
+			let result = core.parseCustomFields(ddd, {date: Date.parse});
+			expect(result).to.eql({title: 'Post', date: 1383865200000});
+		});
+	});
+
 	describe('parsePage', () => {
 		it('should parse Markdown source with frontmatter to an object', () => {
 			const folder = 'test/samples';
@@ -191,7 +199,7 @@ describe('core', () => {
 		});
 	});
 
-	describe.only('orderDocuments', () => {
+	describe('orderDocuments', () => {
 		it('should sort array of documents', () => {
 			let result = core.orderDocuments([
 				{

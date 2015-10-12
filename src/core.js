@@ -45,16 +45,34 @@ export function renderByType(source, filepath, renderers={}) {
 }
 
 /**
+ * Return attributes object with parsed custom fields.
+ * 
+ * @param {Object} attributes
+ * @param {Object} fieldParsers  Custom field parsers: {name: parseFunction}
+ * @return {Object}
+ */
+export function parseCustomFields(attributes, fieldParsers) {
+	let parsedAttributes = {};
+	for (let name in fieldParsers) {
+		parsedAttributes[name] = fieldParsers[name](attributes[name]);
+	}
+	return _.merge({}, attributes, parsedAttributes);
+}
+
+/**
  * Parse front matter and render contents.
  * 
  * @param {String} source Source file contents.
  * @param {String} folder Source folder.
  * @param {String} filepath Source file path relative to `folder`.
- * @param {Object} renderers {ext: renderFunction}
+ * @param {Object} renderers Content renderers: {ext: renderFunction}
+ * @param {Object} fieldParsers Custom field parsers: {name: parseFunction}
  * @return {Object} { sourcePath, content, url }
  */
-export function parsePage(source, folder, filepath, renderers={}) {
+export function parsePage(source, folder, filepath, renderers={}, fieldParsers={}) {
 	let { attributes, body } = fastmatter(source);
+
+	attributes = parseCustomFields(attributes, fieldParsers);
 
 	let content = renderByType(body, filepath, renderers);
 	let url = filepathToUrl(filepath);
