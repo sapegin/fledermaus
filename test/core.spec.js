@@ -256,6 +256,60 @@ describe('core', () => {
 		});
 	});
 
+	describe('gropDocuments', () => {
+		it('should order documents by a single value', () => {
+			let result = core.gropDocuments([
+				{
+					title: 'Post 1',
+					layout: 'post' 
+				},
+				{
+					title: 'Post 2',
+					layout: 'post' 
+				},
+				{
+					title: 'About',
+					layout: 'about' 
+				}
+			], 'layout');
+			expect(result).to.eql({
+				post: [
+						{title: 'Post 1', layout: 'post'},
+						{title: 'Post 2', layout: 'post'}
+					],
+					about: [
+						{title: 'About', layout: 'about'}
+					]
+				});
+		});
+		it('should order documents by every item if the value is an array', () => {
+			let result = core.gropDocuments([
+				{
+					title: 'Post 1',
+					tags: 'foo' 
+				},
+				{
+					title: 'Post 2',
+					tags: ['bar', 'foo'] 
+				},
+				{
+					title: 'Post 3',
+					tags: ['foo']
+				}
+			], 'tags');
+			expect(result).to.eql({
+					foo: [
+						{title: 'Post 1', tags: 'foo'},
+						{title: 'Post 2', tags: ['bar', 'foo']},
+						{title: 'Post 3', tags: ['foo']}
+					],
+					bar: [
+						{title: 'Post 2', tags: ['bar', 'foo']},
+					]
+				});
+		});
+	});
+
 	describe('generatePage', () => {
 		it('should render page using template from frontmatter', () => {
 			let result = core.generatePage({

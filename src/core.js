@@ -205,6 +205,34 @@ export function orderDocuments(documents, fields) {
 }
 
 /**
+ * Group documents by values of a given field.
+ * 
+ * @param {Array} documents Documents.
+ * @param {Array} field
+ * @return {Object} {fieldValue1: [...], fieldValue2: [...], ...]
+ */
+export function gropDocuments(documents, field) {
+	return documents.reduce((grouped, document) => {
+		let value = document[field];
+		if (Array.isArray(value)) {
+			value.forEach((subValue) => {
+				if (!grouped[subValue]) {
+					grouped[subValue] = [];
+				}
+				grouped[subValue].push(document);
+			});
+		}
+		else {
+			if (!grouped[value]) {
+				grouped[value] = [];
+			}
+			grouped[value].push(document);
+		}
+		return grouped;
+	}, {});
+}
+
+/**
  * Return URL for given page number.
  * 
  * @param {String} urlPrefix
