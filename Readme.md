@@ -1,5 +1,7 @@
 # sweet2: Batman’s toolbelt for static site generation
 
+[![Build Status](https://travis-ci.org/sapegin/sweet2.svg)](https://travis-ci.org/sapegin/sweet2)
+
 Infinitely extensibe simple ES6 static site generator.
 
 ## Installation
