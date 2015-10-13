@@ -49,12 +49,12 @@ export function pageLang() {
 /**
  * Localized config option with {} templates.
  * 
- * @param {String} key Key in config.strings.
+ * @param {String} key Key in config.
  * @param {Object} params Substitutions.
  * @return {String}
  */
 export function __(key, params = {}) {
-	let string = this.option(`strings.${key}`);
+	let string = this.option(key);
 	return tmpl(string, params);
 };
 
@@ -63,12 +63,11 @@ export function __(key, params = {}) {
  *
  * Forms definition:
  *   config:
- *     strings:
- *       posts: post|posts
+ *     posts: post|posts
  *   lang: en
  * 
  * @param {Number} number Number.
- * @param {String} forms Plural forms key in config.strings.
+ * @param {String} forms Plural forms key in config.
  * @return {String}
  */
 export function plural(number, formsKey) {

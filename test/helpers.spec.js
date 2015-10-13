@@ -78,14 +78,10 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					default: {
-						strings: {
-							hi: 'Hello {name}!'
-						}
+						hi: 'Hello {name}!'
 					},
 					ru: {
-						strings: {
-							hi: 'Привет, {name}!'
-						}
+						hi: 'Привет, {name}!'
 					}
 				},
 				lang: 'ru'
@@ -105,9 +101,7 @@ describe('helpers', () => {
 					default: {
 					},
 					en: {
-						strings: {
-							posts: 'post|posts'
-						}
+						posts: 'post|posts'
 					}
 				},
 				lang: 'en'
@@ -126,9 +120,7 @@ describe('helpers', () => {
 					default: {
 					},
 					ru: {
-						strings: {
-							posts: 'пост|поста|постов'
-						}
+						posts: 'пост|поста|постов'
 					}
 				},
 				lang: 'ru'
