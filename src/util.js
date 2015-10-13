@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 /**
  * Remove extension from file name.
- * 
+ *
  * @param {String} filename
  * @return {String}
  */
@@ -16,7 +16,7 @@ export function removeExtension(filename) {
 
 /**
  * Returns extension of a file (without the leading dot).
- * 
+ *
  * @param {String} filename
  * @return {String}
  */
@@ -26,7 +26,7 @@ export function getExtension(filename) {
 
 /**
  * Read text file.
- * 
+ *
  * @param {String} filepath
  * @return {String}
  */
@@ -36,7 +36,7 @@ export function readFile(filepath) {
 
 /**
  * Save text to a file (create all folders if necessary).
- * 
+ *
  * @param {String} filepath
  * @param {String} content
  * @return {String}
@@ -48,7 +48,7 @@ export function writeFile(filepath, content) {
 
 /**
  * Read YAML file.
- * 
+ *
  * @param {String} filepath
  * @return {String}
  */
@@ -79,7 +79,7 @@ export function formatFieldsForSortByOrder(shortFields) {
 
 /**
  * Simple templates: {key}.
- * 
+ *
  * @param {String} template Template.
  * @param {Object} params Substitutions.
  * @return {String}
@@ -90,7 +90,7 @@ export function tmpl(template, params = {}) {
 
 /**
  * Returns HTML meta tag.
- * 
+ *
  * @param {String} name Meta name.
  * @param {String} content Meta value.
  * @return {String}
@@ -101,7 +101,7 @@ export function meta(name, content) {
 
 /**
  * Returns HTML meta tag for Open Graph.
- * 
+ *
  * @param {String} name Meta name.
  * @param {String} content Meta value.
  * @return {String}

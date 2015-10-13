@@ -14,12 +14,12 @@ import {
 
 /**
  * Convert file path to URL.
- * 
+ *
  * @param {String} filepath
  * @return {String}
  */
 export function filepathToUrl(filepath) {
-	let url = '/' + removeExtension(filepath)
+	let url = '/' + removeExtension(filepath);
 	url = url.replace(/\/index$/, '');
 	if (url === '') {
 		return '/';
@@ -29,13 +29,13 @@ export function filepathToUrl(filepath) {
 
 /**
  * Renders source using appropriate renderer based on file extension.
- * 
+ *
  * @param {String} source Source file contents.
  * @param {String} filepath Source file path.
  * @param {Object} renderers {ext: renderFunction}
  * @return {String}
  */
-export function renderByType(source, filepath, renderers={}) {
+export function renderByType(source, filepath, renderers = {}) {
 	let extension = getExtension(filepath);
 	let render = renderers[extension];
 	if (_.isFunction(render)) {
@@ -46,7 +46,7 @@ export function renderByType(source, filepath, renderers={}) {
 
 /**
  * Return attributes object with parsed custom fields.
- * 
+ *
  * @param {Object} attributes
  * @param {Object} fieldParsers  Custom field parsers: {name: parseFunction}
  * @return {Object}
@@ -61,7 +61,7 @@ export function parseCustomFields(attributes, fieldParsers) {
 
 /**
  * Parse front matter and render contents.
- * 
+ *
  * @param {String} source Source file contents.
  * @param {String} folder Source folder.
  * @param {String} filepath Source file path relative to `folder`.
@@ -69,7 +69,7 @@ export function parseCustomFields(attributes, fieldParsers) {
  * @param {Object} fieldParsers Custom field parsers: {name: parseFunction}
  * @return {Object} { sourcePath, content, url }
  */
-export function parsePage(source, folder, filepath, renderers={}, fieldParsers={}) {
+export function parsePage(source, folder, filepath, renderers = {}, fieldParsers = {}) {
 	let { attributes, body } = fastmatter(source);
 
 	attributes = parseCustomFields(attributes, fieldParsers);
@@ -86,7 +86,7 @@ export function parsePage(source, folder, filepath, renderers={}, fieldParsers={
 
 /**
  * Return list of source files.
- * 
+ *
  * @param {String} folder Source folder.
  * @param {Array} types List of file extensions.
  * @return {Array}
@@ -99,13 +99,13 @@ export function getSourceFilesList(folder, types) {
 
 /**
  * Load source files from a disk.
- * 
+ *
  * @param {String} folder Source folder.
  * @param {Array} types List of file extensions.
  * @param {Object} renderers {ext: renderFunction}
  * @return {Array} [{ sourcePath, content, url }, ...]
  */
-export function loadSourceFiles(folder, types, renderers={}) {
+export function loadSourceFiles(folder, types, renderers = {}) {
 	let files = getSourceFilesList(folder, types);
 	return files.map((filepath) => {
 		let source = readFile(path.join(folder, filepath));
@@ -115,7 +115,7 @@ export function loadSourceFiles(folder, types, renderers={}) {
 
 /**
  * Return list of config files.
- * 
+ *
  * @param {String} folder Configs folder.
  * @return {Array}
  */
@@ -125,7 +125,7 @@ export function getConfigFilesList(folder) {
 
 /**
  * Read config files from a disk.
- * 
+ *
  * @param {Array} files Config files list.
  * @return {Object} {default: {...}, langs: {...}}
  */
@@ -144,7 +144,7 @@ export function readConfigFiles(files) {
 
 /**
  * Merge default config with language specific configs.
- * 
+ *
  * @param {Object} configs
  * @return {Object} {default: {...}} or {langs: {...}}
  */
@@ -164,7 +164,7 @@ export function mergeConfigs(configs) {
 
 /**
  * Load config files from a disk.
- * 
+ *
  * @param {String} folder Source folder.
  * @return {Object} {default: {...}} or {langs: {...}}
  */
@@ -176,7 +176,7 @@ export function loadConfig(folder) {
 
 /**
  * Filter documents.
- * 
+ *
  * @param {Array} documents Documents.
  * @param {RegExp} regexp Filter regular expression.
  * @param {String} lang Language.
@@ -194,7 +194,7 @@ export function filterDocuments(documents, regexp, lang) {
 
 /**
  * Order documents.
- * 
+ *
  * @param {Array} documents Documents.
  * @param {Array} fields ['foo', '-bar']
  * @return {Array}
@@ -206,7 +206,7 @@ export function orderDocuments(documents, fields) {
 
 /**
  * Group documents by values of a given field.
- * 
+ *
  * @param {Array} documents Documents.
  * @param {Array} field
  * @return {Object} {fieldValue1: [...], fieldValue2: [...], ...]
@@ -234,7 +234,7 @@ export function gropDocuments(documents, field) {
 
 /**
  * Return URL for given page number.
- * 
+ *
  * @param {String} urlPrefix
  * @param {Number} pageNumber
  * @return {String}
@@ -245,7 +245,7 @@ export function getPageNumberUrl(urlPrefix, pageNumber) {
 
 /**
  * Generate documents to paginate given documents.
- * 
+ *
  * @param {Array} documents Documents to paginate
  * @param {String} options.urlPrefix URL prefix.
  * @param {Number} options.documentsPerPage Documents per page.
@@ -282,7 +282,7 @@ export function generatePagination(documents, { urlPrefix, documentsPerPage, lay
 
 /**
  * Create context for page rendering: merges document, config and helpers into one object.
- * 
+ *
  * @param {Object} document
  * @param {Object} config
  * @param {Object} helpers
@@ -294,7 +294,7 @@ export function makeContext(document, config, helpers) {
 
 /**
  * Generate page.
- * 
+ *
  * @param {Object} document
  * @param {Object} config
  * @param {Object} helpers
@@ -306,7 +306,7 @@ export function generatePage(document, config, helpers, renderers) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
 	}
 
-	let [ templateExtension, render ] = _.pairs(renderers).shift();
+	let [templateExtension, render] = _.pairs(renderers).shift();
 	let templateFile = `${document.layout}.${templateExtension}`;
 
 	let context = makeContext(document, config, helpers);
@@ -320,7 +320,7 @@ export function generatePage(document, config, helpers, renderers) {
 
 /**
  * Generate pages.
- * 
+ *
  * @param {Array} documents
  * @param {Object} config
  * @param {Object} helpers
@@ -333,7 +333,7 @@ export function generatePages(documents, config, helpers, renderers) {
 
 /**
  * Saves page to a disk.
- * 
+ *
  * @param {Object} page
  * @param {String} folder Folder to save files.
  */
@@ -343,10 +343,10 @@ export function savePage(page, folder) {
 
 /**
  * Saves pages to a disk.
- * 
+ *
  * @param {Array} pages
  * @param {String} folder Folder to save files.
  */
 export function savePages(pages, folder) {
-	return pages.map(page => savePage(page, folder));
+	pages.forEach(page => savePage(page, folder));
 }

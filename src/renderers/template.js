@@ -8,7 +8,7 @@ const defaultOptions = {
 
 /**
  * Returns function that renders ECT template.
- * 
+ *
  * @param {Object} options
  * @return {Function}
  */

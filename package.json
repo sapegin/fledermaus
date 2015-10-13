@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "chai": "~3.3.0",
+    "eslint": "~1.6.0",
     "mocha": "~2.3.3",
     "rimraf": "~2.4.3"
   },
@@ -41,7 +42,9 @@
     "richtypo": "~0.1.8"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel/register test",
+    "test": "npm run lint && npm run mocha",
+    "mocha": "mocha --compilers js:babel/register test",
+    "lint": "eslint src",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile"
   }

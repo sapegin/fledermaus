@@ -54,7 +54,7 @@ const defaultOptions = {
 
 /**
  * Returns function that renders Markdown using Marked.
- * 
+ *
  * @param {Object} options
  * @return {Function}
  */
@@ -67,7 +67,7 @@ export default function createMarkdownRenderer(options = {}) {
 	let markedOptions = {
 		renderer: new options.renderer(),
 		customTags: options.customTags,
-		highlight: function(code, lang) {
+		highlight(code, lang) {
 			if (lang) {
 				return hljs.highlight(options.hljs.aliases[lang] || lang, code).value;
 			}
