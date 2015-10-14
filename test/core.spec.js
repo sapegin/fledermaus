@@ -47,7 +47,8 @@ describe('core', () => {
 		it('should return attributes with parsed custom fields', () => {
 			let ddd = {title: 'Post', date: 'Nov 8, 2013'};
 			let result = core.parseCustomFields(ddd, {date: Date.parse});
-			expect(result).to.eql({title: 'Post', date: 1383865200000});
+			expect(result.title).to.eql('Post');
+			expect((new Date(result.date)).toDateString()).to.eql('Fri Nov 08 2013');
 		});
 	});
 

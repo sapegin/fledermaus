@@ -200,7 +200,7 @@ describe('helpers', () => {
 				}
 			});
 			let result = func('file.txt');
-			expect(result).to.eql('file.txt?1443126049000');
+			expect(result).to.match(/^file.txt\?\d{13}$/);
 		});
 	});
 
