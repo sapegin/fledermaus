@@ -262,15 +262,15 @@ describe('core', () => {
 			let result = core.gropDocuments([
 				{
 					title: 'Post 1',
-					layout: 'post' 
+					layout: 'post'
 				},
 				{
 					title: 'Post 2',
-					layout: 'post' 
+					layout: 'post'
 				},
 				{
 					title: 'About',
-					layout: 'about' 
+					layout: 'about'
 				}
 			], 'layout');
 			expect(result).to.eql({
@@ -287,11 +287,11 @@ describe('core', () => {
 			let result = core.gropDocuments([
 				{
 					title: 'Post 1',
-					tags: 'foo' 
+					tags: 'foo'
 				},
 				{
 					title: 'Post 2',
-					tags: ['bar', 'foo'] 
+					tags: ['bar', 'foo']
 				},
 				{
 					title: 'Post 3',
