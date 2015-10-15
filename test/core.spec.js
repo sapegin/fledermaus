@@ -59,6 +59,12 @@ describe('core', () => {
 			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.json'));
 		});
+		it('should split content to excerpt and more if cut tag is used', () => {
+			const folder = 'test/samples';
+			const filepath = 'markdown-with-cut.md';
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
+			expect(result).to.eql(require('./expected/markdown-with-cut.md.json'));
+		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';

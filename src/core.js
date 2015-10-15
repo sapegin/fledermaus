@@ -67,19 +67,25 @@ export function parseCustomFields(attributes, fieldParsers) {
  * @param {String} filepath Source file path relative to `folder`.
  * @param {Object} renderers Content renderers: {ext: renderFunction}
  * @param {Object} fieldParsers Custom field parsers: {name: parseFunction}
- * @return {Object} { sourcePath, content, url }
+ * @return {Object} { sourcePath, content, excerpt, more, url }
  */
 export function parsePage(source, folder, filepath, renderers = {}, fieldParsers = {}) {
+	const cutSeparator = '<!-- cut -->';  // TODO: options
+
 	let { attributes, body } = fastmatter(source);
 
 	attributes = parseCustomFields(attributes, fieldParsers);
 
-	let content = renderByType(body, filepath, renderers);
 	let url = filepathToUrl(filepath);
+
+	let content = renderByType(body, filepath, renderers);
+	let { excerpt, more } = content.split(cutSeparator);
 
 	return _.merge(attributes, {
 		sourcePath: filepath,
 		content,
+		excerpt,
+		more,
 		url
 	});
 }
