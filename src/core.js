@@ -187,17 +187,24 @@ export function loadConfig(folder) {
  * Filter documents.
  *
  * @param {Array} documents Documents.
- * @param {RegExp} regexp Filter regular expression.
- * @param {String} lang Language.
+ * @param {Object} fields Filters by field: {lang: 'en', url: /^posts\//}
  * @return {Array}
  */
-export function filterDocuments(documents, regexp, lang) {
+export function filterDocuments(documents, fields) {
 	return documents.filter((document) => {
-		if (lang && document.lang !== lang) {
-			return false;
+		for (let field in fields) {
+			let value = fields[field];
+			let documentValue = document[field];
+			if (_.isRegExp(value)) {
+				if (!value.test(documentValue)) {
+					return false;
+				}
+			}
+			else if (documentValue !== value) {
+				return false;
+			}
 		}
-
-		return regexp.test(document.sourcePath);
+		return true;
 	});
 }
 

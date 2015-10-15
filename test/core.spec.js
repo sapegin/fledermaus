@@ -166,25 +166,7 @@ describe('core', () => {
 	});
 
 	describe('filterDocuments', () => {
-		it('should return filtered array of documents', () => {
-			let result = core.filterDocuments([
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md'
-				},
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md'
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md'
-				}
-			], /^all\//);
-			expect(result.length).to.eql(2);
-			expect(result[0].title).to.eql('Post 1');
-		});
-		it('should filter documents by language', () => {
+		it('should filter documents by field value', () => {
 			let result = core.filterDocuments([
 				{
 					title: 'Post 1',
@@ -201,9 +183,45 @@ describe('core', () => {
 					sourcePath: 'about.md',
 					lang: 'ru'
 				}
-			], /^all\//, 'ru');
-			expect(result.length).to.eql(1);
+			], {lang: 'ru'});
+			expect(result.length).to.eql(2);
 			expect(result[0].title).to.eql('Post 2');
+		});
+		it('should filter documents by RegExp', () => {
+			let result = core.filterDocuments([
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md'
+				},
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md'
+				}
+			], {sourcePath: /^all\//});
+			expect(result.length).to.eql(2);
+			expect(result[0].title).to.eql('Post 1');
+		});
+		it('should filter documents by multiple fields', () => {
+			let result = core.filterDocuments([
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md'
+				},
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md'
+				}
+			], {title: 'Post 1', sourcePath: /^all\//});
+			expect(result.length).to.eql(1);
+			expect(result[0].title).to.eql('Post 1');
 		});
 	});
 
