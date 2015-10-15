@@ -65,13 +65,12 @@ export function parseCustomFields(attributes, fieldParsers) {
  * @param {String} source Source file contents.
  * @param {String} folder Source folder.
  * @param {String} filepath Source file path relative to `folder`.
- * @param {Object} renderers Content renderers: {ext: renderFunction}
- * @param {Object} fieldParsers Custom field parsers: {name: parseFunction}
+ * @param {Object} options.renderers Content renderers: {ext: renderFunction}.
+ * @param {Object} options.fieldParsers Custom field parsers: {name: parseFunction}.
+ * @param {Object} options.cutTag Cut separator.
  * @return {Object} { sourcePath, content, excerpt, more, url }
  */
-export function parsePage(source, folder, filepath, renderers = {}, fieldParsers = {}) {
-	const cutSeparator = '<!-- cut -->';  // TODO: options
-
+export function parsePage(source, folder, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
 	let { attributes, body } = fastmatter(source);
 
 	attributes = parseCustomFields(attributes, fieldParsers);
@@ -79,7 +78,11 @@ export function parsePage(source, folder, filepath, renderers = {}, fieldParsers
 	let url = filepathToUrl(filepath);
 
 	let content = renderByType(body, filepath, renderers);
-	let { excerpt, more } = content.split(cutSeparator);
+
+	let excerpt, more;
+	if (cutTag) {
+		[excerpt, more] = content.split(cutTag);
+	}
 
 	return _.merge(attributes, {
 		sourcePath: filepath,
@@ -108,14 +111,14 @@ export function getSourceFilesList(folder, types) {
  *
  * @param {String} folder Source folder.
  * @param {Array} types List of file extensions.
- * @param {Object} renderers {ext: renderFunction}
+ * @param {Object} options { renderers, fieldParsers, cutTag }
  * @return {Array} [{ sourcePath, content, url }, ...]
  */
-export function loadSourceFiles(folder, types, renderers = {}) {
+export function loadSourceFiles(folder, types, options) {
 	let files = getSourceFilesList(folder, types);
 	return files.map((filepath) => {
 		let source = readFile(path.join(folder, filepath));
-		return parsePage(source, folder, filepath, renderers);
+		return parsePage(source, folder, filepath, options);
 	});
 }
 

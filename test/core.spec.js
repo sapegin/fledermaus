@@ -53,22 +53,23 @@ describe('core', () => {
 	});
 
 	describe('parsePage', () => {
+		let renderers = {md: renderMarkdown};
 		it('should parse Markdown source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { renderers });
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.json'));
 		});
 		it('should split content to excerpt and more if cut tag is used', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-cut.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { cutTag: '<!-- cut -->', renderers });
 			expect(result).to.eql(require('./expected/markdown-with-cut.md.json'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {md: renderMarkdown});
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { renderers });
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.json'));
 		});
 	});
@@ -86,7 +87,7 @@ describe('core', () => {
 
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
-			let result = core.loadSourceFiles('test/source', ['md', 'html'], {md: renderMarkdown});
+			let result = core.loadSourceFiles('test/source', ['md', 'html'], {renderers: {md: renderMarkdown}});
 			expect(result).to.eql(require('./expected/files.json'));
 		});
 	});
