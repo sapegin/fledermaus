@@ -1,7 +1,5 @@
 {
-    "default": {
-        "title": "Artem Sapegin’s Blog",
-        "author": "Artem Sapegin",
+    "base": {
         "url": "http://blog.sapegin.me",
         "timezone": "Europe/Berlin",
         "root": "/"

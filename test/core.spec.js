@@ -96,7 +96,7 @@ describe('core', () => {
 		it('should return a list of config files', () => {
 			let result = core.getConfigFilesList('test/config');
 			expect(result).to.eql([
-				'test/config/default.yml',
+				'test/config/base.yml',
 				'test/config/en.yml',
 				'test/config/ru.yml'
 			]);
@@ -106,7 +106,7 @@ describe('core', () => {
 	describe('readConfigFiles', () => {
 		it('should read config files to an object', () => {
 			let result = core.readConfigFiles([
-				'test/config/default.yml'
+				'test/config/base.yml'
 			]);
 			expect(result).to.eql(require('./expected/configs.json'));
 		});
@@ -115,7 +115,7 @@ describe('core', () => {
 	describe('readConfigFiles', () => {
 		it('should read config files (with langs) to an object', () => {
 			let result = core.readConfigFiles([
-				'test/config/default.yml',
+				'test/config/base.yml',
 				'test/config/en.yml',
 				'test/config/ru.yml'
 			]);
@@ -128,9 +128,6 @@ describe('core', () => {
 			let result = core.mergeConfigs(require('./expected/configs.json'));
 			expect(result).to.eql(require('./expected/configs-merged.json'));
 		});
-	});
-
-	describe('mergeConfigs', () => {
 		it('should merge config objects (with langs)', () => {
 			let result = core.mergeConfigs(require('./expected/configs-langs.json'));
 			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
@@ -150,16 +147,16 @@ describe('core', () => {
 				title: 'Hello',
 				content: '<b>Test</b>'
 			}, {
-				default: {
+				base: {
 					title: 'Blog',
 					author: 'Artem Sapegin'
 				}
 			}, {
-				siteTitle: function() { return this.config.default.title },
+				siteTitle: function() { return this.config.base.title },
 				heading: function(l) { return `<h${l}>${this.title}</h${l}>` }
 			});
 			expect(result.title).to.eql('Hello');
-			expect(result.config.default.title).to.eql('Blog');
+			expect(result.config.base.title).to.eql('Blog');
 			expect(result.siteTitle()).to.eql('Blog');
 			expect(result.heading(2)).to.eql('<h2>Hello</h2>');
 		});
@@ -344,7 +341,7 @@ describe('core', () => {
 				sourcePath: 'all/post.md',
 				content: '<b>Test</b>'
 			}, {
-				default: {}
+				base: {}
 			}, {
 			}, {ect: renderTemplate});
 			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
@@ -357,7 +354,7 @@ describe('core', () => {
 					sourcePath: 'all/post.md',
 					content: '<b>Test</b>'
 				}, {
-					default: {}
+					base: {}
 				}, {
 				}, {ect: renderTemplate});
 			}
@@ -381,7 +378,7 @@ describe('core', () => {
 					content: '<b>Foobarbaz</b>'
 				}
 			], {
-				default: {}
+				base: {}
 			}, {
 			}, {ect: renderTemplate});
 			expect(result.length).to.eql(2);

@@ -136,46 +136,48 @@ export function getConfigFilesList(folder) {
  * Read config files from a disk.
  *
  * @param {Array} files Config files list.
- * @return {Object} {default: {...}, langs: {...}}
+ * @return {Object} {base: {...}, langs: {...}}
  */
 export function readConfigFiles(files) {
 	return files.reduce((configs, filepath) => {
 		let name = removeExtension(path.basename(filepath));
-		if (name === 'default') {
-			configs.default = readYamlFile(filepath);
+		if (name === 'base') {
+			configs.base = readYamlFile(filepath);
 		}
 		else {
 			configs.langs[name] = readYamlFile(filepath);
 		}
 		return configs;
-	}, {default: {}, langs: {}});  // @todo use really default config
+	}, {base: {}, langs: {}});
 }
 
 /**
- * Merge default config with language specific configs.
+ * Merge base config with language specific configs.
  *
  * @param {Object} configs
- * @return {Object} {default: {...}} or {langs: {...}}
+ * @return {Object} {base: {...}} or {langs: {...}}
  */
 export function mergeConfigs(configs) {
-	let { langs } = configs;
+	let { base, langs } = configs;
+	let baseConfig = {
+		base
+	};
+
 	if (_.isEmpty(langs)) {
-		return {
-			default: configs.default
-		};
+		return baseConfig;
 	}
 
 	return Object.keys(langs).reduce((merged, lang) => {
-		merged[lang] = _.merge({}, configs.default, langs[lang]);
+		merged[lang] = _.merge({}, configs.base, langs[lang]);
 		return merged;
-	}, {});
+	}, baseConfig);
 }
 
 /**
  * Load config files from a disk.
  *
  * @param {String} folder Source folder.
- * @return {Object} {default: {...}} or {langs: {...}}
+ * @return {Object} {base: {...}} or {langs: {...}}
  */
 export function loadConfig(folder) {
 	let files = getConfigFilesList(folder);
