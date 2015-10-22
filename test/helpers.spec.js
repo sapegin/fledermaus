@@ -154,6 +154,19 @@ describe('helpers', () => {
 			let result = func('/all/post');
 			expect(result).to.eql('http://example.com/all/post');
 		});
+		it('should trim extra slashes', () => {
+			let func = helpers.pageAbsUrl.bind({
+				option: helpers.option,
+				pageUrl: helpers.pageUrl,
+				config: {
+					default: {
+						url: 'http://example.com/'
+					}
+				}
+			});
+			let result = func('/all/post');
+			expect(result).to.eql('http://example.com/all/post');
+		});
 	});
 
 	describe('isHome', () => {

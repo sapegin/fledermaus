@@ -97,7 +97,9 @@ export function pageUrl(url) {
 export function pageAbsUrl(url) {
 	let siteUrl = this.option('url');
 	siteUrl = siteUrl.replace(/\/$/, '');
-	return siteUrl + this.pageUrl(url);
+	let relativeUrl = this.pageUrl(url);
+	relativeUrl = relativeUrl.replace(/^\//, '');
+	return `${siteUrl}/${relativeUrl}`;
 }
 
 /**
