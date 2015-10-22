@@ -112,6 +112,16 @@ export function isHome() {
 }
 
 /**
+ * Converts timestamp to ISO format.
+ *
+ * @param {Number} timestamp
+ * @return {String}
+ */
+export function dateToISOString(timestamp) {
+	return (new Date(timestamp)).toISOString();
+}
+
+/**
  * Path for a static file.
  *
  * @param {String} url

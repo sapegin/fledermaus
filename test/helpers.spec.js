@@ -186,6 +186,13 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('dateToISOString', () => {
+		it('should return ISO date', () => {
+			let result = helpers.dateToISOString(1445543242080);
+			expect(result).to.eql('2015-10-22T19:47:22.080Z');
+		});
+	});
+
 	describe('assetFilepath', () => {
 		it('should return a path for a static file', () => {
 			let func = helpers.assetFilepath.bind({
