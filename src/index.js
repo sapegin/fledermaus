@@ -3,7 +3,11 @@ export {
 	loadConfig,
 	loadSourceFiles,
 	generatePages,
-	savePages
+	savePages,
+	filterDocuments,
+	orderDocuments,
+	gropDocuments,
+	paginate
 } from './core';
 
 // Default renderers
