@@ -15,6 +15,7 @@
 import fs from 'fs';
 import path from 'path';
 import richtypo from 'richtypo';
+import IntlPolyfill from 'intl';
 import _ from 'lodash';
 import { tmpl, readFile } from './util';
 
@@ -119,6 +120,20 @@ export function isHome() {
  */
 export function dateToISOString(timestamp) {
 	return (new Date(timestamp)).toISOString();
+}
+
+/**
+ * Converts timestamp to string.
+ *
+ * @param {Number} timestamp
+ * @return {String}
+ */
+export function dateToString(timestamp) {
+	return (new IntlPolyfill.DateTimeFormat(this.pageLang(), {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	})).format(new Date(timestamp));
 }
 
 /**

@@ -193,6 +193,25 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('dateToString', () => {
+		it('should return date in English format', () => {
+			let func = helpers.dateToString.bind({
+				pageLang: helpers.pageLang,
+				lang: 'en'
+			});
+			let result = func(1445543242080);
+			expect(result).to.eql('October 22, 2015');
+		});
+		it('should return date in Russian', () => {
+			let func = helpers.dateToString.bind({
+				pageLang: helpers.pageLang,
+				lang: 'ru'
+			});
+			let result = func(1445543242080);
+			expect(result).to.eql('22 октября 2015 г.');
+		});
+	});
+
 	describe('assetFilepath', () => {
 		it('should return a path for a static file', () => {
 			let func = helpers.assetFilepath.bind({
