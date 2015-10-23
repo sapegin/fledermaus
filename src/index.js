@@ -6,7 +6,7 @@ export {
 	savePages,
 	filterDocuments,
 	orderDocuments,
-	gropDocuments,
+	groupDocuments,
 	paginate
 } from './core';
 

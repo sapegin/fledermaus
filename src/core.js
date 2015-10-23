@@ -229,7 +229,7 @@ export function orderDocuments(documents, fields) {
  * @param {Array} field
  * @return {Object} {fieldValue1: [...], fieldValue2: [...], ...]
  */
-export function gropDocuments(documents, field) {
+export function groupDocuments(documents, field) {
 	return documents.reduce((grouped, document) => {
 		let value = document[field];
 		if (Array.isArray(value)) {

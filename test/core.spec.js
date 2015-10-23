@@ -279,9 +279,9 @@ describe('core', () => {
 		});
 	});
 
-	describe('gropDocuments', () => {
+	describe('groupDocuments', () => {
 		it('should order documents by a single value', () => {
-			let result = core.gropDocuments([
+			let result = core.groupDocuments([
 				{
 					title: 'Post 1',
 					layout: 'post'
@@ -306,7 +306,7 @@ describe('core', () => {
 				});
 		});
 		it('should order documents by every item if the value is an array', () => {
-			let result = core.gropDocuments([
+			let result = core.groupDocuments([
 				{
 					title: 'Post 1',
 					tags: 'foo'
