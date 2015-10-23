@@ -396,9 +396,9 @@ describe('core', () => {
 		});
 	});
 
-	describe('generatePagination', () => {
+	describe('paginate', () => {
 		it('should return an array of pages with pagination info', () => {
-			let result = core.generatePagination(
+			let result = core.paginate(
 				[
 					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>'},
 					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>'},

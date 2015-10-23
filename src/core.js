@@ -270,15 +270,15 @@ export function getPageNumberUrl(urlPrefix, pageNumber) {
  * @param {String} options.layout Page layout.
  * @return {Array}
  */
-export function generatePagination(documents, { urlPrefix, documentsPerPage, layout } = {}) {
+export function paginate(documents, { urlPrefix, documentsPerPage, layout } = {}) {
 	if (!urlPrefix) {
-		throw new Error(`"urlPrefix" not specified for generatePagination().`);
+		throw new Error(`"urlPrefix" not specified for paginate().`);
 	}
 	if (!documentsPerPage) {
-		throw new Error(`"documentsPerPage" not specified for generatePagination().`);
+		throw new Error(`"documentsPerPage" not specified for paginate().`);
 	}
 	if (!layout) {
-		throw new Error(`"layout" not specified for generatePagination().`);
+		throw new Error(`"layout" not specified for paginate().`);
 	}
 
 	let totalPages = Math.ceil(documents.length / documentsPerPage);
