@@ -1,7 +1,7 @@
 [{
     "previousUrl": null,
     "nextUrl": "/all/page/2",
-    "sourcePath": "all/page/1",
+    "sourcePath": "all",
     "documents": [{
         "title": "Post 1",
         "layout": "post",
@@ -19,9 +19,9 @@
         "content": "<b>3</b>"
     }],
     "layout": "pagination",
-    "url": "/all/page/1"
+    "url": "/all"
 }, {
-    "previousUrl": "/all/page/1",
+    "previousUrl": "/all",
     "nextUrl": "/all/page/3",
     "sourcePath": "all/page/2",
     "documents": [{

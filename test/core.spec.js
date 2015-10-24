@@ -454,6 +454,10 @@ describe('core', () => {
 			let result = core.getPageNumberUrl('all', 5);
 			expect(result).to.eql('all/page/5');
 		});
+		it('should return URL prefix for the first page', () => {
+			let result = core.getPageNumberUrl('all', 1);
+			expect(result).to.eql('all');
+		});
 	});
 
 	describe('paginate', () => {

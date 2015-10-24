@@ -264,7 +264,12 @@ export function groupDocuments(documents, field) {
  * @return {String}
  */
 export function getPageNumberUrl(urlPrefix, pageNumber) {
-	return `${urlPrefix}/page/${pageNumber}`;
+	if (pageNumber === 1) {
+		return urlPrefix;
+	}
+	else {
+		return `${urlPrefix}/page/${pageNumber}`;
+	}
 }
 
 /**
