@@ -54,7 +54,7 @@ export function renderByType(source, filepath, renderers = {}) {
 export function parseCustomFields(attributes, fieldParsers) {
 	let parsedAttributes = {};
 	for (let name in fieldParsers) {
-		parsedAttributes[name] = fieldParsers[name](attributes[name]);
+		parsedAttributes[name] = fieldParsers[name](attributes[name], attributes);
 	}
 	return _.merge({}, attributes, parsedAttributes);
 }

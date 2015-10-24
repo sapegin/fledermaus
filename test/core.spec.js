@@ -46,9 +46,21 @@ describe('core', () => {
 	describe('parseCustomFields', () => {
 		it('should return attributes with parsed custom fields', () => {
 			let ddd = {title: 'Post', date: 'Nov 8, 2013'};
-			let result = core.parseCustomFields(ddd, {date: Date.parse});
+			let result = core.parseCustomFields(ddd, {
+				date: Date.parse
+			});
 			expect(result.title).to.eql('Post');
 			expect((new Date(result.date)).toDateString()).to.eql('Fri Nov 08 2013');
+		});
+		it('should be able to create new attributes', () => {
+			let ddd = {title: 'Post', date: 'Nov 8, 2013'};
+			let result = core.parseCustomFields(ddd, {
+				timestamp: (t, attrs) => Date.parse(attrs.date),
+				date: (d) => new Date(Date.parse(d))
+			});
+			expect(result.title).to.eql('Post');
+			expect((new Date(result.timestamp)).toDateString()).to.eql('Fri Nov 08 2013');
+			expect(result.date.toDateString()).to.eql('Fri Nov 08 2013');
 		});
 	});
 
