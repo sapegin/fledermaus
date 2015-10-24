@@ -56,9 +56,9 @@ describe('util', () => {
 			let result = util.tmpl('Hello {wrld}!', {wrld: 'world'});
 			expect(result).to.eql('Hello world!');
 		});
-		it('should leave unknown tags as is', () => {
+		it('should render unknown tags as undefined', () => {
 			let result = util.tmpl('Hello {wrld}, {nooo}!', {wrld: 'world'});
-			expect(result).to.eql('Hello world, {nooo}!');
+			expect(result).to.eql('Hello world, undefined!');
 		});
 	});
 

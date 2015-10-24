@@ -85,7 +85,7 @@ export function formatFieldsForSortByOrder(shortFields) {
  * @return {String}
  */
 export function tmpl(template, params = {}) {
-	return template.replace(/\{([^\}]+)\}/g, (m, key) => params[key] || m);
+	return template.replace(/\{([^\}]+)\}/g, (m, key) => params[key]);
 }
 
 /**
