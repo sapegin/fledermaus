@@ -1,7 +1,7 @@
 /**
  * Context (this):
  * {
- *   config: {default: {}, en: {}, ru: {}},
+ *   config: {base: {}, en: {}, ru: {}},
  *   sourcePath: 'en/mypost.md',
  *   url: 'en/mypost',
  *   content: '...html...',
@@ -32,7 +32,7 @@ const pluralTypes = {
  * @return {String}
  */
 export function option(key) {
-	let lang = this.lang || 'default';
+	let lang = this.lang || 'base';
 	let value = _.get(this.config[lang], key);
 	if (value === undefined) {
 		throw new Error(`Config option "${key}" not found.`);

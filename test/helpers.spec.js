@@ -8,7 +8,7 @@ describe('helpers', () => {
 		it('should return localized config option', () => {
 			let func = helpers.option.bind({
 				config: {
-					default: {
+					base: {
 						title: 'My blog'
 					},
 					ru: {
@@ -23,7 +23,7 @@ describe('helpers', () => {
 		it('should support dot notation for keys (key.subkey)', () => {
 			let func = helpers.option.bind({
 				config: {
-					default: {
+					base: {
 						foo: {
 							bar: 'Baz'
 						}
@@ -36,7 +36,7 @@ describe('helpers', () => {
 		it('should throw if option is not specifeid in the config', () => {
 			let func = helpers.option.bind({
 				config: {
-					default: {
+					base: {
 						foo: 42
 					}
 				}
@@ -49,7 +49,7 @@ describe('helpers', () => {
 		it('should return page language if it is specified', () => {
 			let func = helpers.pageLang.bind({
 				config: {
-					default: {
+					base: {
 						lang: 'en'
 					}
 				},
@@ -62,7 +62,7 @@ describe('helpers', () => {
 			let func = helpers.pageLang.bind({
 				option: helpers.option,
 				config: {
-					default: {
+					base: {
 						lang: 'en'
 					}
 				}
@@ -77,7 +77,7 @@ describe('helpers', () => {
 			let func = helpers.__.bind({
 				option: helpers.option,
 				config: {
-					default: {
+					base: {
 						hi: 'Hello {name}!'
 					},
 					ru: {
@@ -98,7 +98,7 @@ describe('helpers', () => {
 				pageLang: helpers.pageLang,
 				__: helpers.__,
 				config: {
-					default: {
+					base: {
 					},
 					en: {
 						posts: 'post|posts'
@@ -117,7 +117,7 @@ describe('helpers', () => {
 				pageLang: helpers.pageLang,
 				__: helpers.__,
 				config: {
-					default: {
+					base: {
 					},
 					ru: {
 						posts: 'пост|поста|постов'
@@ -146,7 +146,7 @@ describe('helpers', () => {
 				option: helpers.option,
 				pageUrl: helpers.pageUrl,
 				config: {
-					default: {
+					base: {
 						url: 'http://example.com'
 					}
 				}
@@ -159,7 +159,7 @@ describe('helpers', () => {
 				option: helpers.option,
 				pageUrl: helpers.pageUrl,
 				config: {
-					default: {
+					base: {
 						url: 'http://example.com/'
 					}
 				}
@@ -217,7 +217,7 @@ describe('helpers', () => {
 			let func = helpers.assetFilepath.bind({
 				option: helpers.option,
 				config: {
-					default: {
+					base: {
 						assetsFolder: 'test/samples'
 					}
 				}
@@ -233,7 +233,7 @@ describe('helpers', () => {
 				option: helpers.option,
 				assetFilepath: helpers.assetFilepath,
 				config: {
-					default: {
+					base: {
 						assetsFolder: 'test/samples'
 					}
 				}
@@ -249,7 +249,7 @@ describe('helpers', () => {
 				option: helpers.option,
 				assetFilepath: helpers.assetFilepath,
 				config: {
-					default: {
+					base: {
 						assetsFolder: 'test/samples'
 					}
 				}
