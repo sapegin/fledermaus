@@ -323,6 +323,9 @@ export function makeContext(document, config, helpers) {
  * @return {Object} { pagePath, content }
  */
 export function generatePage(document, config, helpers, renderers) {
+	if (!document.sourcePath) {
+		throw new Error(`Source path not specified. Add "sourcePath" front matter field.`);
+	}
 	if (!document.layout) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
 	}
