@@ -35,7 +35,7 @@ export function option(key) {
 	let lang = this.lang || 'base';
 	let value = _.get(this.config[lang], key);
 	if (value === undefined) {
-		throw new Error(`Config option "${key}" not found.`);
+		throw new Error(`Config option "${lang}/${key}" not found.`);
 	}
 	return value;
 }
