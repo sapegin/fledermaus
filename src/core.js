@@ -226,8 +226,8 @@ export function orderDocuments(documents, fields) {
  * Group documents by values of a given field.
  *
  * @param {Array} documents Documents.
- * @param {Array} field
- * @return {Object} {fieldValue1: [...], fieldValue2: [...], ...]
+ * @param {String|Function} field Field name or function.
+ * @return {Object} {fieldValue1: [...], fieldValue2: [...], ...}
  */
 export function groupDocuments(documents, field) {
 	return documents.reduce((grouped, document) => {
@@ -241,6 +241,9 @@ export function groupDocuments(documents, field) {
 			});
 		}
 		else {
+			if (_.isFunction(field)) {
+				value = field(document);
+			}
 			if (!grouped[value]) {
 				grouped[value] = [];
 			}

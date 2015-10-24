@@ -280,7 +280,7 @@ describe('core', () => {
 	});
 
 	describe('groupDocuments', () => {
-		it('should order documents by a single value', () => {
+		it('should group documents by a single value', () => {
 			let result = core.groupDocuments([
 				{
 					title: 'Post 1',
@@ -297,15 +297,15 @@ describe('core', () => {
 			], 'layout');
 			expect(result).to.eql({
 				post: [
-						{title: 'Post 1', layout: 'post'},
-						{title: 'Post 2', layout: 'post'}
-					],
-					about: [
-						{title: 'About', layout: 'about'}
-					]
-				});
+					{title: 'Post 1', layout: 'post'},
+					{title: 'Post 2', layout: 'post'}
+				],
+				about: [
+					{title: 'About', layout: 'about'}
+				]
+			});
 		});
-		it('should order documents by every item if the value is an array', () => {
+		it('should group documents by every item if the value is an array', () => {
 			let result = core.groupDocuments([
 				{
 					title: 'Post 1',
@@ -321,15 +321,40 @@ describe('core', () => {
 				}
 			], 'tags');
 			expect(result).to.eql({
-					foo: [
-						{title: 'Post 1', tags: 'foo'},
-						{title: 'Post 2', tags: ['bar', 'foo']},
-						{title: 'Post 3', tags: ['foo']}
-					],
-					bar: [
-						{title: 'Post 2', tags: ['bar', 'foo']},
-					]
-				});
+				foo: [
+					{title: 'Post 1', tags: 'foo'},
+					{title: 'Post 2', tags: ['bar', 'foo']},
+					{title: 'Post 3', tags: ['foo']}
+				],
+				bar: [
+					{title: 'Post 2', tags: ['bar', 'foo']},
+				]
+			});
+		});
+		it('should group documents by the result of function call', () => {
+			let result = core.groupDocuments([
+				{
+					title: 'Post 1',
+					date: '2014-06-17'
+				},
+				{
+					title: 'Post 2',
+					date: '2015-09-01'
+				},
+				{
+					title: 'About',
+					date: '2014-01-12'
+				}
+			], d => Number(d.date.split('-')[0]));
+			expect(result).to.eql({
+				2014: [
+					{title: 'Post 1', date: '2014-06-17'},
+					{title: 'About', date: '2014-01-12'}
+				],
+				2015: [
+					{title: 'Post 2', date: '2015-09-01'}
+				]
+			});
 		});
 	});
 
