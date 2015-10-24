@@ -244,6 +244,9 @@ export function groupDocuments(documents, field) {
 			if (_.isFunction(field)) {
 				value = field(document);
 			}
+			if (!value) {
+				return grouped;
+			}
 			if (!grouped[value]) {
 				grouped[value] = [];
 			}

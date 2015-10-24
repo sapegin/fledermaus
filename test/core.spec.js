@@ -343,6 +343,29 @@ describe('core', () => {
 				]
 			});
 		});
+		it('should skip document if the field value is undefined', () => {
+			let result = core.groupDocuments([
+				{
+					title: 'Post 1',
+					layout: 'post'
+				},
+				{
+					title: 'Post 2'
+				},
+				{
+					title: 'About',
+					layout: 'about'
+				}
+			], 'layout');
+			expect(result).to.eql({
+				post: [
+					{title: 'Post 1', layout: 'post'}
+				],
+				about: [
+					{title: 'About', layout: 'about'}
+				]
+			});
+		});
 		it('should group documents by the result of function call', () => {
 			let result = core.groupDocuments([
 				{
