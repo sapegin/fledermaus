@@ -5,7 +5,8 @@
     "mocha": true
   },
   "ecmaFeatures": {
-    "modules": true
+    "modules": true,
+    "experimentalObjectRestSpread": true
   },
   "rules": {  // http://eslint.org/docs/rules/
     // Possible errors

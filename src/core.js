@@ -271,9 +271,10 @@ export function getPageNumberUrl(urlPrefix, pageNumber) {
  * @param {String} options.urlPrefix URL prefix.
  * @param {Number} options.documentsPerPage Documents per page.
  * @param {String} options.layout Page layout.
+ * @param {Object} options.extra Extra document options.
  * @return {Array}
  */
-export function paginate(documents, { urlPrefix, documentsPerPage, layout } = {}) {
+export function paginate(documents, { urlPrefix, documentsPerPage, layout, extra = {} } = {}) {
 	if (!urlPrefix) {
 		throw new Error(`"urlPrefix" not specified for paginate().`);
 	}
@@ -291,6 +292,7 @@ export function paginate(documents, { urlPrefix, documentsPerPage, layout } = {}
 		let url = getPageNumberUrl(urlPrefix, pageNumber);
 		let begin = (pageNumber - 1) * documentsPerPage;
 		return {
+			...extra,
 			previousUrl: pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
 			nextUrl: pageNumber < totalPages ? getPageNumberUrl(urlPrefix, pageNumber + 1) : null,
 			sourcePath: url.replace(/^\//, ''),

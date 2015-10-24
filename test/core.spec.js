@@ -434,7 +434,7 @@ describe('core', () => {
 	});
 
 	describe('paginate', () => {
-		it('should return an array of pages with pagination info', () => {
+		it('should return an array of documents with pagination info', () => {
 			let result = core.paginate(
 				[
 					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>'},
@@ -455,6 +455,25 @@ describe('core', () => {
 				}
 			);
 			expect(result).to.eql(require('./expected/pagination.json'));
+		});
+		it('should add extra options to every generated document', () => {
+			let result = core.paginate(
+				[
+					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>'},
+					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>'}
+				],
+				{
+					urlPrefix: '/all',
+					documentsPerPage: 1,
+					layout: 'pagination',
+					extra: {
+						foo: 42,
+						bar: 13
+					}
+				}
+			);
+			expect(result[0].foo).to.eql(42);
+			expect(result[1].bar).to.eql(13);
 		});
 	});
 
