@@ -113,27 +113,27 @@ export function isHome() {
 }
 
 /**
- * Converts timestamp to ISO format.
+ * Converts date to ISO format.
  *
- * @param {Number} timestamp
+ * @param {Date} date
  * @return {String}
  */
-export function dateToISOString(timestamp) {
-	return (new Date(timestamp)).toISOString();
+export function dateToISOString(date) {
+	return (date).toISOString();
 }
 
 /**
- * Converts timestamp to string.
+ * Converts date to string.
  *
- * @param {Number} timestamp
+ * @param {Date} date
  * @return {String}
  */
-export function dateToString(timestamp) {
+export function dateToString(date) {
 	return (new IntlPolyfill.DateTimeFormat(this.pageLang(), {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric'
-	})).format(new Date(timestamp));
+	})).format(date);
 }
 
 /**

@@ -188,7 +188,7 @@ describe('helpers', () => {
 
 	describe('dateToISOString', () => {
 		it('should return ISO date', () => {
-			let result = helpers.dateToISOString(1445543242080);
+			let result = helpers.dateToISOString(new Date(1445543242080));
 			expect(result).to.eql('2015-10-22T19:47:22.080Z');
 		});
 	});
@@ -199,7 +199,7 @@ describe('helpers', () => {
 				pageLang: helpers.pageLang,
 				lang: 'en'
 			});
-			let result = func(1445543242080);
+			let result = func(new Date(1445543242080));
 			expect(result).to.eql('October 22, 2015');
 		});
 		it('should return date in Russian', () => {
@@ -207,7 +207,7 @@ describe('helpers', () => {
 				pageLang: helpers.pageLang,
 				lang: 'ru'
 			});
-			let result = func(1445543242080);
+			let result = func(new Date(1445543242080));
 			expect(result).to.eql('22 октября 2015 г.');
 		});
 	});
