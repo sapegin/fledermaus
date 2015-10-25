@@ -171,7 +171,7 @@ export function mergeConfigs(configs) {
 	}
 
 	return Object.keys(langs).reduce((merged, lang) => {
-		merged[lang] = _.merge({}, configs.base, langs[lang]);
+		merged[lang] = {...configs.base, ...langs[lang]};
 		return merged;
 	}, baseConfig);
 }
@@ -335,7 +335,11 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
  * @return {Object}
  */
 export function makeContext(document, config, helpers) {
-	return _.merge({}, helpers, { config }, document);
+	return {
+		...helpers,
+		config,
+		...document
+	};
 }
 
 /**
