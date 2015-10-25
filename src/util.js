@@ -21,7 +21,7 @@ export function removeExtension(filename) {
  * @return {String}
  */
 export function getExtension(filename) {
-	return path.extname(filename).replace(/^\./, '');
+	return path.extname(filename).substring(1);
 }
 
 /**
