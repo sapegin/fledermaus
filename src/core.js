@@ -264,11 +264,17 @@ export function groupDocuments(documents, field) {
  *
  * @param {String} urlPrefix
  * @param {Number} pageNumber
+ * @param {Boolean} options.index First page will be `index` if true.
  * @return {String}
  */
-export function getPageNumberUrl(urlPrefix, pageNumber) {
+export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
 	if (pageNumber === 1) {
-		return urlPrefix;
+		if (index) {
+			return `${urlPrefix}/index`;
+		}
+		else {
+			return urlPrefix;
+		}
 	}
 	else {
 		return `${urlPrefix}/page/${pageNumber}`;
@@ -283,10 +289,11 @@ export function getPageNumberUrl(urlPrefix, pageNumber) {
  * @param {String} options.urlPrefix URL prefix.
  * @param {Number} options.documentsPerPage Documents per page.
  * @param {String} options.layout Page layout.
+ * @param {Boolean} options.index Add `index` to the first page’s source path.
  * @param {Object} options.extra Extra document options.
  * @return {Array}
  */
-export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerPage, layout, extra = {} } = {}) {
+export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerPage, layout, index, extra = {} } = {}) {
 	if (!sourcePathPrefix) {
 		throw new Error('"sourcePathPrefix" not specified for paginate().');
 	}
@@ -304,7 +311,7 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
 
 	return _.range(totalPages).map((pageNumber) => {
 		pageNumber++;
-		let sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber);
+		let sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber, { index });
 		let url = getPageNumberUrl(urlPrefix, pageNumber);
 		let begin = (pageNumber - 1) * documentsPerPage;
 		return {

@@ -473,6 +473,10 @@ describe('core', () => {
 			let result = core.getPageNumberUrl('all', 1);
 			expect(result).to.eql('all');
 		});
+		it('should add index if index options is true', () => {
+			let result = core.getPageNumberUrl('all', 1, {index: true});
+			expect(result).to.eql('all/index');
+		});
 	});
 
 	describe('paginate', () => {
