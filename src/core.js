@@ -56,7 +56,7 @@ export function parseCustomFields(attributes, fieldParsers) {
 	for (let name in fieldParsers) {
 		parsedAttributes[name] = fieldParsers[name](attributes[name], attributes);
 	}
-	return _.merge({}, attributes, parsedAttributes);
+	return {...attributes, ...parsedAttributes};
 }
 
 /**
@@ -73,8 +73,6 @@ export function parseCustomFields(attributes, fieldParsers) {
 export function parsePage(source, folder, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
 	let { attributes, body } = fastmatter(source);
 
-	attributes = parseCustomFields(attributes, fieldParsers);
-
 	let url = filepathToUrl(filepath);
 
 	let content = renderByType(body, filepath, renderers);
@@ -84,13 +82,16 @@ export function parsePage(source, folder, filepath, { renderers = {}, fieldParse
 		[excerpt, more] = content.split(cutTag);
 	}
 
-	return _.merge(attributes, {
+	attributes = {
+		...attributes,
 		sourcePath: filepath,
 		content,
 		excerpt,
 		more,
 		url
-	});
+	};
+	attributes = parseCustomFields(attributes, fieldParsers);
+	return attributes;
 }
 
 /**

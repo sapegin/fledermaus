@@ -70,19 +70,34 @@ describe('core', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
 			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { renderers });
-			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.json'));
+			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.js'));
+		});
+		it('should modify all fields using custom field parsers', () => {
+			const folder = 'test/samples';
+			const filepath = 'markdown-with-frontmatter.md';
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {
+				renderers,
+				fieldParsers: {
+					lang: () => 'ru',
+					url: (u) => `/ru${u}`
+				}
+			});
+			expect(result).to.eql(require('./expected/markdown-with-custom-fields.js'));
 		});
 		it('should split content to excerpt and more if cut tag is used', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-cut.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { cutTag: '<!-- cut -->', renderers });
-			expect(result).to.eql(require('./expected/markdown-with-cut.md.json'));
+			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {
+				cutTag: '<!-- cut -->',
+				renderers
+			});
+			expect(result).to.eql(require('./expected/markdown-with-cut.md.js'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';
 			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { renderers });
-			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.json'));
+			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.js'));
 		});
 	});
 
@@ -100,7 +115,7 @@ describe('core', () => {
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
 			let result = core.loadSourceFiles('test/source', ['md', 'html'], {renderers: {md: renderMarkdown}});
-			expect(result).to.eql(require('./expected/files.json'));
+			expect(result).to.eql(require('./expected/files.js'));
 		});
 	});
 
