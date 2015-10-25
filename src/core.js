@@ -294,10 +294,10 @@ export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
  * @return {Array}
  */
 export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerPage, layout, index, extra = {} } = {}) {
-	if (!sourcePathPrefix) {
+	if (sourcePathPrefix === undefined) {
 		throw new Error('"sourcePathPrefix" not specified for paginate().');
 	}
-	if (!urlPrefix) {
+	if (urlPrefix === undefined) {
 		throw new Error('"urlPrefix" not specified for paginate().');
 	}
 	if (!documentsPerPage) {
