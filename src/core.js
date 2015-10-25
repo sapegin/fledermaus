@@ -90,7 +90,9 @@ export function parsePage(source, folder, filepath, { renderers = {}, fieldParse
 		more,
 		url
 	};
+
 	attributes = parseCustomFields(attributes, fieldParsers);
+
 	return attributes;
 }
 
@@ -277,35 +279,40 @@ export function getPageNumberUrl(urlPrefix, pageNumber) {
  * Generate documents to paginate given documents.
  *
  * @param {Array} documents Documents to paginate
+ * @param {String} options.sourcePathPrefix Source path prefix.
  * @param {String} options.urlPrefix URL prefix.
  * @param {Number} options.documentsPerPage Documents per page.
  * @param {String} options.layout Page layout.
  * @param {Object} options.extra Extra document options.
  * @return {Array}
  */
-export function paginate(documents, { urlPrefix, documentsPerPage, layout, extra = {} } = {}) {
+export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerPage, layout, extra = {} } = {}) {
+	if (!sourcePathPrefix) {
+		throw new Error('"sourcePathPrefix" not specified for paginate().');
+	}
 	if (!urlPrefix) {
-		throw new Error(`"urlPrefix" not specified for paginate().`);
+		throw new Error('"urlPrefix" not specified for paginate().');
 	}
 	if (!documentsPerPage) {
-		throw new Error(`"documentsPerPage" not specified for paginate().`);
+		throw new Error('"documentsPerPage" not specified for paginate().');
 	}
 	if (!layout) {
-		throw new Error(`"layout" not specified for paginate().`);
+		throw new Error('"layout" not specified for paginate().');
 	}
 
 	let totalPages = Math.ceil(documents.length / documentsPerPage);
 
 	return _.range(totalPages).map((pageNumber) => {
 		pageNumber++;
+		let sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber);
 		let url = getPageNumberUrl(urlPrefix, pageNumber);
 		let begin = (pageNumber - 1) * documentsPerPage;
 		return {
 			...extra,
 			previousUrl: pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
 			nextUrl: pageNumber < totalPages ? getPageNumberUrl(urlPrefix, pageNumber + 1) : null,
-			sourcePath: url.replace(/^\//, ''),
 			documents: documents.slice(begin, begin + documentsPerPage),
+			sourcePath,
 			layout,
 			url
 		};

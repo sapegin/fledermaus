@@ -491,6 +491,7 @@ describe('core', () => {
 					{ title: 'Post 10', layout: 'post', sourcePath: 'all/post10.md', content: '<b>10</b>'}
 				],
 				{
+					sourcePathPrefix: 'all',
 					urlPrefix: '/all',
 					documentsPerPage: 3,
 					layout: 'pagination'
@@ -505,6 +506,7 @@ describe('core', () => {
 					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>'}
 				],
 				{
+					sourcePathPrefix: 'all',
 					urlPrefix: '/all',
 					documentsPerPage: 1,
 					layout: 'pagination',
