@@ -319,6 +319,7 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
 			previousUrl: pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
 			nextUrl: pageNumber < totalPages ? getPageNumberUrl(urlPrefix, pageNumber + 1) : null,
 			documents: documents.slice(begin, begin + documentsPerPage),
+			documentsTotal: documents.length,
 			sourcePath,
 			layout,
 			url

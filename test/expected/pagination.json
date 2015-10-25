@@ -18,6 +18,7 @@
         "sourcePath": "all/post3.md",
         "content": "<b>3</b>"
     }],
+    "documentsTotal": 10,
     "layout": "pagination",
     "url": "/all"
 }, {
@@ -40,6 +41,7 @@
         "sourcePath": "all/post6.md",
         "content": "<b>6</b>"
     }],
+    "documentsTotal": 10,
     "layout": "pagination",
     "url": "/all/page/2"
 }, {
@@ -62,6 +64,7 @@
         "sourcePath": "all/post9.md",
         "content": "<b>9</b>"
     }],
+    "documentsTotal": 10,
     "layout": "pagination",
     "url": "/all/page/3"
 }, {
@@ -74,6 +77,7 @@
         "sourcePath": "all/post10.md",
         "content": "<b>10</b>"
     }],
+    "documentsTotal": 10,
     "layout": "pagination",
     "url": "/all/page/4"
 }]
