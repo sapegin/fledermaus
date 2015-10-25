@@ -45,7 +45,7 @@
   "scripts": {
     "test": "npm run lint && npm run mocha",
     "mocha": "mocha --compilers js:babel/register test",
-    "mocha-watch": "mocha --watch --reporter min --compilers js:babel/register test",
+    "mocha:watch": "mocha --watch --reporter min --compilers js:babel/register test",
     "lint": "eslint src",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile"
