@@ -362,11 +362,17 @@ export function generatePage(document, config, helpers, renderers) {
 	let [templateExtension, render] = _.pairs(renderers).shift();
 	let templateFile = `${document.layout}.${templateExtension}`;
 
-	let context = makeContext(document, config, helpers);
-	let content = render(templateFile, context);
+	let pageContext = makeContext(document, config, helpers);
+	let content = render(templateFile, pageContext);
+
+	let pageExtension = getExtension(document.layout);
+	if (!pageExtension) {
+		pageExtension = 'html';
+	}
+	let pagePath = removeExtension(document.sourcePath) + `.${pageExtension}`;
 
 	return {
-		pagePath: removeExtension(document.sourcePath),
+		pagePath,
 		content
 	};
 }
@@ -391,7 +397,7 @@ export function generatePages(documents, config, helpers, renderers) {
  * @param {String} folder Folder to save files.
  */
 export function savePage(page, folder) {
-	writeFile(path.join(folder, `${page.pagePath}.html`), page.content);
+	writeFile(path.join(folder, page.pagePath), page.content);
 }
 
 /**

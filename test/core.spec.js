@@ -420,7 +420,20 @@ describe('core', () => {
 			}, {
 			}, {ect: renderTemplate});
 			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
-			expect(result.pagePath).to.eql('all/post');
+			expect(result.pagePath).to.eql('all/post.html');
+		});
+		it('should use layout extension if it is specified (feed.xml.ect → feed.xml)', () => {
+			let result = core.generatePage({
+				title: 'Hello',
+				layout: 'layout.xml',
+				sourcePath: 'all/feed.md',
+				content: '<b>Test</b>'
+			}, {
+				base: {}
+			}, {
+			}, {ect: renderTemplate});
+			expect(result.content).to.eql('<foo><b>Test</b></foo>\n');
+			expect(result.pagePath).to.eql('all/feed.xml');
 		});
 		it('should throw if layout is not specified', () => {
 			let func = () => {
@@ -458,9 +471,9 @@ describe('core', () => {
 			}, {ect: renderTemplate});
 			expect(result.length).to.eql(2);
 			expect(result[0].content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
-			expect(result[0].pagePath).to.eql('all/post');
+			expect(result[0].pagePath).to.eql('all/post.html');
 			expect(result[1].content).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
-			expect(result[1].pagePath).to.eql('all/post2');
+			expect(result[1].pagePath).to.eql('all/post2.html');
 		});
 	});
 
@@ -529,7 +542,7 @@ describe('core', () => {
 		beforeEach(done => rimraf('test/tmp', done));
 		it('should save page to HTML file', () => {
 			core.savePage({
-				pagePath: 'all/post',
+				pagePath: 'all/post.html',
 				content: '<h1>Hello</h1>\n<b>Test</b>'
 			}, 'test/tmp');
 			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
@@ -541,11 +554,11 @@ describe('core', () => {
 		it('should save array of page to HTML files', () => {
 			core.savePages([
 				{
-					pagePath: 'all/post',
+					pagePath: 'all/post.html',
 					content: '<h1>Hello</h1>\n<b>Test</b>'
 				},
 				{
-					pagePath: 'all/post2',
+					pagePath: 'all/post2.html',
 					content: '<h1>Bye</h1>\n<b>Foobarbaz</b>'
 				}
 			], 'test/tmp');
