@@ -186,13 +186,6 @@ describe('helpers', () => {
 		});
 	});
 
-	describe('dateToISOString', () => {
-		it('should return ISO date', () => {
-			let result = helpers.dateToISOString(new Date(1445543242080));
-			expect(result).to.eql('2015-10-22T19:47:22.080Z');
-		});
-	});
-
 	describe('dateToString', () => {
 		it('should return date in English format', () => {
 			let func = helpers.dateToString.bind({

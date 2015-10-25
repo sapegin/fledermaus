@@ -113,16 +113,6 @@ export function isHome() {
 }
 
 /**
- * Converts date to ISO format.
- *
- * @param {Date} date
- * @return {String}
- */
-export function dateToISOString(date) {
-	return (date).toISOString();
-}
-
-/**
  * Converts date to string.
  *
  * @param {Date} date
