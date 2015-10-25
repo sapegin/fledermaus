@@ -14,9 +14,20 @@ describe('util', () => {
 	});
 
 	describe('getExtension', () => {
-		it('should remove extension from file path', () => {
+		it('should return file extension', () => {
 			let result = util.getExtension('ru/markdown.md');
 			expect(result).to.eql('md');
+		});
+	});
+
+	describe('hasExtension', () => {
+		it('should return true if the file has extension', () => {
+			let result = util.hasExtension('ru/markdown.md');
+			expect(result).to.be.true;
+		});
+		it('should return false if the file has no extension', () => {
+			let result = util.hasExtension('ru/markdown');
+			expect(result).to.be.false;
 		});
 	});
 

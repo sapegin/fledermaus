@@ -25,6 +25,16 @@ export function getExtension(filename) {
 }
 
 /**
+ * Check if file has extension.
+ *
+ * @param {String} filename
+ * @return {Boolean}
+ */
+export function hasExtension(filename) {
+	return filename.indexOf('.') !== -1;
+}
+
+/**
  * Read text file.
  *
  * @param {String} filepath
