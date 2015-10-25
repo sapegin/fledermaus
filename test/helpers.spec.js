@@ -133,18 +133,10 @@ describe('helpers', () => {
 		});
 	});
 
-	describe('pageUrl', () => {
-		it('should return URL without changes', () => {
-			let result = helpers.pageUrl('/all/post');
-			expect(result).to.eql('/all/post');
-		});
-	});
-
 	describe('pageAbsUrl', () => {
 		it('should return absolute URL', () => {
 			let func = helpers.pageAbsUrl.bind({
 				option: helpers.option,
-				pageUrl: helpers.pageUrl,
 				config: {
 					base: {
 						url: 'http://example.com'
@@ -157,7 +149,6 @@ describe('helpers', () => {
 		it('should trim extra slashes', () => {
 			let func = helpers.pageAbsUrl.bind({
 				option: helpers.option,
-				pageUrl: helpers.pageUrl,
 				config: {
 					base: {
 						url: 'http://example.com/'

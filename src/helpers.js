@@ -80,16 +80,6 @@ export function plural(number, formsKey) {
 }
 
 /**
- * Proper page URL (don’t do anything, should be overriden).
- *
- * @param {String} url URL.
- * @return {String}
- */
-export function pageUrl(url) {
-	return url;
-}
-
-/**
  * Absoule page URL.
  *
  * @param {String} url URL.
@@ -98,9 +88,8 @@ export function pageUrl(url) {
 export function pageAbsUrl(url) {
 	let siteUrl = this.option('url');
 	siteUrl = siteUrl.replace(/\/$/, '');
-	let relativeUrl = this.pageUrl(url);
-	relativeUrl = relativeUrl.replace(/^\//, '');
-	return `${siteUrl}/${relativeUrl}`;
+	url = url.replace(/^\//, '');
+	return `${siteUrl}/${url}`;
 }
 
 /**
