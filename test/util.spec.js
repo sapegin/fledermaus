@@ -20,17 +20,6 @@ describe('util', () => {
 		});
 	});
 
-	describe('hasExtension', () => {
-		it('should return true if the file has extension', () => {
-			let result = util.hasExtension('ru/markdown.md');
-			expect(result).to.be.true;
-		});
-		it('should return false if the file has no extension', () => {
-			let result = util.hasExtension('ru/markdown');
-			expect(result).to.be.false;
-		});
-	});
-
 	describe('readFile', () => {
 		it('should return a file content', () => {
 			let result = util.readFile('test/samples/file.txt');
