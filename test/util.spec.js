@@ -51,17 +51,6 @@ describe('util', () => {
 		});
 	});
 
-	describe('tmpl', () => {
-		it('should render a simple template', () => {
-			let result = util.tmpl('Hello {wrld}!', {wrld: 'world'});
-			expect(result).to.eql('Hello world!');
-		});
-		it('should render unknown tags as undefined', () => {
-			let result = util.tmpl('Hello {wrld}, {nooo}!', {wrld: 'world'});
-			expect(result).to.eql('Hello world, undefined!');
-		});
-	});
-
 	describe('meta', () => {
 		it('should return HTML meta tag', () => {
 			let result = util.meta('description', 'My blog');

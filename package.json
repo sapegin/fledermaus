@@ -35,6 +35,8 @@
     "glob": "~5.0.14",
     "highlight.js": "~8.8.0",
     "intl": "~1.0.1",
+    "intl-format-cache": "~2.0.4",
+    "intl-messageformat": "~1.1.0",
     "js-yaml": "~3.4.2",
     "lodash": "~3.10.1",
     "marked": "~0.3.5",

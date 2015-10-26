@@ -10,20 +10,18 @@
  * }
  */
 
-/* eslint no-invalid-this:0, no-nested-ternary:0 */
+/* eslint no-invalid-this:0 */
 
 import fs from 'fs';
 import path from 'path';
 import richtypo from 'richtypo';
 import IntlPolyfill from 'intl';
+import IntlMessageFormat from 'intl-messageformat';
+import createFormatCache from 'intl-format-cache';
 import _ from 'lodash';
-import { tmpl, readFile } from './util';
+import { readFile } from './util';
 
-// Borrowed from https://github.com/airbnb/polyglot.js/blob/master/lib/polyglot.js
-const pluralTypes = {
-	en: n => (n !== 1 ? 1 : 0),
-	ru: n => (n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2)
-};
+let getMessageFormat = createFormatCache(IntlMessageFormat);
 
 /**
  * Localized config option.
@@ -58,25 +56,8 @@ export function pageLang() {
  */
 export function __(key, params = {}) {
 	let string = this.option(key);
-	return tmpl(string, params);
-}
-
-/**
- * Plural form of a number.
- *
- * Forms definition:
- *   config:
- *     posts: post|posts
- *   lang: en
- *
- * @param {Number} number Number.
- * @param {String} formsKey Plural forms key in config.
- * @return {String}
- */
-export function plural(number, formsKey) {
-	let formIdx = pluralTypes[this.pageLang()](number);
-	let forms = this.__(formsKey).split('|');
-	return forms[formIdx];
+	let message = getMessageFormat(string, this.pageLang());
+	return message.format(params);
 }
 
 /**

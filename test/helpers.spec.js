@@ -76,6 +76,7 @@ describe('helpers', () => {
 		it('should return localized config option with expanded {} templates', () => {
 			let func = helpers.__.bind({
 				option: helpers.option,
+				pageLang: helpers.pageLang,
 				config: {
 					base: {
 						hi: 'Hello {name}!'
@@ -89,47 +90,44 @@ describe('helpers', () => {
 			let result = func('hi', {name: 'Sweet2'});
 			expect(result).to.eql('Привет, Sweet2!');
 		});
-	});
-
-	describe('plural', () => {
 		it('should return plural form of a number (English)', () => {
-			let func = helpers.plural.bind({
+			let func = helpers.__.bind({
 				option: helpers.option,
 				pageLang: helpers.pageLang,
-				__: helpers.__,
 				config: {
 					base: {
 					},
 					en: {
-						posts: 'post|posts'
+						posts: `{num, plural, =0 {No posts} =1 {One post} other {# posts}}`
 					}
 				},
 				lang: 'en'
 			});
-			expect(func(1, 'posts')).to.eql('post');
-			expect(func(2, 'posts')).to.eql('posts');
-			expect(func(11, 'posts')).to.eql('posts');
-			expect(func(21, 'posts')).to.eql('posts');
+			expect(func('posts', {num: 0})).to.eql('No posts');
+			expect(func('posts', {num: 1})).to.eql('One post');
+			expect(func('posts', {num: 2})).to.eql('2 posts');
+			expect(func('posts', {num: 11})).to.eql('11 posts');
+			expect(func('posts', {num: 21})).to.eql('21 posts');
 		});
 		it('should return plural form of a number (Russian)', () => {
-			let func = helpers.plural.bind({
+			let func = helpers.__.bind({
 				option: helpers.option,
 				pageLang: helpers.pageLang,
-				__: helpers.__,
 				config: {
 					base: {
 					},
 					ru: {
-						posts: 'пост|поста|постов'
+						posts: `{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}`
 					}
 				},
 				lang: 'ru'
 			});
-			expect(func(1, 'posts')).to.eql('пост');
-			expect(func(2, 'posts')).to.eql('поста');
-			expect(func(5, 'posts')).to.eql('постов');
-			expect(func(11, 'posts')).to.eql('постов');
-			expect(func(21, 'posts')).to.eql('пост');
+			expect(func('posts', {num: 0})).to.eql('Нет постов');
+			expect(func('posts', {num: 1})).to.eql('Один пост');
+			expect(func('posts', {num: 2})).to.eql('2 поста');
+			expect(func('posts', {num: 5})).to.eql('5 постов');
+			expect(func('posts', {num: 11})).to.eql('11 постов');
+			expect(func('posts', {num: 121})).to.eql('121 пост');
 		});
 	});
 
