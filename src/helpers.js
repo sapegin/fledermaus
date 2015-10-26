@@ -15,13 +15,14 @@
 import fs from 'fs';
 import path from 'path';
 import richtypo from 'richtypo';
-import IntlPolyfill from 'intl';
 import IntlMessageFormat from 'intl-messageformat';
+import { DateTimeFormat } from 'intl';
 import createFormatCache from 'intl-format-cache';
 import _ from 'lodash';
 import { readFile } from './util';
 
 let getMessageFormat = createFormatCache(IntlMessageFormat);
+let getDateTimeFormat = createFormatCache(DateTimeFormat);
 
 /**
  * Localized config option.
@@ -89,11 +90,12 @@ export function isHome() {
  * @return {String}
  */
 export function dateToString(date) {
-	return (new IntlPolyfill.DateTimeFormat(this.pageLang(), {
+	let format = getDateTimeFormat(this.pageLang(), {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric'
-	})).format(date);
+	});
+	return format.format(date);
 }
 
 /**
