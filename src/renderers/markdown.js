@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 let parser = new Parser();
 
-class Renderer extends marked.Renderer {
+export class MarkdownRenderer extends marked.Renderer {
 	// Do not put IDs in headers
 	heading(text, level) {
 		let tag = `h${level}`;
@@ -41,7 +41,7 @@ class Renderer extends marked.Renderer {
 }
 
 const defaultOptions = {
-	renderer: Renderer,
+	renderer: MarkdownRenderer,
 	hljs: {
 		tabReplace: null,
 		aliases: {
