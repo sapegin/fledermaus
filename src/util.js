@@ -87,6 +87,7 @@ export function formatFieldsForSortByOrder(shortFields) {
  * @return {String}
  */
 export function meta(name, content) {
+	content = cleanHtml(content);
 	return `<meta name="${name}" content="${content}">`;
 }
 
@@ -98,6 +99,7 @@ export function meta(name, content) {
  * @return {String}
  */
 export function og(name, content) {
+	content = cleanHtml(content);
 	return `<meta property="${name}" content="${content}">`;
 }
 

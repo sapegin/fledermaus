@@ -89,7 +89,6 @@
     "no-shadow": [1, {"hoist": "functions"}],  // Disallow declaration of variables already declared in the outer scope
     "no-undef": 2,  // Disallow use of undeclared variables unless mentioned in a /*global */ block
     "no-unused-vars": 1,  // Disallow declaration of variables that are not used in the code
-    "no-use-before-define": 2,  // Disallow use of variables before they are defined
 
     // Stylistic issues
     "array-bracket-spacing": [1, "never"],  // Disallow spaces inside of brackets
