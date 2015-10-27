@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import yaml from 'js-yaml';
+import strip from 'strip';
+import escapeHtml from 'escape-html';
 import _ from 'lodash';
 
 /**
@@ -97,4 +99,38 @@ export function meta(name, content) {
  */
 export function og(name, content) {
 	return `<meta property="${name}" content="${content}">`;
+}
+
+/**
+ * Return the content of the first paragraph in a given HTML.
+ *
+ * @param {String} text
+ * @return {String}
+ */
+export function getFirstParagraph(text) {
+	let m = text.match(/<p[^>]*>(.*?)<\/p>/i);
+	return m && m[1];
+}
+
+/**
+ * Return the URL of the first image in a given HTML.
+ *
+ * @param {String} text
+ * @return {String}
+ */
+export function getFirstImage(text) {
+	let m = text.match(/<img\s+src=["']([^"']+)["']/i);
+	return m && m[1];
+}
+
+/**
+ * Remove HTML and escape special characters.
+ *
+ * @param {String} text
+ * @return {String}
+ */
+export function cleanHtml(text) {
+	return escapeHtml(
+		strip(text)
+	);
 }

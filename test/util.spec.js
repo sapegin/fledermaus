@@ -65,4 +65,36 @@ describe('util', () => {
 		});
 	});
 
+	describe('getFirstParagraph', () => {
+		it('should return the content of the first paragraph in a given HTML', () => {
+			let result = util.getFirstParagraph(`
+					<p>And so it was indeed: she was now only ten inches high, and her face brightened up at the thought that she was now the right size for going though the little door into that lovely garden.</p>
+					<p>First, however, she waited for a few minutes to see if she was going to shrink any further: she felt a little nervous about this; ‘for it might end, you know,’ said Alice to herself, ‘in my going out altogether, like a candle. I wonder what I should be like then?’</p>
+					<p>And she tried to fancy what the flame of a candle is like after the candle is blown out, for she could not remember ever having seen such a thing.</p>
+			`);
+			expect(result).to.eql('And so it was indeed: she was now only ten inches high, and her face brightened up at the thought that she was now the right size for going though the little door into that lovely garden.');
+		});
+	});
+
+	describe('getFirstImage', () => {
+		it('should return the URL of the first image in a given HTML', () => {
+			let result = util.getFirstImage(`
+					<p>And so it was indeed: "she" was now only ten inches < high.</p>
+					<img src="/images/facepalm.jpg" with="120" height="80">
+					<p>And she tried to fancy what the flame of a candle is like after the candle is blown out.</p>
+			`);
+			expect(result).to.eql('/images/facepalm.jpg');
+		});
+	});
+
+	describe('cleanHtml', () => {
+		it('should remove HTML and escape special characters in a given HTML', () => {
+			let result = util.cleanHtml(`
+					<p>And so it was indeed: "she" was now only ten inches < high.</p>
+					<img src="facepalm.jpg" with="120" height="80">
+			`);
+			expect(result).to.eql('And so it was indeed: &quot;she&quot; was now only ten inches &lt; high.');
+		});
+	});
+
 });
