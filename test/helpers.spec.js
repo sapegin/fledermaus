@@ -158,6 +158,31 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('absolutizeLinks', () => {
+		it('should make all links and image URLs absolute', () => {
+			let func = helpers.absolutizeLinks.bind({
+				option: helpers.option,
+				config: {
+					base: {
+						url: 'http://example.com'
+					}
+				}
+			});
+			let result = func(`
+				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="/somewhere">somewhere</a> in <code>$PATH</code>:</p>
+				<div class="screenshot screenshot_mac">
+					<img src="/images/mac__shell_dialog_error.png" alt="AppleScript error message">
+				</div>
+			`);
+			expect(result).to.eql(`
+				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="http://example.com/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="http://example.com/somewhere">somewhere</a> in <code>$PATH</code>:</p>
+				<div class="screenshot screenshot_mac">
+					<img src="http://example.com/images/mac__shell_dialog_error.png" alt="AppleScript error message">
+				</div>
+			`);
+		});
+	});
+
 	describe('isHome', () => {
 		it('should return true if page is index page', () => {
 			let func = helpers.isHome.bind({

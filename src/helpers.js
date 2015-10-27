@@ -75,6 +75,20 @@ export function absolutizeUrl(url) {
 }
 
 /**
+ * Absolutize all links and image URLs.
+ *
+ * @param {String} html
+ * @return {String}
+ */
+export function absolutizeLinks(html) {
+	let url = this.option('url');
+	return html && (html
+		.replace(/href="\//g, 'href="' + url + '/')
+		.replace(/src="\//g, 'src="' + url + '/')
+	);
+}
+
+/**
  * Is current page home page?
  *
  * @return {Bool}
