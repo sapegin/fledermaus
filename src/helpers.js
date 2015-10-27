@@ -62,12 +62,12 @@ export function __(key, params = {}) {
 }
 
 /**
- * Absoule page URL.
+ * Absolutize URL.
  *
  * @param {String} url URL.
  * @return {String}
  */
-export function pageAbsUrl(url) {
+export function absolutizeUrl(url) {
 	let siteUrl = this.option('url');
 	siteUrl = siteUrl.replace(/\/$/, '');
 	url = url.replace(/^\//, '');
