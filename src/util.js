@@ -136,3 +136,20 @@ export function cleanHtml(text) {
 		strip(text)
 	);
 }
+
+/**
+ * Print message immidiately and show execution time on process exit.
+ *
+ * @param {String} message
+ */
+export function start(message) {
+	console.log(message);
+	let startTime = new Date().getTime();
+
+	process.on('exit', () => {
+		let time = new Date().getTime() - startTime;
+		let minutes = Math.floor(time / 1000 / 60) % 60;
+		let seconds = Math.floor(time / 1000) % 60;
+		console.log('Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : ''));
+	});
+}

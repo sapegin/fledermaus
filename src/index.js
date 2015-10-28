@@ -10,6 +10,9 @@ export {
 	paginate
 } from './core';
 
+// Utilities
+export { start } from './util';
+
 // Default renderers
 export { default as createMarkdownRenderer } from './renderers/markdown';
 export { default as createTemplateRenderer } from './renderers/template';
