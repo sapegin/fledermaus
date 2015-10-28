@@ -490,6 +490,18 @@ describe('core', () => {
 			let result = core.getPageNumberUrl('all', 1, {index: true});
 			expect(result).to.eql('all/index');
 		});
+		it('should not return double slash: page number', () => {
+			let result = core.getPageNumberUrl('/', 5);
+			expect(result).to.eql('/page/5');
+		});
+		it('should not return double slash: first page', () => {
+			let result = core.getPageNumberUrl('/', 1);
+			expect(result).to.eql('/');
+		});
+		it('should not return double slash: index', () => {
+			let result = core.getPageNumberUrl('/', 1, {index: true});
+			expect(result).to.eql('/index');
+		});
 	});
 
 	describe('paginate', () => {

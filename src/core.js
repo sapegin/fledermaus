@@ -268,17 +268,19 @@ export function groupDocuments(documents, field) {
  * @return {String}
  */
 export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
+	let url;
 	if (pageNumber === 1) {
 		if (index) {
-			return `${urlPrefix}/index`;
+			url = `${urlPrefix}/index`;
 		}
 		else {
-			return urlPrefix;
+			url = urlPrefix;
 		}
 	}
 	else {
-		return `${urlPrefix}/page/${pageNumber}`;
+		url = `${urlPrefix}/page/${pageNumber}`;
 	}
+	return url.replace(/\/\//, '/');
 }
 
 /**
