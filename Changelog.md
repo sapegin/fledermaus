@@ -1,4 +1,9 @@
-### 2015-10-28 v1.0.0
+# v1.0.1 - 2015-11-08
+
+* Remove Babel from dependencies.
+* Print “done in a moment” if generation time is less than 1 second.
+
+# v1.0.0 - 2015-10-28
 
 * New functions: start, getFirstParagraph, getFirstImage, cleanHtml, groupDocuments, filterDocuments, orderDocuments, paginate.
 * New helpers: dateToString, absolutizeLinks.
@@ -13,10 +18,10 @@
 * Many small improvements.
 * Bug fixes.
 
-### 2015-10-08 v0.1.1
+# v0.1.1 - 2015-10-08
 
 * Publish ES5 to npm instead of ES6.
 
-### 2015-10-08 v0.1.0
+# v0.1.0 - 2015-10-08
 
 * First version.
