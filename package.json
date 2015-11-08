@@ -23,13 +23,17 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
+    "babel-cli": "~6.1.2",
+    "babel-core": "~6.1.2",
+    "babel-polyfill": "~6.0.16",
+    "babel-preset-es2015": "~6.1.2",
+    "babel-preset-stage-2": "~6.1.2",
     "chai": "~3.3.0",
     "eslint": "~1.6.0",
     "mocha": "~2.3.3",
     "rimraf": "~2.4.3"
   },
   "dependencies": {
-    "babel": "~5.8.23",
     "ect": "~0.5.9",
     "escape-html": "~1.0.3",
     "fastmatter": "~1.1.0",
@@ -48,8 +52,8 @@
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",
-    "mocha": "mocha --compilers js:babel/register test",
-    "mocha:watch": "mocha --watch --reporter min --compilers js:babel/register test",
+    "mocha": "mocha --compilers js:babel-core/register --require babel-polyfill test",
+    "mocha:watch": "mocha --watch --reporter min --compilers js:babel-core/register --require babel-polyfill test",
     "lint": "eslint src",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile"
