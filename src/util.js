@@ -150,6 +150,6 @@ export function start(message) {
 		let time = new Date().getTime() - startTime;
 		let minutes = Math.floor(time / 1000 / 60) % 60;
 		let seconds = Math.floor(time / 1000) % 60;
-		console.log('Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : ''));
+		console.log('Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : '') + (!minutes && !seconds ? 'a moment' : ''));
 	});
 }
