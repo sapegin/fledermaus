@@ -18,6 +18,7 @@ $ npm install --save-dev sweet2
 
 ```javascript
 import {
+	start,
 	loadConfig,
 	loadSourceFiles,
 	generatePages,
@@ -27,22 +28,28 @@ import {
 	helpers
 } from 'sweet2';
 
+start('Building site...');
+
 let config = loadConfig('config');
-let options = config.default;
+let options = config.base;
 
 let renderMarkdown = createMarkdownRenderer();
 let renderTemplate = createTemplateRenderer({
 	root: options.templatesFolder
 });
 
-let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {md: renderMarkdown});
+let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {
+	renderers: {
+		md: renderMarkdown
+	}
+});
 
 let pages = generatePages(documents, config, helpers, {ect: renderTemplate});
 
 savePages(pages, options.publicFolder);
 ```
 
-`config/default.yml`:
+`config/base.yml`:
 
 ```yaml
 sourceFolder: source
@@ -69,7 +76,7 @@ title: Artem Sapegin’s Home Page
   "devDependencies": {
     "babel": "~5.8.23",
     "http-server": "~0.8.5",
-    "sweet2": "~0.1.0"
+    "sweet2": "~1.0.0"
   },
   "scripts": {
     "build": "babel-node index.js",
