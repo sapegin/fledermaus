@@ -27,8 +27,8 @@ let getDateTimeFormat = createFormatCache(DateTimeFormat);
 /**
  * Localized config option.
  *
- * @param {String} key Config key: bla.bla.
- * @return {String}
+ * @param {string} key Config key: bla.bla.
+ * @return {string}
  */
 export function option(key) {
 	let lang = this.lang || 'base';
@@ -42,7 +42,7 @@ export function option(key) {
 /**
  * Page language (`lang` frontmatter field) or default language (`lang` config option) if page language is not specified.
  *
- * @return {String}
+ * @return {string}
  */
 export function pageLang() {
 	return this.lang || this.option('lang');
@@ -51,9 +51,9 @@ export function pageLang() {
 /**
  * Localized config option with {} templates.
  *
- * @param {String} key Key in config.
- * @param {Object} params Substitutions.
- * @return {String}
+ * @param {string} key Key in config.
+ * @param {object} params Substitutions.
+ * @return {string}
  */
 export function __(key, params = {}) {
 	let string = this.option(key);
@@ -64,8 +64,8 @@ export function __(key, params = {}) {
 /**
  * Absolutize URL.
  *
- * @param {String} url URL.
- * @return {String}
+ * @param {string} url URL.
+ * @return {string}
  */
 export function absolutizeUrl(url) {
 	let siteUrl = this.option('url');
@@ -77,8 +77,8 @@ export function absolutizeUrl(url) {
 /**
  * Absolutize all links and image URLs.
  *
- * @param {String} html
- * @return {String}
+ * @param {string} html
+ * @return {string}
  */
 export function absolutizeLinks(html) {
 	let url = this.option('url');
@@ -91,7 +91,7 @@ export function absolutizeLinks(html) {
 /**
  * Is current page home page?
  *
- * @return {Bool}
+ * @return {boolean}
  */
 export function isHome() {
 	return this.url === '/';
@@ -101,7 +101,7 @@ export function isHome() {
  * Converts date to string.
  *
  * @param {Date} date
- * @return {String}
+ * @return {string}
  */
 export function dateToString(date) {
 	let format = getDateTimeFormat(this.pageLang(), {
@@ -115,8 +115,8 @@ export function dateToString(date) {
 /**
  * Path for a static file.
  *
- * @param {String} url
- * @return {String}
+ * @param {string} url
+ * @return {string}
  */
 export function assetFilepath(url) {
 	return path.join(this.option('assetsFolder'), url);
@@ -125,8 +125,8 @@ export function assetFilepath(url) {
 /**
  * Fingerprinted URL for a static file.
  *
- * @param {String} url
- * @return {String}
+ * @param {string} url
+ * @return {string}
  */
 export let fingerprint = _.memoize(function(url) {
 	let datetime = fs.statSync(this.assetFilepath(url)).mtime.getTime();
@@ -136,8 +136,8 @@ export let fingerprint = _.memoize(function(url) {
 /**
  * Return a static file content
  *
- * @param {String} url
- * @return {String}
+ * @param {string} url
+ * @return {string}
  */
 export let embedFile = _.memoize(function(url) {
 	return readFile(this.assetFilepath(url));
@@ -146,8 +146,8 @@ export let embedFile = _.memoize(function(url) {
 /**
  * Rich typo for body text.
  *
- * @param {String} string
- * @return {String}
+ * @param {string} string
+ * @return {string}
  */
 export function rt(string) {
 	return string && richtypo.rich(string, this.pageLang());
@@ -156,8 +156,8 @@ export function rt(string) {
 /**
  * Rich typo for titles.
  *
- * @param {String} string
- * @return {String}
+ * @param {string} string
+ * @return {string}
  */
 export function rtt(string) {
 	return string && richtypo.title(string, this.pageLang());

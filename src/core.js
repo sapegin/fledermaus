@@ -15,8 +15,8 @@ import {
 /**
  * Convert file path to URL.
  *
- * @param {String} filepath
- * @return {String}
+ * @param {string} filepath
+ * @return {string}
  */
 export function filepathToUrl(filepath) {
 	let url = '/' + removeExtension(filepath);
@@ -30,10 +30,10 @@ export function filepathToUrl(filepath) {
 /**
  * Renders source using appropriate renderer based on file extension.
  *
- * @param {String} source Source file contents.
- * @param {String} filepath Source file path.
- * @param {Object} renderers {ext: renderFunction}
- * @return {String}
+ * @param {string} source Source file contents.
+ * @param {string} filepath Source file path.
+ * @param {object} renderers {ext: renderFunction}
+ * @return {string}
  */
 export function renderByType(source, filepath, renderers = {}) {
 	let extension = getExtension(filepath);
@@ -47,9 +47,9 @@ export function renderByType(source, filepath, renderers = {}) {
 /**
  * Return attributes object with parsed custom fields.
  *
- * @param {Object} attributes
- * @param {Object} fieldParsers  Custom field parsers: {name: parseFunction}
- * @return {Object}
+ * @param {object} attributes
+ * @param {object} fieldParsers  Custom field parsers: {name: parseFunction}
+ * @return {object}
  */
 export function parseCustomFields(attributes, fieldParsers) {
 	let parsedAttributes = {};
@@ -62,12 +62,12 @@ export function parseCustomFields(attributes, fieldParsers) {
 /**
  * Parse front matter and render contents.
  *
- * @param {String} source Source file contents.
- * @param {String} filepath Source file path relative to `folder`.
- * @param {Object} options.renderers Content renderers: {ext: renderFunction}.
- * @param {Object} options.fieldParsers Custom field parsers: {name: parseFunction}.
- * @param {Object} options.cutTag Cut separator.
- * @return {Object} { sourcePath, content, excerpt, more, url }
+ * @param {string} source Source file contents.
+ * @param {string} filepath Source file path relative to `folder`.
+ * @param {object} $2.renderers Content renderers: {ext: renderFunction}.
+ * @param {object} $2.fieldParsers Custom field parsers: {name: parseFunction}.
+ * @param {object} $2.cutTag Cut separator.
+ * @return {object} { sourcePath, content, excerpt, more, url }
  */
 export function parsePage(source, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
 	let { attributes, body } = fastmatter(source);
@@ -98,7 +98,7 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 /**
  * Return list of source files.
  *
- * @param {String} folder Source folder.
+ * @param {string} folder Source folder.
  * @param {Array} types List of file extensions.
  * @return {Array}
  */
@@ -111,9 +111,9 @@ export function getSourceFilesList(folder, types) {
 /**
  * Load source files from a disk.
  *
- * @param {String} folder Source folder.
+ * @param {string} folder Source folder.
  * @param {Array} types List of file extensions.
- * @param {Object} options { renderers, fieldParsers, cutTag }
+ * @param {object} options { renderers, fieldParsers, cutTag }
  * @return {Array} [{ sourcePath, content, url }, ...]
  */
 export function loadSourceFiles(folder, types, options) {
@@ -127,7 +127,7 @@ export function loadSourceFiles(folder, types, options) {
 /**
  * Return list of config files.
  *
- * @param {String} folder Configs folder.
+ * @param {string} folder Configs folder.
  * @return {Array}
  */
 export function getConfigFilesList(folder) {
@@ -138,7 +138,7 @@ export function getConfigFilesList(folder) {
  * Read config files from a disk.
  *
  * @param {Array} files Config files list.
- * @return {Object} {base: {...}, langs: {...}}
+ * @return {object} {base: {...}, langs: {...}}
  */
 export function readConfigFiles(files) {
 	return files.reduce((configs, filepath) => {
@@ -156,8 +156,8 @@ export function readConfigFiles(files) {
 /**
  * Merge base config with language specific configs.
  *
- * @param {Object} configs
- * @return {Object} {base: {...}} or {langs: {...}}
+ * @param {object} configs
+ * @return {object} {base: {...}} or {langs: {...}}
  */
 export function mergeConfigs(configs) {
 	let { base, langs } = configs;
@@ -178,8 +178,8 @@ export function mergeConfigs(configs) {
 /**
  * Load config files from a disk.
  *
- * @param {String} folder Source folder.
- * @return {Object} {base: {...}} or {langs: {...}}
+ * @param {string} folder Source folder.
+ * @return {object} {base: {...}} or {langs: {...}}
  */
 export function loadConfig(folder) {
 	let files = getConfigFilesList(folder);
@@ -191,7 +191,7 @@ export function loadConfig(folder) {
  * Filter documents.
  *
  * @param {Array} documents Documents.
- * @param {Object} fields Filters by field: {lang: 'en', url: /^posts\//}
+ * @param {object} fields Filters by field: {lang: 'en', url: /^posts\//}
  * @return {Array}
  */
 export function filterDocuments(documents, fields) {
@@ -229,7 +229,7 @@ export function orderDocuments(documents, fields) {
  *
  * @param {Array} documents Documents.
  * @param {String|Function} field Field name or function.
- * @return {Object} {fieldValue1: [...], fieldValue2: [...], ...}
+ * @return {object} {fieldValue1: [...], fieldValue2: [...], ...}
  */
 export function groupDocuments(documents, field) {
 	return documents.reduce((grouped, document) => {
@@ -261,10 +261,10 @@ export function groupDocuments(documents, field) {
 /**
  * Return URL for given page number.
  *
- * @param {String} urlPrefix
- * @param {Number} pageNumber
- * @param {Boolean} options.index First page will be `index` if true.
- * @return {String}
+ * @param {string} urlPrefix
+ * @param {number} pageNumber
+ * @param {boolean} $2.index First page will be `index` if true.
+ * @return {string}
  */
 export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
 	let url;
@@ -286,12 +286,12 @@ export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
  * Generate documents to paginate given documents.
  *
  * @param {Array} documents Documents to paginate
- * @param {String} options.sourcePathPrefix Source path prefix.
- * @param {String} options.urlPrefix URL prefix.
- * @param {Number} options.documentsPerPage Documents per page.
- * @param {String} options.layout Page layout.
- * @param {Boolean} options.index Add `index` to the first page’s source path.
- * @param {Object} options.extra Extra document options.
+ * @param {string} $1.sourcePathPrefix Source path prefix.
+ * @param {string} $1.urlPrefix URL prefix.
+ * @param {number} $1.documentsPerPage Documents per page.
+ * @param {string} $1.layout Page layout.
+ * @param {boolean} $1.index Add `index` to the first page’s source path.
+ * @param {object} $1.extra Extra document options.
  * @return {Array}
  */
 export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerPage, layout, index, extra = {} } = {}) {
@@ -331,10 +331,10 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
 /**
  * Create context for page rendering: merges document, config and helpers into one object.
  *
- * @param {Object} document
- * @param {Object} config
- * @param {Object} helpers
- * @return {Object}
+ * @param {object} document
+ * @param {object} config
+ * @param {object} helpers
+ * @return {object}
  */
 export function makeContext(document, config, helpers) {
 	return {
@@ -347,11 +347,11 @@ export function makeContext(document, config, helpers) {
 /**
  * Generate page.
  *
- * @param {Object} document
- * @param {Object} config
- * @param {Object} helpers
- * @param {Object} renderers {extension: renderFunction}
- * @return {Object} { pagePath, content }
+ * @param {object} document
+ * @param {object} config
+ * @param {object} helpers
+ * @param {object} renderers {extension: renderFunction}
+ * @return {object} { pagePath, content }
  */
 export function generatePage(document, config, helpers, renderers) {
 	if (!document.sourcePath) {
@@ -383,9 +383,9 @@ export function generatePage(document, config, helpers, renderers) {
  * Generate pages.
  *
  * @param {Array} documents
- * @param {Object} config
- * @param {Object} helpers
- * @param {Object} renderers {extension: renderFunction}
+ * @param {object} config
+ * @param {object} helpers
+ * @param {object} renderers {extension: renderFunction}
  * @return {Array} [{ pagePath, content }, ...]
  */
 export function generatePages(documents, config, helpers, renderers) {
@@ -395,8 +395,8 @@ export function generatePages(documents, config, helpers, renderers) {
 /**
  * Saves page to a disk.
  *
- * @param {Object} page
- * @param {String} folder Folder to save files.
+ * @param {object} page
+ * @param {string} folder Folder to save files.
  */
 export function savePage(page, folder) {
 	writeFile(path.join(folder, page.pagePath), page.content);
@@ -406,7 +406,7 @@ export function savePage(page, folder) {
  * Saves pages to a disk.
  *
  * @param {Array} pages
- * @param {String} folder Folder to save files.
+ * @param {string} folder Folder to save files.
  */
 export function savePages(pages, folder) {
 	pages.forEach(page => savePage(page, folder));

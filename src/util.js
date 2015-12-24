@@ -9,8 +9,8 @@ import _ from 'lodash';
 /**
  * Remove extension from file name.
  *
- * @param {String} filename
- * @return {String}
+ * @param {string} filename
+ * @return {string}
  */
 export function removeExtension(filename) {
 	return filename.replace(/\.\w+$/, '');
@@ -19,8 +19,8 @@ export function removeExtension(filename) {
 /**
  * Returns extension of a file (without the leading dot).
  *
- * @param {String} filename
- * @return {String}
+ * @param {string} filename
+ * @return {string}
  */
 export function getExtension(filename) {
 	return path.extname(filename).substring(1);
@@ -29,8 +29,8 @@ export function getExtension(filename) {
 /**
  * Read text file.
  *
- * @param {String} filepath
- * @return {String}
+ * @param {string} filepath
+ * @return {string}
  */
 export function readFile(filepath) {
 	return fs.readFileSync(filepath, {encoding: 'utf8'});
@@ -39,9 +39,9 @@ export function readFile(filepath) {
 /**
  * Save text to a file (create all folders if necessary).
  *
- * @param {String} filepath
- * @param {String} content
- * @return {String}
+ * @param {string} filepath
+ * @param {string} content
+ * @return {string}
  */
 export function writeFile(filepath, content) {
 	mkdirp.sync(path.dirname(filepath));
@@ -51,8 +51,8 @@ export function writeFile(filepath, content) {
 /**
  * Read YAML file.
  *
- * @param {String} filepath
- * @return {String}
+ * @param {string} filepath
+ * @return {string}
  */
 export function readYamlFile(filepath) {
 	try {
@@ -82,9 +82,9 @@ export function formatFieldsForSortByOrder(shortFields) {
 /**
  * Returns HTML meta tag.
  *
- * @param {String} name Meta name.
- * @param {String} content Meta value.
- * @return {String}
+ * @param {string} name Meta name.
+ * @param {string} content Meta value.
+ * @return {string}
  */
 export function meta(name, content) {
 	content = cleanHtml(content);
@@ -94,9 +94,9 @@ export function meta(name, content) {
 /**
  * Returns HTML meta tag for Open Graph.
  *
- * @param {String} name Meta name.
- * @param {String} content Meta value.
- * @return {String}
+ * @param {string} name Meta name.
+ * @param {string} content Meta value.
+ * @return {string}
  */
 export function og(name, content) {
 	content = cleanHtml(content);
@@ -106,8 +106,8 @@ export function og(name, content) {
 /**
  * Return the content of the first paragraph in a given HTML.
  *
- * @param {String} text
- * @return {String}
+ * @param {string} text
+ * @return {string}
  */
 export function getFirstParagraph(text) {
 	let m = text.match(/<p[^>]*>(.*?)<\/p>/i);
@@ -117,8 +117,8 @@ export function getFirstParagraph(text) {
 /**
  * Return the URL of the first image in a given HTML.
  *
- * @param {String} text
- * @return {String}
+ * @param {string} text
+ * @return {string}
  */
 export function getFirstImage(text) {
 	let m = text.match(/<img\s+src=["']([^"']+)["']/i);
@@ -128,8 +128,8 @@ export function getFirstImage(text) {
 /**
  * Remove HTML and escape special characters.
  *
- * @param {String} text
- * @return {String}
+ * @param {string} text
+ * @return {string}
  */
 export function cleanHtml(text) {
 	return escapeHtml(
@@ -140,7 +140,7 @@ export function cleanHtml(text) {
 /**
  * Print message immidiately and show execution time on process exit.
  *
- * @param {String} message
+ * @param {string} message
  */
 export function start(message) {
 	console.log(message);

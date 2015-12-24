@@ -55,7 +55,7 @@ const defaultOptions = {
 /**
  * Returns function that renders Markdown using Marked.
  *
- * @param {Object} options
+ * @param {object} options
  * @return {Function}
  */
 export default function createMarkdownRenderer(options = {}) {
