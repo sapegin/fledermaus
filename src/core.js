@@ -118,6 +118,9 @@ export function getSourceFilesList(folder, types) {
  */
 export function loadSourceFiles(folder, types, options) {
 	let files = getSourceFilesList(folder, types);
+	if (!files.length) {
+		console.warn(`No source files found in a folder ${path.resolve(folder)} with types ${types.join(',')}`);
+	}
 	return files.map((filepath) => {
 		let source = readFile(path.join(folder, filepath));
 		return parsePage(source, filepath, options);
