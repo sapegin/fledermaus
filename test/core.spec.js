@@ -69,13 +69,13 @@ describe('core', () => {
 		it('should parse Markdown source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { renderers });
+			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.js'));
 		});
 		it('should modify all fields using custom field parsers', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {
+			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
 				renderers,
 				fieldParsers: {
 					lang: () => 'ru',
@@ -87,7 +87,7 @@ describe('core', () => {
 		it('should split content to excerpt and more if cut tag is used', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-cut.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, {
+			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
 				cutTag: '<!-- cut -->',
 				renderers
 			});
@@ -96,7 +96,7 @@ describe('core', () => {
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), folder, filepath, { renderers });
+			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.js'));
 		});
 	});

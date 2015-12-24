@@ -63,14 +63,13 @@ export function parseCustomFields(attributes, fieldParsers) {
  * Parse front matter and render contents.
  *
  * @param {String} source Source file contents.
- * @param {String} folder Source folder.
  * @param {String} filepath Source file path relative to `folder`.
  * @param {Object} options.renderers Content renderers: {ext: renderFunction}.
  * @param {Object} options.fieldParsers Custom field parsers: {name: parseFunction}.
  * @param {Object} options.cutTag Cut separator.
  * @return {Object} { sourcePath, content, excerpt, more, url }
  */
-export function parsePage(source, folder, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
+export function parsePage(source, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
 	let { attributes, body } = fastmatter(source);
 
 	let url = filepathToUrl(filepath);
@@ -121,7 +120,7 @@ export function loadSourceFiles(folder, types, options) {
 	let files = getSourceFilesList(folder, types);
 	return files.map((filepath) => {
 		let source = readFile(path.join(folder, filepath));
-		return parsePage(source, folder, filepath, options);
+		return parsePage(source, filepath, options);
 	});
 }
 
