@@ -1,3 +1,8 @@
+# 1.0.2 - 2015-12-25
+
+* Fix source files loading when a single file type specified.
+* Show warning when no source files found.
+
 # 1.0.1 - 2015-11-08
 
 * Remove Babel from dependencies.
