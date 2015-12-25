@@ -103,8 +103,8 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
  * @return {Array}
  */
 export function getSourceFilesList(folder, types) {
-	let typesMask = types.join(',');
-	let mask = `**/*.{${typesMask}}`;
+	let typesMask = types.length > 1 ? `{${types.join(',')}}` : types[0];
+	let mask = '**/*.' + typesMask;
 	return glob.sync(mask, {cwd: folder});
 }
 

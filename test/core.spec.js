@@ -117,6 +117,10 @@ describe('core', () => {
 			let result = core.loadSourceFiles('test/source', ['md', 'html'], {renderers: {md: renderMarkdown}});
 			expect(result).to.eql(require('./expected/files.js'));
 		});
+		it('should work with a single file type', () => {
+			let result = core.loadSourceFiles('test/source', ['md'], {renderers: {md: renderMarkdown}});
+			expect(result).to.eql(require('./expected/files.js'));
+		});
 	});
 
 	describe('getConfigFilesList', () => {
