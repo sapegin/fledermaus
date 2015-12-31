@@ -105,7 +105,7 @@
     "comma-style": [1, "last"],  // Do not start line with comma
     "computed-property-spacing": [1, "never"],  // Disallow padding inside computed properties
     "eol-last": 0,  // Do not require file to end with single newline
-    "indent": [1, 'tab', {  // 4 spaces indentation
+    "indent": [1, "tab", {  // 4 spaces indentation
       "SwitchCase": 1
     }],
     "key-spacing": [2, {  // No space before colon, space after colon
