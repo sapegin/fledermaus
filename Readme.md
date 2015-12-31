@@ -88,6 +88,7 @@ title: Artem Sapegin’s Home Page
 ## Showcase
 
 * [Artem Sapegin’s site](http://sapegin.me/) ([source](https://github.com/sapegin/sapegin.me))
+* [Artem Sapegin’s blog](http://blog.sapegin.me/) ([source](https://github.com/sapegin/blog.sapegin.me))
 
 ## Changelog
 
