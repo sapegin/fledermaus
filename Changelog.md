@@ -1,3 +1,10 @@
+# 2.0.0 - 2016-01-05
+
+## Breaking changes
+
+* Richtypo updated to [1.0.0](https://github.com/sapegin/richtypo.js/releases/tag/1.0.0).
+* Highlight.js updated to [9.0.0](https://github.com/isagalaev/highlight.js/blob/master/CHANGES.md#version-900).
+
 # 1.0.2 - 2015-12-25
 
 * Fix source files loading when a single file type specified.
