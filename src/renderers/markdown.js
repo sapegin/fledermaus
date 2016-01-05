@@ -1,9 +1,7 @@
 import marked from 'marked';
 import hljs from 'highlight.js';
-import { Parser } from 'parse5';
+import parse5 from 'parse5';
 import _ from 'lodash';
-
-let parser = new Parser();
 
 export class MarkdownRenderer extends marked.Renderer {
 	// Do not put IDs in headers
@@ -16,7 +14,7 @@ export class MarkdownRenderer extends marked.Renderer {
 	html(html) {
 		if (html.startsWith('<x-')) {
 			// Parse tag’s HTML
-			let dom = parser.parseFragment(html);
+			let dom = parse5.parseFragment(html);
 			let node = dom.childNodes[0];
 			let { tagName, attrs } = node;
 			tagName = tagName.replace(/^x-/, '');

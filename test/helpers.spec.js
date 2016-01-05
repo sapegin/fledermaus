@@ -284,7 +284,7 @@ describe('helpers', () => {
 				lang: 'en'
 			});
 			let result = func('No &amp; No');
-			expect(result).to.eql('No <span class="amp">&amp;</span> No');
+			expect(result).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
 
