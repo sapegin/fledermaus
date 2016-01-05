@@ -398,7 +398,7 @@ let renderMarkdown = createMarkdownRenderer({
 
 ## Changelog
 
-The changelog can be found in the [Changelog.md](Changelog.md) file.
+The changelog can be found on the [Releases page](https://github.com/sapegin/sweet2/releases).
 
 
 ## Author
