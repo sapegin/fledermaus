@@ -111,7 +111,7 @@ savePages(pages, options.publicFolder);
 
 ```yaml
 sourceFolder: source
-sourceTypes: 
+sourceTypes:
   - md
   - html
 templatesFolder: templates
@@ -246,7 +246,7 @@ savePages(pages, options.publicFolder);
 
 ```yaml
 sourceFolder: source
-sourceTypes: 
+sourceTypes:
   - md
   - html
 templatesFolder: templates
@@ -390,6 +390,28 @@ let renderMarkdown = createMarkdownRenderer({
 
 // ...
 ```
+
+### Deploying to GitHub Pages
+
+Install `gh-pages` module:
+
+```bash
+$ npm install --save-dev gh-pages
+```
+
+Add an npm script to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "build": "babel-node index.js",
+    "gh-pages": "gh-pages -d public",
+    "deploy": "npm run build && npm run gh-pages"
+  }
+}
+```
+
+Now you can use `npm run deploy` to build and upload your site to GitHub Pages.
 
 ## Showcase
 
