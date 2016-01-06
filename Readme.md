@@ -126,7 +126,7 @@ url: http://sapegin.me
 title: Artem Sapegin’s Home Page
 ```
 
-Examples of templates and source files [can be found here](https://github.com/sapegin/sapegin.me).
+You can find examples of templates and source files here: https://github.com/sapegin/sapegin.me.
 
 ### Multilingual blog
 
@@ -275,7 +275,7 @@ tagNames:
   tools: Tools
 ```
 
-Examples of templates and source files [can be found here](https://github.com/sapegin/blog.sapegin.me).
+You can find examples of templates and source files here: https://github.com/sapegin/blog.sapegin.me.
 
 ## Advanced Usage
 
