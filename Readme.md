@@ -1,8 +1,8 @@
-# sweet2: Batman’s toolbelt for static website generation
+# sweet2: Batman’s toolbelt for static site generation
 
 [![Build Status](https://travis-ci.org/sapegin/sweet2.svg)](https://travis-ci.org/sapegin/sweet2)
 
-Infinitely extensibe simple ES6 static website generator.
+Infinitely extensibe simple ES6 static site generator.
 
 ## Installation
 
@@ -16,7 +16,7 @@ Examples below are written in ES6, so you need Babel to run them (but Babel is n
 $ npm install --save-dev babel-cli babel-preset-es2015 babel-preset-stage-2
 ```
 
-I also recommend to use http-server to preview your website locally:
+I also recommend to use http-server to preview your site locally:
 
 ```bash
 $ npm install --save-dev http-server
@@ -72,7 +72,7 @@ And your `.babelrc` should look like this:
 
 ## Examples
 
-### Simple static website
+### Simple static site
 
 `index.js`:
 
@@ -88,7 +88,7 @@ import {
   helpers
 } from 'sweet2';
 
-start('Building the website...');
+start('Building the site...');
 
 let config = loadConfig('config');
 let options = config.base;
@@ -413,7 +413,7 @@ Add an npm script to your `package.json`:
 }
 ```
 
-Now you can use `npm run deploy` to build and upload your website to GitHub Pages.
+Now you can use `npm run deploy` to build and upload your site to GitHub Pages.
 
 ## Showcase
 
