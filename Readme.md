@@ -30,7 +30,9 @@ Your `package.json` should look like this:
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "babel": "~6.0.0",
+    "babel-cli": "~6.3.17",
+    "babel-preset-es2015": "~6.3.13",
+    "babel-preset-stage-2": "~6.3.13",
     "http-server": "~0.8.5",
     "sweet2": "~2.0.0"
   },
