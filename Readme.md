@@ -10,7 +10,7 @@ Infinitely extensibe simple ES6 static site generator.
 $ npm install --save-dev sweet2
 ```
 
-Examples below are written in ES6 so you need Babel to run them (but Babel it’s not required to use sweet2):
+Examples below are written in ES6, so you need Babel to run them (but Babel is not required to use sweet2):
 
 ```bash
 $ npm install --save-dev babel-cli babel-preset-es2015 babel-preset-stage-2
@@ -88,7 +88,7 @@ import {
   helpers
 } from 'sweet2';
 
-start('Building site...');
+start('Building the site...');
 
 let config = loadConfig('config');
 let options = config.base;
@@ -126,7 +126,7 @@ url: http://sapegin.me
 title: Artem Sapegin’s Home Page
 ```
 
-Examples of templates and source files [you can find here](https://github.com/sapegin/sapegin.me).
+You can find examples of templates and source files here: https://github.com/sapegin/sapegin.me.
 
 ### Multilingual blog
 
@@ -152,7 +152,7 @@ import {
   helpers
 } from 'sweet2';
 
-start('Building blog...');
+start('Building the blog...');
 
 let config = loadConfig('config');
 let options = config.base;
@@ -264,7 +264,7 @@ cutTag: <!-- cut -->
 ```yaml
 url: http://blog.sapegin.me
 title: Artem Sapegin’s Blog
-description: 'Blog of a Berlin based font-end developer who works at Here, shoot photos and make something awesome on the internet.'
+description: 'Blog of a Berlin based font-end developer who works at Here, shoots photos and makes something awesome on the internet.'
 author: Artem Sapegin
 email: artem@sapegin.me
 tagNames:
@@ -275,7 +275,7 @@ tagNames:
   tools: Tools
 ```
 
-Examples of templates and source files [you can find here](https://github.com/sapegin/blog.sapegin.me).
+You can find examples of templates and source files here: https://github.com/sapegin/blog.sapegin.me.
 
 ## Advanced Usage
 
