@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/sapegin/sweet2.svg)](https://travis-ci.org/sapegin/sweet2)
 
-Infinitely extensibe simple ES6 static site generator.
+Infinitely extensible simple ES6 static site generator.
+
+Based on [ECT](http://ectjs.com/), [Marked](https://github.com/chjj/marked), [Richtypo](https://github.com/sapegin/richtypo.js), [Highlight.js](https://highlightjs.org/) and [Intl MessageFormat](https://github.com/yahoo/intl-messageformat).
 
 ## Installation
 
