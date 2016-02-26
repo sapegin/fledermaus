@@ -1,3 +1,12 @@
+# 3.0.0 - 2016-02-26
+
+## Breaking changes
+
+* New name: Fledermaus.
+* Marked → Remark.
+
+The latter means that instead of custom Marked render you should use [custom Remark plugins](https://github.com/sapegin/fledermaus#tweaking-markdown-renderering).
+
 # 2.0.0 - 2016-01-05
 
 ## Breaking changes
