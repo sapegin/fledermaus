@@ -1,6 +1,6 @@
-# sweet2: Batman’s toolbelt for static site generation
+# Fledermaus: Batman’s toolbelt for static site generation
 
-[![Build Status](https://travis-ci.org/sapegin/sweet2.svg)](https://travis-ci.org/sapegin/sweet2)
+[![Build Status](https://travis-ci.org/sapegin/fledermaus.svg)](https://travis-ci.org/sapegin/fledermaus)
 
 Infinitely extensible simple ES6 static site generator.
 
@@ -9,10 +9,10 @@ Based on [ECT](http://ectjs.com/), [Remark](http://remark.js.org/), [Richtypo](h
 ## Installation
 
 ```bash
-$ npm install --save-dev sweet2
+$ npm install --save-dev fledermaus
 ```
 
-Examples below are written in ES6, so you need Babel to run them (but Babel is not required to use sweet2):
+Examples below are written in ES6, so you need Babel to run them (but Babel is not required to use Fledermaus):
 
 ```bash
 $ npm install --save-dev babel-cli babel-preset-es2015 babel-preset-stage-2
@@ -36,7 +36,7 @@ Your `package.json` should look like this:
     "babel-preset-es2015": "~6.3.13",
     "babel-preset-stage-2": "~6.3.13",
     "http-server": "~0.8.5",
-    "sweet2": "~2.0.0"
+    "fledermaus": "~2.0.0"
   },
   "scripts": {
     "build": "babel-node index.js",
@@ -88,7 +88,7 @@ import {
   createMarkdownRenderer,
   createTemplateRenderer,
   helpers
-} from 'sweet2';
+} from 'fledermaus';
 
 start('Building the site...');
 
@@ -152,7 +152,7 @@ import {
   createMarkdownRenderer,
   createTemplateRenderer,
   helpers
-} from 'sweet2';
+} from 'fledermaus';
 
 start('Building the blog...');
 
@@ -286,7 +286,7 @@ You can find examples of templates and source files here: https://github.com/sap
 `helpers.js`:
 
 ```js
-import { cleanHtml } from 'sweet2/lib/util';
+import { cleanHtml } from 'fledermaus/lib/util';
 
 // Page title
 export function getPageTitle(suffix) {
@@ -311,7 +311,7 @@ export function getPageTitle(suffix) {
 import {
   // ...
   helpers as defaultHelpers
-} from 'sweet2';
+} from 'fledermaus';
 import * as customHelpers from './helpers';
 
 // ...
@@ -339,8 +339,8 @@ Template:
 import {
   // ...
   createMarkdownRenderer
-} from 'sweet2';
-import { MarkdownRenderer } from 'sweet2/lib/renderers/markdown';
+} from 'fledermaus';
+import { MarkdownRenderer } from 'fledermaus/lib/renderers/markdown';
 
 let renderMarkdown = createMarkdownRenderer({
   customTags: {
@@ -374,7 +374,7 @@ Markdown source (on a separate line):
 import {
   // ...
   createMarkdownRenderer
-} from 'sweet2';
+} from 'fledermaus';
 
 function remarkScreenshot(processor) {
   return ast => visit(ast, 'paragraph', node => {
@@ -424,7 +424,7 @@ Now you can use `npm run deploy` to build and upload your site to GitHub Pages.
 
 ## Changelog
 
-The changelog can be found on the [Releases page](https://github.com/sapegin/sweet2/releases).
+The changelog can be found on the [Releases page](https://github.com/sapegin/fledermaus/releases).
 
 
 ## Author

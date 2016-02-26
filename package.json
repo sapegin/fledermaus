@@ -1,18 +1,18 @@
 {
-  "name": "sweet2",
+  "name": "fledermaus",
   "version": "2.0.0",
   "description": "Batman’s toolbelt for static site generation",
-  "homepage": "https://github.com/sapegin/sweet2",
+  "homepage": "https://github.com/sapegin/fledermaus",
   "author": {
     "name": "Artem Sapegin",
     "url": "http://sapegin.me/"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/sapegin/sweet2.git"
+    "url": "git://github.com/sapegin/fledermaus.git"
   },
   "bugs": {
-    "url": "https://github.com/sapegin/sweet2/issues"
+    "url": "https://github.com/sapegin/fledermaus/issues"
   },
   "license": "MIT",
   "main": "lib/index.js",

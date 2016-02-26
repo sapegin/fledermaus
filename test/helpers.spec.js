@@ -87,8 +87,8 @@ describe('helpers', () => {
 				},
 				lang: 'ru'
 			});
-			let result = func('hi', {name: 'Sweet2'});
-			expect(result).to.eql('Привет, Sweet2!');
+			let result = func('hi', {name: 'Fledermaus'});
+			expect(result).to.eql('Привет, Fledermaus!');
 		});
 		it('should return plural form of a number (English)', () => {
 			let func = helpers.__.bind({
