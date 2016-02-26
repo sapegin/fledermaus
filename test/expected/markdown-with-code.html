@@ -1,14 +1,13 @@
 <p>Vladimir Starkov <a href="http://vstarkov.com/monthbook/">suggests</a> to read at least two technical books a month.</p>
 <pre><code><span class="hljs-comment">// TODO</span>
 <span class="hljs-selector-tag">function</span> <span class="hljs-selector-tag">readFile</span>(filepath) {
-    <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">fs</span><span class="hljs-selector-class">.readFileSync</span>(filepath, {<span class="hljs-attribute">encoding</span>: <span class="hljs-string">'utf8'</span>});
-}
-</code></pre><p>It’s very important to be up-to-date with latest trends, especially in so fast changing industry as front-end development. But there are so many interesting subjects besides  programming languages and new frameworks.</p>
-<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Renderer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">marked</span>.<span class="hljs-title">Renderer</span> </span>{
-    <span class="hljs-comment">// Do not put IDs in headers</span>
-    heading(text, level, raw) {
-        <span class="hljs-keyword">let</span> tag = <span class="hljs-string">`h<span class="hljs-subst">${level}</span>`</span>;
-        <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;<span class="hljs-subst">${tag}</span>&gt;<span class="hljs-subst">${text}</span>&lt;/<span class="hljs-subst">${tag}</span>&gt;\n`</span>;
-    }
-};
-</code></pre>
+	<span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">fs</span><span class="hljs-selector-class">.readFileSync</span>(filepath, {<span class="hljs-attribute">encoding</span>: <span class="hljs-string">'utf8'</span>});
+}</code></pre>
+<p>It’s very important to be up-to-date with latest trends, especially in so fast changing industry as front-end development. But there are so many interesting subjects besides  programming languages and new frameworks.</p>
+<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Renderer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">marked</span>.<span class="hljs-title">Renderer</span> </span>{
+	<span class="hljs-comment">// Do not put IDs in headers</span>
+	heading(text, level, raw) {
+		<span class="hljs-keyword">let</span> tag = <span class="hljs-string">`h<span class="hljs-subst">${level}</span>`</span>;
+		<span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;<span class="hljs-subst">${tag}</span>&gt;<span class="hljs-subst">${text}</span>&lt;/<span class="hljs-subst">${tag}</span>&gt;\n`</span>;
+	}
+};</code></pre>

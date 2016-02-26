@@ -4,7 +4,7 @@
 
 Infinitely extensible simple ES6 static site generator.
 
-Based on [ECT](http://ectjs.com/), [Marked](https://github.com/chjj/marked), [Richtypo](https://github.com/sapegin/richtypo.js), [Highlight.js](https://highlightjs.org/) and [Intl MessageFormat](https://github.com/yahoo/intl-messageformat).
+Based on [ECT](http://ectjs.com/), [Remark](http://remark.js.org/), [Richtypo](https://github.com/sapegin/richtypo.js), [Highlight.js](https://highlightjs.org/) and [Intl MessageFormat](https://github.com/yahoo/intl-messageformat).
 
 ## Installation
 
@@ -366,33 +366,33 @@ Markdown source (on a separate line):
 <x-embed id="ironman" title="Use keys ← and →, mouse or thumbs and have the pleasure of Ivan’s sprites.">
 ```
 
-### Markdown renderer tweaking
+### Tweaking Markdown renderering
 
 `index.js`:
 
-```js
+```javascript
 import {
   // ...
   createMarkdownRenderer
 } from 'sweet2';
-import { MarkdownRenderer } from 'sweet2/lib/renderers/markdown';
 
-class CustomMarkdownRenderer extends MarkdownRenderer {
-  // Screenshots: /images/mac__shipit.png or /images/win__shipit.png
-  paragraph(text) {
-    let m = text.match(/<img src="\/images\/(\w+)__/);
-    if (m) {
-      return `<div class="screenshot screenshot_${m[1]}">${text}</div>\n`;
+function remarkScreenshot(processor) {
+  return ast => visit(ast, 'paragraph', node => {
+    // Screenshots: /images/mac__shipit.png or /images/win__shipit.png
+    let child = node.children && node.children[0];
+    if (child && child.type === 'image') {
+     let m = child.url.match(/\/(\w+)__/);
+      if (m) {
+        node.children = null;
+        node.type = 'html';
+        node.value = `<div class="screenshot screenshot_${m[1]}"><img src="${child.url}" alt="${child.title || ''}"></div>`;
+      }
     }
-    return `<p>${text}</p>\n`;
-  }
+  };
 }
-
 let renderMarkdown = createMarkdownRenderer({
-  renderer: CustomMarkdownRenderer
+  plugins: [remarkScreenshot]
 });
-
-// ...
 ```
 
 ### Deploying to GitHub Pages

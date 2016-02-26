@@ -36,8 +36,8 @@ describe('markdown', () => {
 						notfoo: () => ''
 					}
 				});
-				let result = render(readFile('test/samples/markdown-with-tag.md'));
-			}
+				render(readFile('test/samples/markdown-with-tag.md'));
+			};
 			expect(func).to.throw;
 		});
 	});
