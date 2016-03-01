@@ -1,3 +1,9 @@
+# 4.0.0 - 2016-03-01
+
+* **Require Node 5**.
+* Use lighter preset for Babel.
+* Update Lodash to version 4.
+
 # 3.0.0 - 2016-02-26
 
 ## Breaking changes
