@@ -64,7 +64,7 @@ export function readYamlFile(filepath) {
 }
 
 /**
- * Prepare fields list in short format to _.sortByOrder()
+ * Prepare fields list in short format to _.orderBy()
  * @param {Array} shortFields ['foo', '-bar']
  * @return {Array}
  */

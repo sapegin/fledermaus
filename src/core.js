@@ -224,7 +224,7 @@ export function filterDocuments(documents, fields) {
  */
 export function orderDocuments(documents, fields) {
 	fields = formatFieldsForSortByOrder(fields);
-	return _.sortByOrder(documents, ...fields);
+	return _.orderBy(documents, ...fields);
 }
 
 /**
@@ -364,7 +364,7 @@ export function generatePage(document, config, helpers, renderers) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
 	}
 
-	let [templateExtension, render] = _.pairs(renderers).shift();
+	let [templateExtension, render] = _.toPairs(renderers).shift();
 	let templateFile = `${document.layout}.${templateExtension}`;
 
 	let pageContext = makeContext(document, config, helpers);

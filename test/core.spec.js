@@ -269,7 +269,7 @@ describe('core', () => {
 					sourcePath: 'about.md'
 				}
 			], ['title']);
-			expect(_.pluck(result, 'title')).to.eql(['About', 'Post 1', 'Post 2']);
+			expect(_.map(result, 'title')).to.eql(['About', 'Post 1', 'Post 2']);
 		});
 		it('should sort array of documents backwards', () => {
 			let result = core.orderDocuments([
@@ -286,7 +286,7 @@ describe('core', () => {
 					sourcePath: 'about.md'
 				}
 			], ['-title']);
-			expect(_.pluck(result, 'title')).to.eql(['Post 2', 'Post 1', 'About']);
+			expect(_.map(result, 'title')).to.eql(['Post 2', 'Post 1', 'About']);
 		});
 		it('should sort array by miltiple fields', () => {
 			let result = core.orderDocuments([
@@ -306,7 +306,7 @@ describe('core', () => {
 					layout: 'post'
 				}
 			], ['-layout', 'title']);
-			expect(_.pluck(result, 'title')).to.eql(['Post 1', 'Post 2', 'About']);
+			expect(_.map(result, 'title')).to.eql(['Post 1', 'Post 2', 'About']);
 		});
 	});
 

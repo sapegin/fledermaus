@@ -45,7 +45,7 @@ describe('util', () => {
 	});
 
 	describe('formatFieldsForSortByOrder', () => {
-		it('should prepare fields list in short format to _.sortByOrder()', () => {
+		it('should prepare fields list in short format to _.orderBy()', () => {
 			let result = util.formatFieldsForSortByOrder(['foo', '-bar']);
 			expect(result).to.eql([['foo', 'bar'], ['asc', 'desc']]);
 		});

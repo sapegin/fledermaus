@@ -43,7 +43,7 @@
     "intl-format-cache": "~2.0.5",
     "intl-messageformat": "~1.2.0",
     "js-yaml": "~3.5.3",
-    "lodash": "~3.10.1",
+    "lodash": "~4.5.1",
     "mkdirp": "~0.5.1",
     "parse5": "~2.1.5",
     "remark": "~4.1.1",
