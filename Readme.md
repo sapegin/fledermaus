@@ -15,7 +15,7 @@ $ npm install --save-dev fledermaus
 Examples below are written in ES6, so you need Babel to run them (but Babel is not required to use Fledermaus):
 
 ```bash
-$ npm install --save-dev babel-cli babel-preset-es2015 babel-preset-stage-2
+$ npm install --save-dev babel-cli babel-preset-node5
 ```
 
 I also recommend to use http-server to preview your site locally:
@@ -33,8 +33,7 @@ Your `package.json` should look like this:
   "private": true,
   "devDependencies": {
     "babel-cli": "~6.3.17",
-    "babel-preset-es2015": "~6.3.13",
-    "babel-preset-stage-2": "~6.3.13",
+    "babel-preset-node5": "~10.7.0",
     "http-server": "~0.8.5",
     "fledermaus": "~2.0.0"
   },
