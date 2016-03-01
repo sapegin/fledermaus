@@ -20,7 +20,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=5.0.0"
   },
   "devDependencies": {
     "babel-cli": "~6.6.0",
