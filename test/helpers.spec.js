@@ -266,6 +266,22 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('inlineFile', () => {
+		it('should return a static file content with a comment', () => {
+			let func = helpers.inlineFile.bind({
+				option: helpers.option,
+				assetFilepath: helpers.assetFilepath,
+				config: {
+					base: {
+						assetsFolder: 'test/samples'
+					}
+				}
+			});
+			let result = func('file.txt');
+			expect(result).to.eql('/*file*/Hello.');
+		});
+	});
+
 	describe('rt', () => {
 		it('should enhance typography for body text', () => {
 			let func = helpers.rt.bind({

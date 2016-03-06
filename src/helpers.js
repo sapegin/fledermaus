@@ -19,7 +19,7 @@ import IntlMessageFormat from 'intl-messageformat';
 import { DateTimeFormat } from 'intl';
 import createFormatCache from 'intl-format-cache';
 import _ from 'lodash';
-import { readFile } from './util';
+import { readFile, removeExtension } from './util';
 
 let getMessageFormat = createFormatCache(IntlMessageFormat);
 let getDateTimeFormat = createFormatCache(DateTimeFormat);
@@ -134,13 +134,26 @@ export let fingerprint = _.memoize(function(url) {
 });
 
 /**
- * Return a static file content
+ * Return a static file content.
  *
  * @param {string} url
  * @return {string}
  */
 export let embedFile = _.memoize(function(url) {
 	return readFile(this.assetFilepath(url));
+});
+
+
+/**
+ * Return a static file content prefixed with a comment with a file name.
+ *
+ * @param {string} url
+ * @return {string}
+ */
+export let inlineFile = _.memoize(function(url) {
+	let name = removeExtension(path.basename(url));
+	let comment = `/*${name}*/`;
+	return comment + readFile(this.assetFilepath(url));
 });
 
 /**
