@@ -1,3 +1,7 @@
+# 4.1.0 - 2016-03-06
+
+* New helper: `inlineFile`.
+
 # 4.0.0 - 2016-03-01
 
 * **Require Node 5**.
