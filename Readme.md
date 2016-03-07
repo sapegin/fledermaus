@@ -18,10 +18,16 @@ Examples below are written in ES6, so you need Babel to run them (but Babel is n
 $ npm install --save-dev babel-cli babel-preset-node5
 ```
 
-I also recommend to use http-server to preview your site locally:
+I also recommend to use http-server (or [tamia-build](https://github.com/tamiadev/tamia-build)) to preview your site locally:
 
 ```bash
 $ npm install --save-dev http-server
+```
+
+And chokidar to recompile site on changes in templates and sources:
+
+```bash
+$ npm install --save-dev chokidar-cli
 ```
 
 Your `package.json` should look like this:
@@ -32,27 +38,31 @@ Your `package.json` should look like this:
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "babel-cli": "~6.3.17",
+    "babel-cli": "~6.4.0",
     "babel-preset-node5": "~10.7.0",
+    "chokidar-cli": "~1.2.0",
     "http-server": "~0.8.5",
-    "fledermaus": "~2.0.0"
+    "fledermaus": "~4.1.0"
   },
   "scripts": {
-    "build": "babel-node index.js",
-    "start": "http-server public -p 4242 -o"
+    "start": "npm run server & npm run watch",
+    "build": "node lib",
+    "build:watch": "chokidar templates source -c 'node lib'",
+    "compile": "babel -d lib src",
+    "compile:watch": "babel --watch -d lib src",
+    "server": "http-server public -p 4242 -o"
   }
 }
 ```
 
-Now you can use `npm run build` to build your site and `npm start` to run a local server.
+Now you can use `npm run build` to build your site and `npm start` to run a local server. You’ll need to run `npm run compile` every time you change file in the `lib` folder.
 
-And your `.babelrc` should look like this:
+Your `.babelrc` should look like this:
 
 ```json
 {
   "presets": [
-    "es2015",
-    "stage-2"
+    "node5"
   ]
 }
 ```
@@ -61,7 +71,8 @@ And your `.babelrc` should look like this:
 
 ```
 .
-├── index.js      # Generator code
+├── src           # Generator code
+│   └── index.js
 ├── config        # Configs
 │   └── base.yml  # Base config
 │   └── en.yml    # Language specific configs
@@ -75,7 +86,7 @@ And your `.babelrc` should look like this:
 
 ### Simple static site
 
-`index.js`:
+`src/index.js`:
 
 ```javascript
 import {
@@ -136,7 +147,7 @@ You can find examples of templates and source files here: https://github.com/sap
 * cut;
 * tags;
 
-`index.js`:
+`src/index.js`:
 
 ```javascript
 import {
@@ -304,7 +315,7 @@ export function getPageTitle(suffix) {
 }
 ```
 
-`index.js`:
+`src/index.js`:
 
 ```js
 import {
@@ -332,7 +343,7 @@ Template:
 
 ### Custom tags
 
-`index.js`:
+`src/index.js`:
 
 ```js
 import {
@@ -367,7 +378,7 @@ Markdown source (on a separate line):
 
 ### Tweaking Markdown renderering
 
-`index.js`:
+`src/index.js`:
 
 ```javascript
 import {
@@ -407,7 +418,7 @@ Add an npm script to your `package.json`:
 ```json
 {
   "scripts": {
-    "build": "babel-node index.js",
+    "build": "node lib",
     "gh-pages": "gh-pages -d public",
     "deploy": "npm run build && npm run gh-pages"
   }
