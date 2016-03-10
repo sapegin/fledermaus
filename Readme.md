@@ -385,6 +385,7 @@ import {
   // ...
   createMarkdownRenderer
 } from 'fledermaus';
+import visit from 'unist-util-visit';
 
 function remarkScreenshot(processor) {
   return ast => visit(ast, 'paragraph', node => {
@@ -398,7 +399,7 @@ function remarkScreenshot(processor) {
         node.value = `<div class="screenshot screenshot_${m[1]}"><img src="${child.url}" alt="${child.title || ''}"></div>`;
       }
     }
-  };
+  });
 }
 let renderMarkdown = createMarkdownRenderer({
   plugins: [remarkScreenshot]
