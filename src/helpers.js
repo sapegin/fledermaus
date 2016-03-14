@@ -31,10 +31,12 @@ let getDateTimeFormat = createFormatCache(DateTimeFormat);
  * @return {string}
  */
 export function option(key) {
-	let lang = this.lang || 'base';
-	let value = _.get(this.config[lang], key);
+	let value = _.get(this.config[this.lang || 'base'], key);
 	if (value === undefined) {
-		throw new Error(`Config option "${lang}/${key}" not found.`);
+		value = this.config[key];
+	}
+	if (value === undefined) {
+		throw new Error(`Config option "${key}" not found.`);
 	}
 	return value;
 }

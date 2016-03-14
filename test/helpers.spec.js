@@ -20,6 +20,26 @@ describe('helpers', () => {
 			let result = func('title');
 			expect(result).to.eql('Мой блог');
 		});
+		it('should return base config option if there’s no language', () => {
+			let func = helpers.option.bind({
+				config: {
+					base: {
+						title: 'My blog'
+					}
+				}
+			});
+			let result = func('title');
+			expect(result).to.eql('My blog');
+		});
+		it('should return return top-level value if localized or base value not found', () => {
+			let func = helpers.option.bind({
+				config: {
+					title: 'My blog'
+				}
+			});
+			let result = func('title');
+			expect(result).to.eql('My blog');
+		});
 		it('should support dot notation for keys (key.subkey)', () => {
 			let func = helpers.option.bind({
 				config: {
