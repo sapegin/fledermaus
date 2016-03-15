@@ -12,9 +12,9 @@
 
 /* eslint no-invalid-this:0 */
 
-import fs from 'fs';
 import path from 'path';
 import richtypo from 'richtypo';
+import md5File from 'md5-file';
 import IntlMessageFormat from 'intl-messageformat';
 import { DateTimeFormat } from 'intl';
 import createFormatCache from 'intl-format-cache';
@@ -131,8 +131,8 @@ export function assetFilepath(url) {
  * @return {string}
  */
 export let fingerprint = _.memoize(function(url) {
-	let datetime = fs.statSync(this.assetFilepath(url)).mtime.getTime();
-	return `${url}?${datetime}`;
+	let hash = md5File(this.assetFilepath(url));
+	return `${url}?${hash}`;
 });
 
 /**

@@ -43,6 +43,7 @@
     "intl-messageformat": "~1.2.0",
     "js-yaml": "~3.5.3",
     "lodash": "~4.6.1",
+    "md5-file": "~2.0.4",
     "mkdirp": "~0.5.1",
     "parse5": "~2.1.5",
     "remark": "~4.1.1",

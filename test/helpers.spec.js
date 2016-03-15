@@ -266,7 +266,7 @@ describe('helpers', () => {
 				}
 			});
 			let result = func('file.txt');
-			expect(result).to.match(/^file.txt\?\d{13}$/);
+			expect(result).to.match(/^file.txt\?[0-9a-f]{32}$/);
 		});
 	});
 
