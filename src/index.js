@@ -7,7 +7,7 @@ export {
 	filterDocuments,
 	orderDocuments,
 	groupDocuments,
-	paginate
+	paginate,
 } from './core';
 
 // Utilities

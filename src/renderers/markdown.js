@@ -10,10 +10,10 @@ const defaultOptions = {
 	hljs: {
 		aliases: {
 			yaml: 'python',
-			shell: 'bash'
-		}
+			shell: 'bash',
+		},
 	},
-	customTags: {}
+	customTags: {},
 };
 
 /**
@@ -90,7 +90,7 @@ export default function createMarkdownRenderer(options = {}) {
 	plugins.push(
 		[remarkCustomTags, options.customTags],
 		[remarkHtml, {
-			entities: 'escape'
+			entities: 'escape',
 		}]
 	);
 	if (options.hljs) {

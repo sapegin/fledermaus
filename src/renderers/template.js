@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const defaultOptions = {
 	ext: '.ect',
-	root: 'templates'
+	root: 'templates',
 };
 
 /**

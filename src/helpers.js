@@ -109,7 +109,7 @@ export function dateToString(date) {
 	let format = getDateTimeFormat(this.pageLang(), {
 		year: 'numeric',
 		month: 'long',
-		day: 'numeric'
+		day: 'numeric',
 	});
 	return format.format(date);
 }

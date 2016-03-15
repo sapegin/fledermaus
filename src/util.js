@@ -6,6 +6,8 @@ import strip from 'strip';
 import escapeHtml from 'escape-html';
 import _ from 'lodash';
 
+/* eslint-disable no-console */
+
 /**
  * Remove extension from file name.
  *
@@ -33,7 +35,7 @@ export function getExtension(filename) {
  * @return {string}
  */
 export function readFile(filepath) {
-	return fs.readFileSync(filepath, {encoding: 'utf8'});
+	return fs.readFileSync(filepath, { encoding: 'utf8' });
 }
 
 /**
@@ -45,7 +47,7 @@ export function readFile(filepath) {
  */
 export function writeFile(filepath, content) {
 	mkdirp.sync(path.dirname(filepath));
-	return fs.writeFileSync(filepath, content, {encoding: 'utf8'});
+	return fs.writeFileSync(filepath, content, { encoding: 'utf8' });
 }
 
 /**
@@ -73,9 +75,7 @@ export function formatFieldsForSortByOrder(shortFields) {
 		if (field[0] === '-') {
 			return [field.substr(1), 'desc'];
 		}
-		else {
-			return [field, 'asc'];
-		}
+		return [field, 'asc'];
 	}));
 }
 
@@ -150,6 +150,9 @@ export function start(message) {
 		let time = new Date().getTime() - startTime;
 		let minutes = Math.floor(time / 1000 / 60) % 60;
 		let seconds = Math.floor(time / 1000) % 60;
-		console.log('Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : '') + (!minutes && !seconds ? 'a moment' : ''));
+		console.log(
+			'Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : '') +
+			(!minutes && !seconds ? 'a moment' : '')
+		);
 	});
 }

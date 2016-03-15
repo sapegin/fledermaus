@@ -9,7 +9,7 @@ import {
 	readFile,
 	writeFile,
 	readYamlFile,
-	formatFieldsForSortByOrder
+	formatFieldsForSortByOrder,
 } from './util';
 
 /**
@@ -56,7 +56,7 @@ export function parseCustomFields(attributes, fieldParsers) {
 	for (let name in fieldParsers) {
 		parsedAttributes[name] = fieldParsers[name](attributes[name], attributes);
 	}
-	return {...attributes, ...parsedAttributes};
+	return { ...attributes, ...parsedAttributes };
 }
 
 /**
@@ -76,7 +76,8 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 
 	let content = renderByType(body, filepath, renderers);
 
-	let excerpt, more;
+	let excerpt;
+	let more;
 	if (cutTag) {
 		[excerpt, more] = content.split(cutTag);
 	}
@@ -87,7 +88,7 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 		content,
 		excerpt,
 		more,
-		url
+		url,
 	};
 
 	attributes = parseCustomFields(attributes, fieldParsers);
@@ -105,7 +106,7 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 export function getSourceFilesList(folder, types) {
 	let typesMask = types.length > 1 ? `{${types.join(',')}}` : types[0];
 	let mask = '**/*.' + typesMask;
-	return glob.sync(mask, {cwd: folder});
+	return glob.sync(mask, { cwd: folder });
 }
 
 /**
@@ -119,7 +120,9 @@ export function getSourceFilesList(folder, types) {
 export function loadSourceFiles(folder, types, options) {
 	let files = getSourceFilesList(folder, types);
 	if (!files.length) {
+		/* eslint-disable no-console */
 		console.warn(`No source files found in a folder ${path.resolve(folder)} with types ${types.join(', ')}`);
+		/* eslint-enable no-console */
 	}
 	return files.map((filepath) => {
 		let source = readFile(path.join(folder, filepath));
@@ -153,7 +156,7 @@ export function readConfigFiles(files) {
 			configs.langs[name] = readYamlFile(filepath);
 		}
 		return configs;
-	}, {base: {}, langs: {}});
+	}, { base: {}, langs: {} });
 }
 
 /**
@@ -165,7 +168,7 @@ export function readConfigFiles(files) {
 export function mergeConfigs(configs) {
 	let { base, langs } = configs;
 	let baseConfig = {
-		base
+		base,
 	};
 
 	if (_.isEmpty(langs)) {
@@ -173,7 +176,7 @@ export function mergeConfigs(configs) {
 	}
 
 	return Object.keys(langs).reduce((merged, lang) => {
-		merged[lang] = {...configs.base, ...langs[lang]};
+		merged[lang] = { ...configs.base, ...langs[lang] };
 		return merged;
 	}, baseConfig);
 }
@@ -326,7 +329,7 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
 			documentsTotal: documents.length,
 			sourcePath,
 			layout,
-			url
+			url,
 		};
 	});
 }
@@ -343,7 +346,7 @@ export function makeContext(document, config, helpers) {
 	return {
 		...helpers,
 		config,
-		...document
+		...document,
 	};
 }
 
@@ -378,7 +381,7 @@ export function generatePage(document, config, helpers, renderers) {
 
 	return {
 		pagePath,
-		content
+		content,
 	};
 }
 
