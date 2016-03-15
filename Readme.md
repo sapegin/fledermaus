@@ -84,7 +84,44 @@ Your `.babelrc` should look like this:
 
 ## Examples
 
-### Simple static site
+### Super simple static site
+
+No config, everything in one folder.
+
+`index.js`:
+
+```javascript
+import {
+  start,
+  loadSourceFiles,
+  generatePages,
+  savePages,
+  createMarkdownRenderer,
+  createTemplateRenderer,
+  helpers,
+} from 'fledermaus';
+
+start('Building the page...');
+
+process.chdir(__dirname);
+
+let renderMarkdown = createMarkdownRenderer();
+let renderTemplate = createTemplateRenderer({ root: '.' });
+
+let documents = loadSourceFiles('.', ['md'], {
+  renderers: {
+    md: renderMarkdown,
+  },
+});
+
+let pages = generatePages(documents, { assetsFolder: 'public' }, helpers, { ect: renderTemplate });
+
+savePages(pages, 'public');
+```
+
+You can find examples of templates and source files [here](https://github.com/sapegin/social-likes-next/tree/master/gh-pages).
+
+### Static site
 
 `src/index.js`:
 
