@@ -97,7 +97,7 @@ import {
   savePages,
   createMarkdownRenderer,
   createTemplateRenderer,
-  helpers
+  helpers,
 } from 'fledermaus';
 
 start('Building the site...');
@@ -107,16 +107,16 @@ let options = config.base;
 
 let renderMarkdown = createMarkdownRenderer();
 let renderTemplate = createTemplateRenderer({
-  root: options.templatesFolder
+  root: options.templatesFolder,
 });
 
 let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {
   renderers: {
-    md: renderMarkdown
-  }
+    md: renderMarkdown,
+  },
 });
 
-let pages = generatePages(documents, config, helpers, {ect: renderTemplate});
+let pages = generatePages(documents, config, helpers, { ect: renderTemplate });
 
 savePages(pages, options.publicFolder);
 ```
@@ -138,7 +138,7 @@ url: http://sapegin.me
 title: Artem Sapegin’s Home Page
 ```
 
-You can find examples of templates and source files here: https://github.com/sapegin/sapegin.me.
+You can find examples of templates and source files [here](https://github.com/sapegin/sapegin.me).
 
 ### Multilingual blog
 
@@ -161,7 +161,7 @@ import {
   groupDocuments,
   createMarkdownRenderer,
   createTemplateRenderer,
-  helpers
+  helpers,
 } from 'fledermaus';
 
 start('Building the blog...');
@@ -174,22 +174,22 @@ let removeLang = url => url.replace(/(en|ru)\//, '');
 
 let renderMarkdown = createMarkdownRenderer();
 let renderTemplate = createTemplateRenderer({
-  root: options.templatesFolder
+  root: options.templatesFolder,
 });
 
 let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {
   renderers: {
-    md: renderMarkdown
+    md: renderMarkdown,
   },
   // Custom front matter field parsers
   fieldParsers: {
     // Save `date` field as a timestamp
     timestamp: (timestamp, attrs) => Date.parse(attrs.date),
     // Convert `date` field to a Date object
-    date: (date, attrs) => new Date(Date.parse(date))
+    date: (date, attrs) => new Date(Date.parse(date)),
   },
   // Cut separator
-  cutTag: options.cutTag
+  cutTag: options.cutTag,
 });
 
 // Oder by date, newest first
@@ -209,12 +209,12 @@ documents = languages.reduce((result, lang) => {
   let translationLang = lang === 'ru' ? 'en' : 'ru';
   let hasTranslation = (url) => {
     url = removeLang(url);
-    return !!documentsByLanguage[translationLang].find(doc => removeLang(doc.url) === url); // FIXME
+    return !!documentsByLanguage[translationLang].find(doc => removeLang(doc.url) === url);
   }
   docs = docs.map((doc) => {
     return {
       ...doc,
-      translation: hasTranslation(doc.url)
+      translation: hasTranslation(doc.url),
     };
   });
 
@@ -226,8 +226,8 @@ documents = languages.reduce((result, lang) => {
     layout: 'index',
     index: true,
     extra: {
-      lang
-    }
+      lang,
+    },
   }));
 
   // Tags
@@ -242,8 +242,8 @@ documents = languages.reduce((result, lang) => {
       layout: 'tag',
       extra: {
         lang,
-        tag
-      }
+        tag,
+      },
     });
     return [...tagsResult, ...tagsNewDocs];
   }, []));
@@ -251,7 +251,7 @@ documents = languages.reduce((result, lang) => {
   return [...result, ...docs, ...newDocs];
 }, []);
 
-let pages = generatePages(documents, config, helpers, {ect: renderTemplate});
+let pages = generatePages(documents, config, helpers, { ect: renderTemplate });
 
 savePages(pages, options.publicFolder);
 ```
@@ -287,7 +287,7 @@ tagNames:
   tools: Tools
 ```
 
-You can find examples of templates and source files here: https://github.com/sapegin/blog.sapegin.me.
+You can find examples of templates and source files [here](https://github.com/sapegin/blog.sapegin.me).
 
 ## Advanced Usage
 
@@ -320,17 +320,17 @@ export function getPageTitle(suffix) {
 ```js
 import {
   // ...
-  helpers as defaultHelpers
+  helpers as defaultHelpers,
 } from 'fledermaus';
 import * as customHelpers from './helpers';
 
 // ...
 
-let helpers = {...defaultHelpers, ...customHelpers};
+let helpers = { ...defaultHelpers, ...customHelpers };
 
 // ...
 
-let pages = generatePages(documents, config, helpers, {ect: renderTemplate});
+let pages = generatePages(documents, config, helpers, { ect: renderTemplate });
 
 // ...
 ```
@@ -348,7 +348,7 @@ Template:
 ```js
 import {
   // ...
-  createMarkdownRenderer
+  createMarkdownRenderer,
 } from 'fledermaus';
 import { MarkdownRenderer } from 'fledermaus/lib/renderers/markdown';
 
@@ -383,7 +383,7 @@ Markdown source (on a separate line):
 ```javascript
 import {
   // ...
-  createMarkdownRenderer
+  createMarkdownRenderer,
 } from 'fledermaus';
 import visit from 'unist-util-visit';
 
@@ -402,7 +402,7 @@ function remarkScreenshot(processor) {
   });
 }
 let renderMarkdown = createMarkdownRenderer({
-  plugins: [remarkScreenshot]
+  plugins: [remarkScreenshot],
 });
 ```
 
