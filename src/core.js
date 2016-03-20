@@ -85,9 +85,9 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 	attributes = {
 		...attributes,
 		sourcePath: filepath,
-		content,
-		excerpt,
-		more,
+		content: content && content.trim(),
+		excerpt: excerpt && excerpt.trim(),
+		more: more && more.trim(),
 		url,
 	};
 
