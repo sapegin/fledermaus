@@ -29,8 +29,10 @@
     "babel-polyfill": "~6.7.2",
     "babel-preset-node5": "~10.9.0",
     "chai": "~3.5.0",
+    "documentation": "github:documentationjs/documentation",
     "eslint": "~1.10.3",
     "eslint-config-tamia": "~1.2.0",
+    "mkdirp": "~0.5.1",
     "mocha": "~2.4.5",
     "rimraf": "~2.5.2"
   },
@@ -60,6 +62,10 @@
     "mocha:watch": "mocha --watch --reporter min --compilers js:babel-core/register --require babel-polyfill test",
     "lint": "eslint src",
     "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
+    "docs": "mkdirp docs && npm run docs:core && npm run docs:helpers && npm run docs:util",
+    "docs:core": "documentation build --format md --output docs/core.md src/core.js",
+    "docs:helpers": "documentation build --format md --output docs/helpers.md  src/helpers.js",
+    "docs:util": "documentation build --format md --output docs/util.md  src/util.js"
   }
 }
