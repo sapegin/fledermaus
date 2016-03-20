@@ -15,14 +15,8 @@
 import path from 'path';
 import richtypo from 'richtypo';
 import md5File from 'md5-file';
-import IntlMessageFormat from 'intl-messageformat';
-import { DateTimeFormat } from 'intl';
-import createFormatCache from 'intl-format-cache';
 import _ from 'lodash';
-import { readFile, removeExtension } from './util';
-
-let getMessageFormat = createFormatCache(IntlMessageFormat);
-let getDateTimeFormat = createFormatCache(DateTimeFormat);
+import { readFile, removeExtension, getMessageFormat, getDateTimeFormat } from './util';
 
 /**
  * Localized config option.

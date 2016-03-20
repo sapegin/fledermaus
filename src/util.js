@@ -4,6 +4,9 @@ import mkdirp from 'mkdirp';
 import yaml from 'js-yaml';
 import strip from 'strip';
 import escapeHtml from 'escape-html';
+import IntlMessageFormat from 'intl-messageformat';
+import { DateTimeFormat } from 'intl';
+import createFormatCache from 'intl-format-cache';
 import _ from 'lodash';
 
 /* eslint-disable no-console */
@@ -156,3 +159,19 @@ export function start(message) {
 		);
 	});
 }
+
+/**
+ * Intl message formatter.
+ *
+ * @param {string} format Format string.
+ * @param {string} lang Language.
+ */
+export const getMessageFormat = createFormatCache(IntlMessageFormat);
+
+/**
+ * Intl date/time formatter.
+ *
+ * @param {string} lang Language.
+ * @param {Object} format Format.
+ */
+export const getDateTimeFormat = createFormatCache(DateTimeFormat);
