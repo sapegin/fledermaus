@@ -16,7 +16,7 @@ import path from 'path';
 import richtypo from 'richtypo';
 import md5File from 'md5-file';
 import _ from 'lodash';
-import { readFile, removeExtension, getMessageFormat, getDateTimeFormat } from './util';
+import { readFile, removeExtension, cleanHtml, getMessageFormat, getDateTimeFormat } from './util';
 
 /**
  * Localized config option.
@@ -85,12 +85,23 @@ export function absolutizeLinks(html) {
 }
 
 /**
- * Is current page home page?
+ * Title to use in a <title> tag.
  *
- * @return {boolean}
+ * @param {boolean} suffix Do not append suffix if `false`.
+ * @return {string}
  */
-export function isHome() {
-	return this.url === '/';
+export function getPageTitle(suffix) {
+	if (this.pageTitle) {
+		return this.pageTitle;
+	}
+	if (this.title) {
+		if (suffix === undefined) {
+			suffix = ' — ' + this.option('title');
+		}
+		return cleanHtml(this.title) + (suffix || '');
+	}
+
+	return this.option('title');
 }
 
 /**

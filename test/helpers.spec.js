@@ -203,20 +203,58 @@ describe('helpers', () => {
 		});
 	});
 
-	describe('isHome', () => {
-		it('should return true if page is index page', () => {
-			let func = helpers.isHome.bind({
-				url: '/'
+	describe('getPageTitle', () => {
+		it('should return a title with a site name', () => {
+			let func = helpers.getPageTitle.bind({
+				option: helpers.option,
+				title: 'Foo',
+				config: {
+					base: {
+						title: 'My blog'
+					}
+				}
 			});
 			let result = func();
-			expect(result).to.be.true;
+			expect(result).to.eql('Foo — My blog');
 		});
-		it('should return false if page is not index page', () => {
-			let func = helpers.isHome.bind({
-				url: '/about'
+		it('should return a title if suffix=false', () => {
+			let func = helpers.getPageTitle.bind({
+				option: helpers.option,
+				title: 'Foo',
+				config: {
+					base: {
+						title: 'My blog'
+					}
+				}
+			});
+			let result = func(false);
+			expect(result).to.eql('Foo');
+		});
+		it('should return a page title if is defined', () => {
+			let func = helpers.getPageTitle.bind({
+				option: helpers.option,
+				title: 'Foo',
+				pageTitle: 'Bar',
+				config: {
+					base: {
+						title: 'My blog'
+					}
+				}
 			});
 			let result = func();
-			expect(result).to.be.false;
+			expect(result).to.eql('Bar');
+		});
+		it('should return site title if title is not defined', () => {
+			let func = helpers.getPageTitle.bind({
+				option: helpers.option,
+				config: {
+					base: {
+						title: 'My blog'
+					}
+				}
+			});
+			let result = func();
+			expect(result).to.eql('My blog');
 		});
 	});
 
