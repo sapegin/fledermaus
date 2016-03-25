@@ -53,7 +53,7 @@
     "remark": "~4.1.2",
     "remark-html": "~3.0.0",
     "richtypo": "~1.0.1",
-    "strip": "0.0.7",
+    "striptags": "~2.1.1",
     "unist-util-visit": "~1.0.1"
   },
   "scripts": {

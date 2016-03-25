@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import yaml from 'js-yaml';
-import strip from 'strip';
+import striptags from 'striptags';
 import escapeHtml from 'escape-html';
 import IntlMessageFormat from 'intl-messageformat';
 import { DateTimeFormat } from 'intl';
@@ -135,9 +135,7 @@ export function getFirstImage(text) {
  * @return {string}
  */
 export function cleanHtml(text) {
-	return escapeHtml(
-		strip(text)
-	);
+	return escapeHtml(striptags(text)).trim();
 }
 
 /**
