@@ -335,6 +335,8 @@ You can find examples of templates and source files [here](https://github.com/sa
 ```js
 import { cleanHtml } from 'fledermaus/lib/util';
 
+/* eslint no-invalid-this:0 */
+
 // Page title
 export function getPageTitle(suffix) {
   if (this.pageTitle) {
@@ -346,9 +348,7 @@ export function getPageTitle(suffix) {
     }
     return cleanHtml(this.title) + (suffix || '');
   }
-  else {
-    return this.option('title');
-  }
+  return this.option('title');
 }
 ```
 
