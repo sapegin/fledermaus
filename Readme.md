@@ -335,7 +335,7 @@ You can find examples of templates and source files [here](https://github.com/sa
 ```js
 import { cleanHtml } from 'fledermaus/lib/util';
 
-/* eslint no-invalid-this:0 */
+/* eslint-disable no-invalid-this */
 
 // Page title
 export function getPageTitle(suffix) {
