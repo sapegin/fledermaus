@@ -362,6 +362,22 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('md', () => {
+		it('should return rendered to HTML Markdown', () => {
+			let func = helpers.md;
+			let result = func('Hello *world*!');
+			expect(result).to.eql('<p>Hello <em>world</em>!</p>\n');
+		});
+	});
 
+	describe('mds', () => {
+		it('should return rendered to HTML Markdown not wrapped in a paragraph', () => {
+			let func = helpers.mds.bind({
+				md: helpers.md
+			});
+			let result = func('Hello *world*!');
+			expect(result).to.eql('Hello <em>world</em>!');
+		});
+	});
 
 });

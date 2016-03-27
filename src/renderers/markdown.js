@@ -74,7 +74,7 @@ function remarkHljs(processor, options) {
 }
 
 /**
- * Returns function that renders Markdown using Marked.
+ * Returns function that renders Markdown using Remark.
  *
  * @param {object} options
  * @return {Function}
@@ -105,6 +105,23 @@ export default function createMarkdownRenderer(options = {}) {
 		else {
 			processor.use(plugin);
 		}
+	});
+
+	return function render(source) {
+		return processor.process(source);
+	};
+}
+
+/**
+ * Returns function that renders Markdown using Remark (without any extra plugins).
+ *
+ * @param {object} options
+ * @return {Function}
+ */
+export function createSimpleMarkdownRenderer() {
+	const processor = remark();
+	processor.use(remarkHtml, {
+		entities: 'escape',
 	});
 
 	return function render(source) {

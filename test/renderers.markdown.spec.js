@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import createMarkdownRenderer from '../src/renderers/markdown';
+import createMarkdownRenderer, { createSimpleMarkdownRenderer } from '../src/renderers/markdown';
 import { readFile } from '../src/util';
 
 describe('markdown', () => {
@@ -39,6 +39,18 @@ describe('markdown', () => {
 				render(readFile('test/samples/markdown-with-tag.md'));
 			};
 			expect(func).to.throw;
+		});
+	});
+
+	describe('createSimpleMarkdownRenderer', () => {
+		it('should return function', () => {
+			let render = createSimpleMarkdownRenderer();
+			expect(render).to.be.a.func;
+		});
+		it('should render Markdown string to HTML', () => {
+			let render = createSimpleMarkdownRenderer();
+			let result = render(readFile('test/samples/markdown.md'));
+			expect(result).to.eql(readFile('test/expected/markdown.html'));
 		});
 	});
 

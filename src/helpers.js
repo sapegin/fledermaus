@@ -17,6 +17,9 @@ import richtypo from 'richtypo';
 import md5File from 'md5-file';
 import _ from 'lodash';
 import { readFile, removeExtension, cleanHtml, getMessageFormat, getDateTimeFormat } from './util';
+import { createSimpleMarkdownRenderer } from './renderers/markdown';
+
+const getMarkdownRenderer = _.memoize(createSimpleMarkdownRenderer);
 
 /**
  * Localized config option.
@@ -181,4 +184,32 @@ export function rt(string) {
  */
 export function rtt(string) {
 	return string && richtypo.title(string, this.pageLang());
+}
+
+/**
+ * Render Markdown.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+export function md(string) {
+	if (string) {
+		let markdown = getMarkdownRenderer();
+		return markdown(string);
+	}
+}
+
+/**
+ * Render Markdown (do not wrap into a paragraph).
+ *
+ * @param {string} string
+ * @return {string}
+ */
+export function mds(string) {
+	if (string) {
+		return this.md(string)
+			.replace(/^\s*<p>/, '')
+			.replace(/<\/p>\s*$/, '')
+		;
+	}
 }
