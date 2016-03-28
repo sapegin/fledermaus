@@ -31,7 +31,13 @@ function remarkCustomTags(processor, customTags) {
 		if (child && child.type === 'text' && child.value.startsWith('<x-')) {
 			// Parse tag’s HTML
 			let dom = parse5.parseFragment(child.value);
-			let { tagName, attrs } = dom.childNodes[0];
+			let tagNode = dom.childNodes[0];
+			let { tagName, attrs } = tagNode;
+			let childNode = tagNode.childNodes[0];
+			attrs.push({
+				name: 'children',
+				value: childNode ? childNode.value.trim() : null,
+			});
 			tagName = tagName.replace(/^x-/, '');
 
 			// Check tag function
