@@ -194,10 +194,10 @@ export function loadConfig(folder) {
 }
 
 /**
- * Filter documents.
+ * Filter documents by any field (or multiple fields) using a string, function or RegExp.
  *
  * @param {Array} documents Documents.
- * @param {object} fields Filters by field: {lang: 'en', url: /^posts\//}
+ * @param {object} fields Filters by field: {lang: 'en', url: /^posts\//, foo: val => val > 5}/
  * @return {Array}
  */
 export function filterDocuments(documents, fields) {
@@ -205,7 +205,12 @@ export function filterDocuments(documents, fields) {
 		for (let field in fields) {
 			let value = fields[field];
 			let documentValue = document[field];
-			if (_.isRegExp(value)) {
+			if (_.isFunction(value)) {
+				if (!value(documentValue)) {
+					return false;
+				}
+			}
+			else if (_.isRegExp(value)) {
 				if (!value.test(documentValue)) {
 					return false;
 				}

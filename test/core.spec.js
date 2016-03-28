@@ -233,6 +233,24 @@ describe('core', () => {
 			expect(result.length).to.eql(2);
 			expect(result[0].title).to.eql('Post 1');
 		});
+		it('should filter documents by function result', () => {
+			let result = core.filterDocuments([
+				{
+					title: 'Post 1',
+					sourcePath: 'all/post1.md'
+				},
+				{
+					title: 'Post 2',
+					sourcePath: 'all/post2.md'
+				},
+				{
+					title: 'About',
+					sourcePath: 'about.md'
+				}
+			], {sourcePath: val => val.startsWith('all/')});
+			expect(result.length).to.eql(2);
+			expect(result[0].title).to.eql('Post 1');
+		});
 		it('should filter documents by multiple fields', () => {
 			let result = core.filterDocuments([
 				{
