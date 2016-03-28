@@ -5,6 +5,8 @@ import hljs from 'highlight.js';
 import parse5 from 'parse5';
 import _ from 'lodash';
 
+/* eslint-disable no-console */
+
 const defaultOptions = {
 	plugins: [],
 	hljs: {
@@ -45,8 +47,17 @@ function remarkCustomTags(processor, customTags) {
 			}, {});
 
 			// Render
+			let result;
+			try {
+				result = tagFunction(attrs) || '';
+			}
+			catch (e) {
+				let error = `Error while rendering custom tag <x-${tagName}>: ${e.message}`;
+				result = `<p><b>${_.escape(error)}</b></p>`;
+				console.error(error);
+			}
 			node.type = 'html';
-			node.value = tagFunction(attrs).trim();
+			node.value = result.trim();
 			node.children = null;
 		}
 	});

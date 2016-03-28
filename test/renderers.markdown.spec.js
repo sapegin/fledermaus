@@ -29,6 +29,24 @@ describe('markdown', () => {
 			let result = render(readFile('test/samples/markdown-with-tag.md'));
 			expect(result).to.eql(readFile('test/expected/markdown-with-tag.html'));
 		});
+		it('should treat undefined or null returned from a custom tag as an empty string', () => {
+			let render = createMarkdownRenderer({
+				customTags: {
+					foo: () => null
+				}
+			});
+			let result = render(readFile('test/samples/markdown-with-tag.md'));
+			expect(result).to.eql(readFile('test/expected/markdown-with-tag-empty.html'));
+		});
+		it('should not throw when a custom tag throws', () => {
+			let render = createMarkdownRenderer({
+				customTags: {
+					foo: () => { throw new Error('noooo'); }
+				}
+			});
+			let result = render(readFile('test/samples/markdown-with-tag.md'));
+			expect(result).to.eql(readFile('test/expected/markdown-with-tag-error.html'));
+		});
 		it('should throw if tag function is not specified', () => {
 			let func = () => {
 				let render = createMarkdownRenderer({
