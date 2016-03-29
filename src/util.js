@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import yaml from 'js-yaml';
+import chalk from 'chalk';
 import striptags from 'striptags';
 import escapeHtml from 'escape-html';
 import IntlMessageFormat from 'intl-messageformat';
@@ -140,11 +141,33 @@ export function cleanHtml(text) {
 	return escapeHtml(striptags(text)).trim();
 }
 
+/**
+ * Print an error message to console.
+ *
+ * @param {string} message
+ */
+export function printError(message) {
+	console.error(chalk.red.bold(message));
+}
+
+/**
+ * Format a message to use in HTML.
+ *
+ * @param {string} message
+ * @return {string}
+ */
 export function formatErrorHtml(message) {
 	return _.escape(message).replace(/\n/g, '<br>');
 }
 
+/**
+ * Print an error message to a console and return formatted HTML document.
+ *
+ * @param {string} message
+ * @return {string}
+ */
 export function errorHtml(message) {
+	printError(message);
 	return `
 		<title>Error</title>
 		<body style="background:${ERROR_COLOR}; color:#fff; font-family:Helvetica">
@@ -154,8 +177,19 @@ export function errorHtml(message) {
 	`;
 }
 
-export function errorInlineHtml(message) {
-	return `<b style="color:${ERROR_COLOR}; font-family:Helvetica">${formatErrorHtml(message)}</b>`;
+/**
+ * Print an error message to a console and return formatted HTML string.
+ *
+ * @param {string} message
+ * @return {string}
+ */
+export function errorInlineHtml(message, { block } = {}) {
+	printError(message);
+	let html = `<b style="color:${ERROR_COLOR}; font-family:Helvetica">${formatErrorHtml(message)}</b>`;
+	if (block) {
+		html = `<p>${html}</p>`;
+	}
+	return html;
 }
 
 /**

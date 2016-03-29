@@ -105,4 +105,30 @@ describe('util', () => {
 		});
 	});
 
+	describe('formatErrorHtml', () => {
+		it('should escape HTML and replace new line character with <br>', () => {
+			let result = util.formatErrorHtml('Error in <tag>:\nOut of cheese');
+			expect(result).to.eql('Error in &lt;tag&gt;:<br>Out of cheese');
+		});
+	});
+
+	describe('errorHtml', () => {
+		it('should return an HTML document', () => {
+			let result = util.errorHtml('Error in <tag>');
+			expect(result.trim().startsWith('<title>Error</title>')).to.be.true;
+			expect(result.includes('Error in &lt;tag&gt;')).to.be.true;
+		});
+	});
+
+	describe('errorInlineHtml', () => {
+		it('should return an HTML', () => {
+			let result = util.errorInlineHtml('Error in <tag>');
+			expect(result).to.eql('<b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b>');
+		});
+		it('should wrap HTML in a <p> tag', () => {
+			let result = util.errorInlineHtml('Error in <tag>', { block: true });
+			expect(result).to.eql('<p><b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b></p>');
+		});
+	});
+
 });

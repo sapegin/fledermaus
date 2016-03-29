@@ -63,9 +63,7 @@ function remarkCustomTags(processor, customTags) {
 				result = tagFunction(attrs) || '';
 			}
 			catch (e) {
-				let error = `Error while rendering custom tag <x-${tagName}>: ${e.message}`;
-				result = `<p>${errorInlineHtml(error)}</p>`;
-				console.error(error);
+				result = errorInlineHtml(`Error while rendering custom tag <x-${tagName}>: ${e.message}`, { block: true });
 			}
 			node.type = 'html';
 			node.value = result.trim();
@@ -107,7 +105,7 @@ function render(processor, source) {
 		return processor.process(source);
 	}
 	catch (e) {
-		let error = `Error while rendering Markdown:\n${e.message}`;
+		let error = `Error while rendering Markdown: ${e.message}`;
 		console.error(error);
 		return errorInlineHtml(error);
 	}
