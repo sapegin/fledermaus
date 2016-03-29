@@ -11,6 +11,8 @@ import _ from 'lodash';
 
 /* eslint-disable no-console */
 
+const ERROR_COLOR = '#c00';
+
 /**
  * Remove extension from file name.
  *
@@ -136,6 +138,24 @@ export function getFirstImage(text) {
  */
 export function cleanHtml(text) {
 	return escapeHtml(striptags(text)).trim();
+}
+
+export function formatErrorHtml(message) {
+	return _.escape(message).replace(/\n/g, '<br>');
+}
+
+export function errorHtml(message) {
+	return `
+		<title>Error</title>
+		<body style="background:${ERROR_COLOR}; color:#fff; font-family:Helvetica">
+			<h1>Fledermaus error</h1>
+			<p>${formatErrorHtml(message)}</p>
+		</body>
+	`;
+}
+
+export function errorInlineHtml(message) {
+	return `<b style="color:${ERROR_COLOR}; font-family:Helvetica">${formatErrorHtml(message)}</b>`;
 }
 
 /**

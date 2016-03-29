@@ -4,6 +4,7 @@ import visit from 'unist-util-visit';
 import hljs from 'highlight.js';
 import parse5 from 'parse5';
 import _ from 'lodash';
+import { errorInlineHtml } from '../util';
 
 /* eslint-disable no-console */
 
@@ -16,6 +17,10 @@ const defaultOptions = {
 		},
 	},
 	customTags: {},
+};
+
+const remarkHtmlOptions = {
+	entities: 'escape',
 };
 
 /**
@@ -59,7 +64,7 @@ function remarkCustomTags(processor, customTags) {
 			}
 			catch (e) {
 				let error = `Error while rendering custom tag <x-${tagName}>: ${e.message}`;
-				result = `<p><b>${_.escape(error)}</b></p>`;
+				result = `<p>${errorInlineHtml(error)}</p>`;
 				console.error(error);
 			}
 			node.type = 'html';
@@ -91,6 +96,24 @@ function remarkHljs(processor, options) {
 }
 
 /**
+ * Render Markdow using given processor.
+ *
+ * @param {Object} processor Remark processor.
+ * @param {string} source Source Markdown.
+ * @return {string}
+ */
+function render(processor, source) {
+	try {
+		return processor.process(source);
+	}
+	catch (e) {
+		let error = `Error while rendering Markdown:\n${e.message}`;
+		console.error(error);
+		return errorInlineHtml(error);
+	}
+}
+
+/**
  * Returns function that renders Markdown using Remark.
  *
  * @param {object} options
@@ -106,9 +129,7 @@ export default function createMarkdownRenderer(options = {}) {
 	let plugins = options.plugins;
 	plugins.push(
 		[remarkCustomTags, options.customTags],
-		[remarkHtml, {
-			entities: 'escape',
-		}]
+		[remarkHtml, remarkHtmlOptions]
 	);
 	if (options.hljs) {
 		plugins.push(
@@ -124,24 +145,15 @@ export default function createMarkdownRenderer(options = {}) {
 		}
 	});
 
-	return function render(source) {
-		return processor.process(source);
-	};
+	return source => render(processor, source);
 }
 
 /**
  * Returns function that renders Markdown using Remark (without any extra plugins).
  *
- * @param {object} options
  * @return {Function}
  */
 export function createSimpleMarkdownRenderer() {
-	const processor = remark();
-	processor.use(remarkHtml, {
-		entities: 'escape',
-	});
-
-	return function render(source) {
-		return processor.process(source);
-	};
+	const processor = remark().use(remarkHtml, remarkHtmlOptions);
+	return source => render(processor, source);
 }
