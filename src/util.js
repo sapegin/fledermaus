@@ -172,14 +172,14 @@ export function errorHtml(message, file, line) {
 	printError(message);
 	let code = '';
 	if (file && line) {
-		code = codeFragment(readFile(file), line);
+		code = codeFragment(readFile(file), Number(line));
 	}
 	return `
 		<title>Error</title>
 		<body style="background:${ERROR_COLOR}; color:#fff; font-family:Helvetica">
 			<h1>Fledermaus error</h1>
 			<p>${formatErrorHtml(message)}</p>
-			<pre>${code}</pre>
+			<pre>${_.escape(code)}</pre>
 		</body>
 	`;
 }
