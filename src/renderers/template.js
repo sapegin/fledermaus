@@ -22,7 +22,8 @@ export default function createTemplateRenderer(options = {}) {
 			return renderer.render(filepath, locals);
 		}
 		catch (e) {
-			return errorHtml(`Error while rendering a template "${filepath}":\n${e.message}`);
+			let m = e.message.match(/in (.*?\.ect) on line (\d+)/);
+			return errorHtml(`Error while rendering a template "${filepath}":\n${e.message}`, m && m[1], m && m[2]);
 		}
 	};
 }

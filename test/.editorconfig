@@ -1,0 +1,4 @@
+# editorconfig.org
+
+[*]
+insert_final_newline = false

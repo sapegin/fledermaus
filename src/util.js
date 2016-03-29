@@ -164,15 +164,22 @@ export function formatErrorHtml(message) {
  * Print an error message to a console and return formatted HTML document.
  *
  * @param {string} message
+ * @param {string} [file] Source file path.
+ * @param {number} [line] Line to highlight in a source file.
  * @return {string}
  */
-export function errorHtml(message) {
+export function errorHtml(message, file, line) {
 	printError(message);
+	let code = '';
+	if (file && line) {
+		code = codeFragment(readFile(file), line);
+	}
 	return `
 		<title>Error</title>
 		<body style="background:${ERROR_COLOR}; color:#fff; font-family:Helvetica">
 			<h1>Fledermaus error</h1>
 			<p>${formatErrorHtml(message)}</p>
+			<pre>${code}</pre>
 		</body>
 	`;
 }
@@ -190,6 +197,31 @@ export function errorInlineHtml(message, { block } = {}) {
 		html = `<p>${html}</p>`;
 	}
 	return html;
+}
+
+/**
+ * Print code fragment with line numbers.
+ *
+ * @param {string} code
+ * @param {number} line Line to highlight.
+ * @return {string}
+ */
+export function codeFragment(code, line) {
+	const contextLines = 2;
+	let lines = code.split('\n');
+	let begin = Math.max(line - contextLines, 1);
+	let end = Math.min(line + contextLines, lines.length);
+	lines = lines.slice(begin - 1, end);
+	lines = lines.map((str, index) => {
+		let currentLineNum = index + begin;
+		return [
+			currentLineNum === line ? '>' : ' ',
+			_.padStart(currentLineNum, 3),
+			'|',
+			str,
+		].join(' ');
+	});
+	return lines.join('\n');
 }
 
 /**

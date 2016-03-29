@@ -131,4 +131,12 @@ describe('util', () => {
 		});
 	});
 
+	describe('codeFragment', () => {
+		it('should return a code fragment with line numbers', () => {
+			let code = util.readFile('test/samples/code.ect');
+			let result = util.codeFragment(code, 8);
+			expect(result).to.eql(util.readFile('test/expected/code-snippet.txt'));
+		});
+	});
+
 });
