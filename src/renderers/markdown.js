@@ -41,7 +41,7 @@ function remarkCustomTags(processor, customTags) {
 			let childNode = tagNode.childNodes[0];
 			attrs.push({
 				name: 'children',
-				value: childNode ? childNode.value.trim() : null,
+				value: childNode ? childNode.value.replace('\\/\\/', '//').trim() : null,
 			});
 			tagName = tagName.replace(/^x-/, '');
 
@@ -143,7 +143,14 @@ export default function createMarkdownRenderer(options = {}) {
 		}
 	});
 
-	return source => render(processor, source);
+	return source => {
+		// Escape double slashes inside custom tags
+		source = source.replace(/<x-[-\w]+>[\s\S]*?<\/x-/gm, m => {
+			return m.replace(/\/\//g, '\\/\\/');
+		});
+
+		return render(processor, source)
+	};
 }
 
 /**
