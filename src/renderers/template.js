@@ -1,29 +1,35 @@
-import ECT from 'ect';
 import _ from 'lodash';
+import path from 'path';
+import vdo from 'vdo';
 import { errorHtml } from '../util';
 
 /* eslint-disable no-console */
 
+// Expose VDO globally so JSX pragma can see it in every template
+global.vdo = vdo;
+
 const defaultOptions = {
-	ext: '.ect',
 	root: 'templates',
 };
 
 /**
- * Returns function that renders ECT template.
+ * Returns function that renders JSX template.
  *
  * @param {object} options
  * @return {Function}
  */
 export default function createTemplateRenderer(options = {}) {
-	let renderer = ECT(_.merge({}, defaultOptions, options));
-	return function render(filepath, locals) {
+	options = _.merge({}, defaultOptions, options);
+	return (template, props) => {
+		template = _.upperFirst(template);
+		const filepath = path.resolve(options.root, template);
 		try {
-			return renderer.render(filepath, locals);
+			let page = require(filepath).default;
+			return '<!doctype html>' + page(props);
 		}
 		catch (e) {
-			let m = e.message.match(/in (.*?\.ect) on line (\d+)/);
-			return errorHtml(`Error while rendering a template "${filepath}":\n${e.message}`, m && m[1], m && m[2]);
+			let error = e.message.replace(options.root, '');
+			return errorHtml(`Error while rendering a template "${template}":\n${error}`);
 		}
 	};
 }

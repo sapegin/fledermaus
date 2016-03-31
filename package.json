@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "chalk": "~1.1.3",
-    "ect": "~0.5.9",
     "escape-html": "~1.0.3",
     "fastmatter": "~1.1.1",
     "glob": "~7.0.3",
@@ -55,7 +54,8 @@
     "remark-html": "~3.0.0",
     "richtypo": "~1.0.1",
     "striptags": "~2.1.1",
-    "unist-util-visit": "~1.1.0"
+    "unist-util-visit": "~1.1.0",
+    "vdo": "~3.0.1"
   },
   "scripts": {
     "test": "npm run lint && npm run mocha",

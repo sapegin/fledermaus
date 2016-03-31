@@ -348,11 +348,17 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
  * @return {object}
  */
 export function makeContext(document, config, helpers) {
-	return {
-		...helpers,
+	let context = {
 		config,
 		...document,
 	};
+
+	// Bind helpers to context
+	Object.keys(helpers).forEach(name => {
+		context[name] = helpers[name].bind(context);
+	});
+
+	return context;
 }
 
 /**
