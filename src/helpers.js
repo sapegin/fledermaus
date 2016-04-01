@@ -15,6 +15,7 @@
 import path from 'path';
 import richtypo from 'richtypo';
 import md5File from 'md5-file';
+import vdo from 'vdo';
 import _ from 'lodash';
 import { readFile, removeExtension, cleanHtml, getMessageFormat, getDateTimeFormat } from './util';
 import { createSimpleMarkdownRenderer } from './renderers/markdown';
@@ -212,4 +213,13 @@ export function mds(string) {
 			.replace(/<\/p>\s*$/, '')
 		;
 	}
+}
+
+/**
+ * Mark an HTML string as safe for VDO.
+ * @param {string} node
+ * @return {string}
+ */
+export function safe(node) {
+	return vdo.markSafe(node);
 }
