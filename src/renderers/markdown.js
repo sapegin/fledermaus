@@ -149,7 +149,7 @@ export default function createMarkdownRenderer(options = {}) {
 			return m.replace(/\/\//g, '\\/\\/');
 		});
 
-		return render(processor, source)
+		return render(processor, source);
 	};
 }
 
