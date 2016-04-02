@@ -27,8 +27,8 @@ export default function createTemplateRenderer(options = {}) {
 			return '<!doctype html>' + page(props);
 		}
 		catch (e) {
-			let error = e.message.replace(options.root, '');
-			return errorHtml(`Error while rendering a template "${template}":\n${error}`);
+			let error = e.message.replace(`${path.resolve(options.root)}/`, '');
+			return errorHtml(`Error while rendering a page ${props.sourcePath} with a template ${template}:\n${error}`);
 		}
 	};
 }
