@@ -21,7 +21,6 @@ const defaultOptions = {
 export default function createTemplateRenderer(options = {}) {
 	options = _.merge({}, defaultOptions, options);
 	return (template, props) => {
-		template = _.upperFirst(template);
 		const filepath = path.resolve(options.root, template);
 		try {
 			let page = require(filepath).default;
