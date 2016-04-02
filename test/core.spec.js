@@ -440,11 +440,11 @@ describe('core', () => {
 			}, {
 				base: {}
 			}, {
-			}, {ect: renderTemplate});
-			expect(result.content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+			}, {jsx: renderTemplate});
+			expect(result.content).to.eql('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
 			expect(result.pagePath).to.eql('all/post.html');
 		});
-		it('should use layout extension if it is specified (feed.xml.ect → feed.xml)', () => {
+		it('should use layout extension if it is specified (feed.xml.jsx → feed.xml)', () => {
 			let result = core.generatePage({
 				title: 'Hello',
 				layout: 'layout.xml',
@@ -453,8 +453,8 @@ describe('core', () => {
 			}, {
 				base: {}
 			}, {
-			}, {ect: renderTemplate});
-			expect(result.content).to.eql('<foo><b>Test</b></foo>\n');
+			}, {jsx: renderTemplate});
+			expect(result.content).to.eql('<!doctype html><foo><b>Test</b></foo>');
 			expect(result.pagePath).to.eql('all/feed.xml');
 		});
 		it('should throw if layout is not specified', () => {
@@ -466,7 +466,7 @@ describe('core', () => {
 				}, {
 					base: {}
 				}, {
-				}, {ect: renderTemplate});
+				}, {jsx: renderTemplate});
 			}
 			expect(func).to.throw;
 		});
@@ -490,11 +490,11 @@ describe('core', () => {
 			], {
 				base: {}
 			}, {
-			}, {ect: renderTemplate});
+			}, {jsx: renderTemplate});
 			expect(result.length).to.eql(2);
-			expect(result[0].content).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+			expect(result[0].content).to.eql('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
 			expect(result[0].pagePath).to.eql('all/post.html');
-			expect(result[1].content).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
+			expect(result[1].content).to.eql('<!doctype html><div><h1>Bye</h1><b>Foobarbaz</b></div>');
 			expect(result[1].pagePath).to.eql('all/post2.html');
 		});
 	});
