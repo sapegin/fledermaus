@@ -173,7 +173,7 @@ export let inlineFile = _.memoize(function(url) {
  * @param {string} string
  * @return {string}
  */
-export function rt(string) {
+export function typo(string) {
 	return string && richtypo.rich(string, this.pageLang());
 }
 
@@ -183,7 +183,7 @@ export function rt(string) {
  * @param {string} string
  * @return {string}
  */
-export function rtt(string) {
+export function typoTitle(string) {
 	return string && richtypo.title(string, this.pageLang());
 }
 
@@ -193,7 +193,7 @@ export function rtt(string) {
  * @param {string} string
  * @return {string}
  */
-export function md(string) {
+export function markdownBlock(string) {
 	if (string) {
 		let markdown = getMarkdownRenderer();
 		return markdown(string);
@@ -206,9 +206,9 @@ export function md(string) {
  * @param {string} string
  * @return {string}
  */
-export function mds(string) {
+export function markdown(string) {
 	if (string) {
-		return this.md(string)
+		return this.markdownBlock(string)
 			.replace(/^\s*<p>/, '')
 			.replace(/<\/p>\s*$/, '')
 		;

@@ -340,9 +340,9 @@ describe('helpers', () => {
 		});
 	});
 
-	describe('rt', () => {
+	describe('typo', () => {
 		it('should enhance typography for body text', () => {
-			let func = helpers.rt.bind({
+			let func = helpers.typo.bind({
 				pageLang: helpers.pageLang,
 				lang: 'en'
 			});
@@ -351,9 +351,9 @@ describe('helpers', () => {
 		});
 	});
 
-	describe('rtt', () => {
+	describe('typoTitle', () => {
 		it('should enhance typography for titles', () => {
-			let func = helpers.rtt.bind({
+			let func = helpers.typoTitle.bind({
 				pageLang: helpers.pageLang,
 				lang: 'en'
 			});
@@ -362,18 +362,18 @@ describe('helpers', () => {
 		});
 	});
 
-	describe('md', () => {
+	describe('markdownBlock', () => {
 		it('should return rendered to HTML Markdown', () => {
-			let func = helpers.md;
+			let func = helpers.markdownBlock;
 			let result = func('Hello *world*!');
 			expect(result).to.eql('<p>Hello <em>world</em>!</p>\n');
 		});
 	});
 
-	describe('mds', () => {
+	describe('markdown', () => {
 		it('should return rendered to HTML Markdown not wrapped in a paragraph', () => {
-			let func = helpers.mds.bind({
-				md: helpers.md
+			let func = helpers.markdown.bind({
+				markdownBlock: helpers.markdownBlock
 			});
 			let result = func('Hello *world*!');
 			expect(result).to.eql('Hello <em>world</em>!');
