@@ -24,6 +24,28 @@ const remarkHtmlOptions = {
 };
 
 /**
+ * Escape double slashes inside custom tags.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+export function escapeMarkdownInTags(string) {
+	return string.replace(/<x-[-\w]+>[\s\S]*?<\/x-/gm, m => {
+		return m.replace(/\/\//g, '\\/\\/');
+	});
+}
+
+/**
+ * Unescape double slashes in Markdown.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+export function unescapeMarkdown(string) {
+	return string.replace(/\\\/\\\//g, '//');
+}
+
+/**
  * Remark plugin for custom tags: <x-foo data-value="42"/>
  *
  * @param {Object} processor
@@ -41,7 +63,7 @@ function remarkCustomTags(processor, customTags) {
 			let childNode = tagNode.childNodes[0];
 			attrs.push({
 				name: 'children',
-				value: childNode ? childNode.value.replace('\\/\\/', '//').trim() : null,
+				value: childNode ? unescapeMarkdown(childNode.value).trim() : null,
 			});
 			tagName = tagName.replace(/^x-/, '');
 
@@ -144,11 +166,7 @@ export default function createMarkdownRenderer(options = {}) {
 	});
 
 	return source => {
-		// Escape double slashes inside custom tags
-		source = source.replace(/<x-[-\w]+>[\s\S]*?<\/x-/gm, m => {
-			return m.replace(/\/\//g, '\\/\\/');
-		});
-
+		source = escapeMarkdownInTags(source);
 		return render(processor, source);
 	};
 }

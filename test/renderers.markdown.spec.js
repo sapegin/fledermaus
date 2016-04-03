@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import createMarkdownRenderer, { createSimpleMarkdownRenderer } from '../src/renderers/markdown';
+import createMarkdownRenderer, { createSimpleMarkdownRenderer, escapeMarkdownInTags, unescapeMarkdown } from '../src/renderers/markdown';
 import { readFile } from '../src/util';
 
 describe('markdown', () => {
@@ -78,6 +78,17 @@ describe('markdown', () => {
 			let render = createSimpleMarkdownRenderer();
 			let result = render(readFile('test/samples/markdown.md'));
 			expect(result).to.eql(readFile('test/expected/markdown.html'));
+		});
+	});
+
+	describe('functions', () => {
+		it('escapeMarkdownInTags should escape Markdown in custom tags', () => {
+			let result = escapeMarkdownInTags(readFile('test/samples/markdown-with-tag-escape.md'));
+			expect(result).to.eql(readFile('test/expected/markdown-with-tag-escape.md'));
+		});
+		it('unescapeMarkdown should unescape Markdown', () => {
+			let result = unescapeMarkdown('https:\\/\\/instagram.com\nhttps:\\/\\/facebook.com');
+			expect(result).to.eql('https://instagram.com\nhttps://facebook.com');
 		});
 	});
 
