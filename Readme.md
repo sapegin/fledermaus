@@ -4,7 +4,7 @@
 
 Infinitely extensible simple ES6 static site generator.
 
-Based on [ECT](http://ectjs.com/), [Remark](http://remark.js.org/), [Richtypo](https://github.com/sapegin/richtypo.js), [Highlight.js](https://highlightjs.org/) and [Intl MessageFormat](https://github.com/yahoo/intl-messageformat).
+Based on [JSX](https://github.com/DylanPiercey/vdo), [Remark](http://remark.js.org/), [Richtypo](https://github.com/sapegin/richtypo.js), [Highlight.js](https://highlightjs.org/) and [Intl MessageFormat](https://github.com/yahoo/intl-messageformat).
 
 ## Installation
 
