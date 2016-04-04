@@ -361,23 +361,5 @@ describe('helpers', () => {
 			expect(result).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
-
-	describe('markdownBlock', () => {
-		it('should return rendered to HTML Markdown', () => {
-			let func = helpers.markdownBlock;
-			let result = func('Hello *world*!');
-			expect(result).to.eql('<p>Hello <em>world</em>!</p>\n');
-		});
-	});
-
-	describe('markdown', () => {
-		it('should return rendered to HTML Markdown not wrapped in a paragraph', () => {
-			let func = helpers.markdown.bind({
-				markdownBlock: helpers.markdownBlock
-			});
-			let result = func('Hello *world*!');
-			expect(result).to.eql('Hello <em>world</em>!');
-		});
-	});
-
+	
 });

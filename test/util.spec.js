@@ -105,6 +105,20 @@ describe('util', () => {
 		});
 	});
 
+	describe('markdownBlock', () => {
+		it('should return rendered to HTML Markdown', () => {
+			let result = util.markdownBlock('Hello *world*!');
+			expect(result).to.eql('<p>Hello <em>world</em>!</p>\n');
+		});
+	});
+
+	describe('markdown', () => {
+		it('should return rendered to HTML Markdown not wrapped in a paragraph', () => {
+			let result = util.markdown('Hello *world*!');
+			expect(result).to.eql('Hello <em>world</em>!');
+		});
+	});
+
 	describe('formatErrorHtml', () => {
 		it('should escape HTML and replace new line character with <br>', () => {
 			let result = util.formatErrorHtml('Error in <tag>:\nOut of cheese');

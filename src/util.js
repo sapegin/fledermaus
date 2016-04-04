@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
 import yaml from 'js-yaml';
+import vdo from 'vdo';
 import chalk from 'chalk';
 import striptags from 'striptags';
 import escapeHtml from 'escape-html';
@@ -9,6 +10,9 @@ import IntlMessageFormat from 'intl-messageformat';
 import { DateTimeFormat } from 'intl';
 import createFormatCache from 'intl-format-cache';
 import _ from 'lodash';
+import { createSimpleMarkdownRenderer } from './renderers/markdown';
+
+const getMarkdownRenderer = _.memoize(createSimpleMarkdownRenderer);
 
 /* eslint-disable no-console */
 
@@ -129,6 +133,43 @@ export function getFirstParagraph(text) {
 export function getFirstImage(text) {
 	let m = text.match(/<img\s+src=["']([^"']+)["']/i);
 	return m && m[1];
+}
+
+/**
+ * Render Markdown.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+export function markdownBlock(string) {
+	if (string) {
+		let markdown = getMarkdownRenderer();
+		return markdown(string);
+	}
+}
+
+/**
+ * Mark an HTML string as safe for VDO.
+ * @param {string} node
+ * @return {string}
+ */
+export function safe(node) {
+	return vdo.markSafe(node);
+}
+
+/**
+ * Render Markdown (do not wrap into a paragraph).
+ *
+ * @param {string} string
+ * @return {string}
+ */
+export function markdown(string) {
+	if (string) {
+		return markdownBlock(string)
+			.replace(/^\s*<p>/, '')
+			.replace(/<\/p>\s*$/, '')
+			;
+	}
 }
 
 /**
