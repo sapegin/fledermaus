@@ -227,7 +227,7 @@ describe('helpers', () => {
 					}
 				}
 			});
-			let result = func(false);
+			let result = func({ suffix: false });
 			expect(result).to.eql('Foo');
 		});
 		it('should return a page title if is defined', () => {
@@ -255,6 +255,18 @@ describe('helpers', () => {
 			});
 			let result = func();
 			expect(result).to.eql('My blog');
+		});
+		it('should return a passed title and suffix if title is not defined', () => {
+			let func = helpers.getPageTitle.bind({
+				option: helpers.option,
+				config: {
+					base: {
+						title: 'My blog'
+					}
+				}
+			});
+			let result = func({ title: 'My custom title' });
+			expect(result).to.eql('My custom title — My blog');
 		});
 	});
 
@@ -361,5 +373,5 @@ describe('helpers', () => {
 			expect(result).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
-	
+
 });

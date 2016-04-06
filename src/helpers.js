@@ -98,18 +98,19 @@ export function absolutizeLinks(html) {
 /**
  * Title to use in a <title> tag.
  *
- * @param {boolean} suffix Do not append suffix if `false`.
+ * @param {string} $1.title Custom title.
+ * @param {boolean} $1.suffix Do not append suffix if `false`.
  * @return {string}
  */
-export function getPageTitle(suffix) {
+export function getPageTitle({ title, suffix } = {}) {
 	if (this.pageTitle) {
 		return this.pageTitle;
 	}
-	if (this.title) {
+	if (title || this.title) {
 		if (suffix === undefined) {
 			suffix = ' — ' + this.option('title');
 		}
-		return cleanHtml(this.title) + (suffix || '');
+		return cleanHtml(title || this.title) + (suffix || '');
 	}
 
 	return this.option('title');
