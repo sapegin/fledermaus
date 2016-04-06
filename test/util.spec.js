@@ -5,7 +5,6 @@ import rimraf from 'rimraf';
 import * as util from '../src/util';
 
 describe('util', () => {
-
 	describe('removeExtension', () => {
 		it('should remove extension from file path', () => {
 			let result = util.removeExtension('ru/markdown.md');
@@ -33,14 +32,14 @@ describe('util', () => {
 			const filepath = 'test/tmp/file.txt';
 			util.writeFile(filepath, 'Hello.');
 			expect(fs.existsSync(filepath)).to.be.true;
-			expect(fs.readFileSync(filepath, {encoding: 'utf8'})).to.eql('Hello.');
+			expect(fs.readFileSync(filepath, { encoding: 'utf8' })).to.eql('Hello.');
 		});
 	});
 
 	describe('readYamlFile', () => {
 		it('should read and parse YAML file', () => {
 			let result = util.readYamlFile('test/samples/file.yml');
-			expect(result).to.eql({hello: 'world'});
+			expect(result).to.eql({ hello: 'world' });
 		});
 	});
 
@@ -152,5 +151,4 @@ describe('util', () => {
 			expect(result).to.eql(util.readFile('test/expected/code-snippet.txt'));
 		});
 	});
-
 });

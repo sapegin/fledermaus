@@ -1,10 +1,13 @@
 import { expect } from 'chai';
 
-import createMarkdownRenderer, { createSimpleMarkdownRenderer, escapeMarkdownInTags, unescapeMarkdown } from '../src/renderers/markdown';
+import createMarkdownRenderer, {
+	createSimpleMarkdownRenderer,
+	escapeMarkdownInTags,
+	unescapeMarkdown,
+} from '../src/renderers/markdown';
 import { readFile } from '../src/util';
 
 describe('markdown', () => {
-
 	describe('render', () => {
 		it('should return function', () => {
 			let render = createMarkdownRenderer();
@@ -23,8 +26,8 @@ describe('markdown', () => {
 		it('should render custom tags', () => {
 			let render = createMarkdownRenderer({
 				customTags: {
-					foo: ({ bar }) => `<div>baz ${bar}</div>\n`
-				}
+					foo: ({ bar }) => `<div>baz ${bar}</div>\n`,
+				},
 			});
 			let result = render(readFile('test/samples/markdown-with-tag.md'));
 			expect(result).to.eql(readFile('test/expected/markdown-with-tag.html'));
@@ -32,8 +35,8 @@ describe('markdown', () => {
 		it('should pass children text', () => {
 			let render = createMarkdownRenderer({
 				customTags: {
-					foo: ({ children }) => `<div>${children}</div>\n`
-				}
+					foo: ({ children }) => `<div>${children}</div>\n`,
+				},
 			});
 			let result = render(readFile('test/samples/markdown-with-tag-children.md'));
 			expect(result).to.eql(readFile('test/expected/markdown-with-tag-children.html'));
@@ -41,8 +44,8 @@ describe('markdown', () => {
 		it('should treat undefined or null returned from a custom tag as an empty string', () => {
 			let render = createMarkdownRenderer({
 				customTags: {
-					foo: () => null
-				}
+					foo: () => null,
+				},
 			});
 			let result = render(readFile('test/samples/markdown-with-tag.md'));
 			expect(result).to.eql(readFile('test/expected/markdown-with-tag-empty.html'));
@@ -50,8 +53,10 @@ describe('markdown', () => {
 		it('should return an error message when a custom tag throws', () => {
 			let render = createMarkdownRenderer({
 				customTags: {
-					foo: () => { throw new Error('noooo'); }
-				}
+					foo: () => {
+						throw new Error('noooo');
+					},
+				},
 			});
 			let result = render(readFile('test/samples/markdown-with-tag.md'));
 			expect(result).to.eql(readFile('test/expected/markdown-with-tag-error.html'));
@@ -60,8 +65,8 @@ describe('markdown', () => {
 			let func = () => {
 				let render = createMarkdownRenderer({
 					customTags: {
-						notfoo: () => ''
-					}
+						notfoo: () => '',
+					},
 				});
 				render(readFile('test/samples/markdown-with-tag.md'));
 			};
@@ -91,5 +96,4 @@ describe('markdown', () => {
 			expect(result).to.eql('https://instagram.com\nhttps://facebook.com');
 		});
 	});
-
 });

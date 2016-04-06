@@ -3,19 +3,18 @@ import { expect } from 'chai';
 import * as helpers from '../src/helpers';
 
 describe('helpers', () => {
-
 	describe('option', () => {
 		it('should return localized config option', () => {
 			let func = helpers.option.bind({
 				config: {
 					base: {
-						title: 'My blog'
+						title: 'My blog',
 					},
 					ru: {
-						title: 'Мой блог'
+						title: 'Мой блог',
 					},
 				},
-				lang: 'ru'
+				lang: 'ru',
 			});
 			let result = func('title');
 			expect(result).to.eql('Мой блог');
@@ -24,9 +23,9 @@ describe('helpers', () => {
 			let func = helpers.option.bind({
 				config: {
 					base: {
-						title: 'My blog'
-					}
-				}
+						title: 'My blog',
+					},
+				},
 			});
 			let result = func('title');
 			expect(result).to.eql('My blog');
@@ -34,8 +33,8 @@ describe('helpers', () => {
 		it('should return return top-level value if localized or base value not found', () => {
 			let func = helpers.option.bind({
 				config: {
-					title: 'My blog'
-				}
+					title: 'My blog',
+				},
 			});
 			let result = func('title');
 			expect(result).to.eql('My blog');
@@ -45,10 +44,10 @@ describe('helpers', () => {
 				config: {
 					base: {
 						foo: {
-							bar: 'Baz'
-						}
-					}
-				}
+							bar: 'Baz',
+						},
+					},
+				},
 			});
 			let result = func('foo.bar');
 			expect(result).to.eql('Baz');
@@ -57,9 +56,9 @@ describe('helpers', () => {
 			let func = helpers.option.bind({
 				config: {
 					base: {
-						foo: 42
-					}
-				}
+						foo: 42,
+					},
+				},
 			});
 			expect(() => func('bar')).to.throw(Error);
 		});
@@ -70,10 +69,10 @@ describe('helpers', () => {
 			let func = helpers.pageLang.bind({
 				config: {
 					base: {
-						lang: 'en'
-					}
+						lang: 'en',
+					},
 				},
-				lang: 'ru'
+				lang: 'ru',
 			});
 			let result = func();
 			expect(result).to.eql('ru');
@@ -83,9 +82,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						lang: 'en'
-					}
-				}
+						lang: 'en',
+					},
+				},
 			});
 			let result = func();
 			expect(result).to.eql('en');
@@ -99,15 +98,15 @@ describe('helpers', () => {
 				pageLang: helpers.pageLang,
 				config: {
 					base: {
-						hi: 'Hello {name}!'
+						hi: 'Hello {name}!',
 					},
 					ru: {
-						hi: 'Привет, {name}!'
-					}
+						hi: 'Привет, {name}!',
+					},
 				},
-				lang: 'ru'
+				lang: 'ru',
 			});
-			let result = func('hi', {name: 'Fledermaus'});
+			let result = func('hi', { name: 'Fledermaus' });
 			expect(result).to.eql('Привет, Fledermaus!');
 		});
 		it('should return plural form of a number (English)', () => {
@@ -118,16 +117,16 @@ describe('helpers', () => {
 					base: {
 					},
 					en: {
-						posts: `{num, plural, =0 {No posts} =1 {One post} other {# posts}}`
-					}
+						posts: `{num, plural, =0 {No posts} =1 {One post} other {# posts}}`,
+					},
 				},
-				lang: 'en'
+				lang: 'en',
 			});
-			expect(func('posts', {num: 0})).to.eql('No posts');
-			expect(func('posts', {num: 1})).to.eql('One post');
-			expect(func('posts', {num: 2})).to.eql('2 posts');
-			expect(func('posts', {num: 11})).to.eql('11 posts');
-			expect(func('posts', {num: 21})).to.eql('21 posts');
+			expect(func('posts', { num: 0 })).to.eql('No posts');
+			expect(func('posts', { num: 1 })).to.eql('One post');
+			expect(func('posts', { num: 2 })).to.eql('2 posts');
+			expect(func('posts', { num: 11 })).to.eql('11 posts');
+			expect(func('posts', { num: 21 })).to.eql('21 posts');
 		});
 		it('should return plural form of a number (Russian)', () => {
 			let func = helpers.__.bind({
@@ -137,17 +136,17 @@ describe('helpers', () => {
 					base: {
 					},
 					ru: {
-						posts: `{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}`
-					}
+						posts: `{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}`,
+					},
 				},
-				lang: 'ru'
+				lang: 'ru',
 			});
-			expect(func('posts', {num: 0})).to.eql('Нет постов');
-			expect(func('posts', {num: 1})).to.eql('Один пост');
-			expect(func('posts', {num: 2})).to.eql('2 поста');
-			expect(func('posts', {num: 5})).to.eql('5 постов');
-			expect(func('posts', {num: 11})).to.eql('11 постов');
-			expect(func('posts', {num: 121})).to.eql('121 пост');
+			expect(func('posts', { num: 0 })).to.eql('Нет постов');
+			expect(func('posts', { num: 1 })).to.eql('Один пост');
+			expect(func('posts', { num: 2 })).to.eql('2 поста');
+			expect(func('posts', { num: 5 })).to.eql('5 постов');
+			expect(func('posts', { num: 11 })).to.eql('11 постов');
+			expect(func('posts', { num: 121 })).to.eql('121 пост');
 		});
 	});
 
@@ -157,9 +156,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						url: 'http://example.com'
-					}
-				}
+						url: 'http://example.com',
+					},
+				},
 			});
 			let result = func('/all/post');
 			expect(result).to.eql('http://example.com/all/post');
@@ -169,9 +168,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						url: 'http://example.com/'
-					}
-				}
+						url: 'http://example.com/',
+					},
+				},
 			});
 			let result = func('/all/post');
 			expect(result).to.eql('http://example.com/all/post');
@@ -184,9 +183,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						url: 'http://example.com'
-					}
-				}
+						url: 'http://example.com',
+					},
+				},
 			});
 			let result = func(`
 				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="/somewhere">somewhere</a> in <code>$PATH</code>:</p>
@@ -210,9 +209,9 @@ describe('helpers', () => {
 				title: 'Foo',
 				config: {
 					base: {
-						title: 'My blog'
-					}
-				}
+						title: 'My blog',
+					},
+				},
 			});
 			let result = func();
 			expect(result).to.eql('Foo — My blog');
@@ -223,9 +222,9 @@ describe('helpers', () => {
 				title: 'Foo',
 				config: {
 					base: {
-						title: 'My blog'
-					}
-				}
+						title: 'My blog',
+					},
+				},
 			});
 			let result = func({ suffix: false });
 			expect(result).to.eql('Foo');
@@ -237,9 +236,9 @@ describe('helpers', () => {
 				pageTitle: 'Bar',
 				config: {
 					base: {
-						title: 'My blog'
-					}
-				}
+						title: 'My blog',
+					},
+				},
 			});
 			let result = func();
 			expect(result).to.eql('Bar');
@@ -249,9 +248,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						title: 'My blog'
-					}
-				}
+						title: 'My blog',
+					},
+				},
 			});
 			let result = func();
 			expect(result).to.eql('My blog');
@@ -261,9 +260,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						title: 'My blog'
-					}
-				}
+						title: 'My blog',
+					},
+				},
 			});
 			let result = func({ title: 'My custom title' });
 			expect(result).to.eql('My custom title — My blog');
@@ -274,7 +273,7 @@ describe('helpers', () => {
 		it('should return date in English format', () => {
 			let func = helpers.dateToString.bind({
 				pageLang: helpers.pageLang,
-				lang: 'en'
+				lang: 'en',
 			});
 			let result = func(new Date(1445543242080));
 			expect(result).to.eql('October 22, 2015');
@@ -282,7 +281,7 @@ describe('helpers', () => {
 		it('should return date in Russian', () => {
 			let func = helpers.dateToString.bind({
 				pageLang: helpers.pageLang,
-				lang: 'ru'
+				lang: 'ru',
 			});
 			let result = func(new Date(1445543242080));
 			expect(result).to.eql('22 октября 2015 г.');
@@ -295,9 +294,9 @@ describe('helpers', () => {
 				option: helpers.option,
 				config: {
 					base: {
-						assetsFolder: 'test/samples'
-					}
-				}
+						assetsFolder: 'test/samples',
+					},
+				},
 			});
 			let result = func('images/photo.jpg');
 			expect(result).to.eql('test/samples/images/photo.jpg');
@@ -311,9 +310,9 @@ describe('helpers', () => {
 				assetFilepath: helpers.assetFilepath,
 				config: {
 					base: {
-						assetsFolder: 'test/samples'
-					}
-				}
+						assetsFolder: 'test/samples',
+					},
+				},
 			});
 			let result = func('file.txt');
 			expect(result).to.match(/^file.txt\?[0-9a-f]{32}$/);
@@ -327,9 +326,9 @@ describe('helpers', () => {
 				assetFilepath: helpers.assetFilepath,
 				config: {
 					base: {
-						assetsFolder: 'test/samples'
-					}
-				}
+						assetsFolder: 'test/samples',
+					},
+				},
 			});
 			let result = func('file.txt');
 			expect(result).to.eql('Hello.');
@@ -343,9 +342,9 @@ describe('helpers', () => {
 				assetFilepath: helpers.assetFilepath,
 				config: {
 					base: {
-						assetsFolder: 'test/samples'
-					}
-				}
+						assetsFolder: 'test/samples',
+					},
+				},
 			});
 			let result = func('file.txt');
 			expect(result).to.eql('/*file*/Hello.');
@@ -356,7 +355,7 @@ describe('helpers', () => {
 		it('should enhance typography for body text', () => {
 			let func = helpers.typo.bind({
 				pageLang: helpers.pageLang,
-				lang: 'en'
+				lang: 'en',
 			});
 			let result = func('no-no');
 			expect(result).to.eql('<nobr>no-no</nobr>');
@@ -367,11 +366,10 @@ describe('helpers', () => {
 		it('should enhance typography for titles', () => {
 			let func = helpers.typoTitle.bind({
 				pageLang: helpers.pageLang,
-				lang: 'en'
+				lang: 'en',
 			});
 			let result = func('No &amp; No');
 			expect(result).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
-
 });
