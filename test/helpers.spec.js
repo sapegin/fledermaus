@@ -358,7 +358,8 @@ describe('helpers', () => {
 				lang: 'en',
 			});
 			let result = func('no-no');
-			expect(result).to.eql('<nobr>no-no</nobr>');
+			expect(result).to.be.an('object');
+			expect(result.innerHTML).to.eql('<nobr>no-no</nobr>');
 		});
 	});
 
@@ -369,7 +370,8 @@ describe('helpers', () => {
 				lang: 'en',
 			});
 			let result = func('No &amp; No');
-			expect(result).to.eql('No\xA0<span class="amp">&amp;</span> No');
+			expect(result).to.be.an('object');
+			expect(result.innerHTML).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
 
@@ -377,6 +379,7 @@ describe('helpers', () => {
 		it('should return json string', () => {
 			let func = helpers.json;
 			let result = func({ a: 42 });
+			expect(result).to.be.an('object');
 			expect(result.innerHTML).to.eql('{"a":42}');
 		});
 	});

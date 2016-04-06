@@ -182,7 +182,7 @@ export let inlineFile = _.memoize(function(url) {
  * @return {string}
  */
 export function typo(string) {
-	return string && richtypo.rich(string, this.pageLang());
+	return string && vdo.markSafe(richtypo.rich(string, this.pageLang()));
 }
 
 /**
@@ -192,7 +192,7 @@ export function typo(string) {
  * @return {string}
  */
 export function typoTitle(string) {
-	return string && richtypo.title(string, this.pageLang());
+	return string && vdo.markSafe(richtypo.title(string, this.pageLang()));
 }
 
 /**
