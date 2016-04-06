@@ -196,8 +196,12 @@ export function typoTitle(string) {
 }
 
 /**
+ * Stringify JSON.
+ * @param {object} object
  * @return {string}
  */
+export function json(object) {
+	return vdo.markSafe(JSON.stringify(object));
 }
 
 export function Script(props) {

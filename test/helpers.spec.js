@@ -373,6 +373,14 @@ describe('helpers', () => {
 		});
 	});
 
+	describe('json', () => {
+		it('should return json string', () => {
+			let func = helpers.json;
+			let result = func({ a: 42 });
+			expect(result.innerHTML).to.eql('{"a":42}');
+		});
+	});
+
 	describe('Script', () => {
 		it('should return a script tag', () => {
 			let func = helpers.Script.bind({
