@@ -61,7 +61,7 @@
     "test": "npm run lint && npm run mocha",
     "mocha": "mocha --compilers js:babel-core/register --require babel-polyfill test",
     "mocha:watch": "mocha --watch --reporter min --compilers js:babel-core/register --require babel-polyfill test",
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
     "docs": "mkdirp docs && npm run docs:core && npm run docs:helpers && npm run docs:util",
