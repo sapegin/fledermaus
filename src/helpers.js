@@ -200,7 +200,30 @@ export function typoTitle(string) {
  */
 }
 
+export function Script(props) {
+	props = props || {};
+	let attrs = {};
+	let children;
+	if (props.inline) {
+		children = this.inlineFile(props.src);
 	}
+	else if (props.src) {
+		attrs.src = this.fingerprint(props.src);
+	}
+	return vdo('script', attrs, children && vdo.markSafe(children));
 }
 
+export function Style(props) {
+	props = props || {};
+	let attrs = {};
+	let children;
+	if (props.inline) {
+		children = this.inlineFile(props.src);
+	}
+	else if (props.src) {
+		attrs.href = this.fingerprint(props.src);
+		attrs.rel = 'stylesheet';
+	}
+	let tag = children ? 'style' : 'link';
+	return vdo(tag, attrs, children && vdo.markSafe(children));
 }

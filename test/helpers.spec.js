@@ -372,4 +372,79 @@ describe('helpers', () => {
 			expect(result).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
+
+	describe('Script', () => {
+		it('should return a script tag', () => {
+			let func = helpers.Script.bind({
+				inlineFile: helpers.inlineFile,
+				fingerprint: helpers.fingerprint,
+				assetFilepath: helpers.assetFilepath,
+				option: helpers.option,
+				config: {
+					base: {
+						assetsFolder: 'test/samples',
+					},
+				},
+			});
+			let result = func({ src: 'file.txt' });
+			expect(result.type).to.eql('script');
+			expect(result.attrs.src).to.match(/^file.txt\?[0-9a-f]{32}$/);
+			expect(result.children).to.eql([undefined]);
+		});
+		it('should return a script tag with inlined script', () => {
+			let func = helpers.Script.bind({
+				inlineFile: helpers.inlineFile,
+				fingerprint: helpers.fingerprint,
+				assetFilepath: helpers.assetFilepath,
+				option: helpers.option,
+				config: {
+					base: {
+						assetsFolder: 'test/samples',
+					},
+				},
+			});
+			let result = func({ src: 'file.txt', inline: true });
+			expect(result.type).to.eql('script');
+			expect(result.attrs).to.eql({});
+			expect(result.children[0].innerHTML).to.eql('/*file*/Hello.');
+		});
+	});
+
+	describe('Style', () => {
+		it('should return a link tag', () => {
+			let func = helpers.Style.bind({
+				inlineFile: helpers.inlineFile,
+				fingerprint: helpers.fingerprint,
+				assetFilepath: helpers.assetFilepath,
+				option: helpers.option,
+				config: {
+					base: {
+						assetsFolder: 'test/samples',
+					},
+				},
+			});
+			let result = func({ src: 'file.txt' });
+			expect(result.type).to.eql('link');
+			expect(result.attrs.href).to.match(/^file.txt\?[0-9a-f]{32}$/);
+			expect(result.attrs.rel).to.eql('stylesheet');
+			expect(result.children).to.eql(false);
+		});
+		it('should return a style tag with inlined style', () => {
+			let func = helpers.Style.bind({
+				inlineFile: helpers.inlineFile,
+				fingerprint: helpers.fingerprint,
+				assetFilepath: helpers.assetFilepath,
+				option: helpers.option,
+				config: {
+					base: {
+						assetsFolder: 'test/samples',
+					},
+				},
+			});
+			let result = func({ src: 'file.txt', inline: true });
+			expect(result.type).to.eql('style');
+			expect(result.attrs).to.eql({});
+			expect(result.children[0].innerHTML).to.eql('/*file*/Hello.');
+		});
+	});
 });
