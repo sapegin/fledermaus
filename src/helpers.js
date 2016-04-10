@@ -204,6 +204,14 @@ export function json(object) {
 	return vdo.markSafe(JSON.stringify(object));
 }
 
+/**
+ * Add a fingerprinted or inlined script.
+ *
+ * @param {object} props
+ * @param {string} [props.src] Script source.
+ * @param {boolean} [props.inline=false] Inline script.
+ * @returns {VDO}
+ */
 export function Script(props) {
 	props = props || {};
 	let attrs = {};
@@ -217,6 +225,14 @@ export function Script(props) {
 	return vdo('script', attrs, children && vdo.markSafe(children));
 }
 
+/**
+ * Add a fingerprinted or inlined stylesheet.
+ *
+ * @param {object} props
+ * @param {string} [props.src] Stylesheet source.
+ * @param {boolean} [props.inline=false] Inline styles.
+ * @returns {VDO}
+ */
 export function Style(props) {
 	props = props || {};
 	let attrs = {};
