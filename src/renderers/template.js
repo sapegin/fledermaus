@@ -28,7 +28,11 @@ export default function createTemplateRenderer(options = {}) {
 		}
 		catch (e) {
 			let error = e.message.replace(`${path.resolve(options.root)}/`, '');
-			return errorHtml(`Error while rendering a page ${props.sourcePath} with a template ${template}:\n${error}`);
+			return errorHtml([
+				`Error while rendering a page ${props.sourcePath} with a template ${template}:`,
+				error,
+				e.stack,
+			].join('\n'));
 		}
 	};
 }
