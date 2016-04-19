@@ -220,7 +220,7 @@ export function errorHtml(message, file, line) {
 		<title>Error</title>
 		<body style="background:${ERROR_COLOR}; color:#fff; font-family:Helvetica">
 			<h1>Fledermaus error</h1>
-			<p>${formatErrorHtml(message)}</p>
+			<pre>${formatErrorHtml(message)}</pre>
 			<pre>${_.escape(code)}</pre>
 		</body>
 	`;
