@@ -59,6 +59,9 @@ function remarkCustomTags(processor, customTags) {
 			// Parse tag’s HTML
 			let dom = parse5.parseFragment(child.value);
 			let tagNode = dom.childNodes[0];
+			if (!tagNode) {
+				throw new Error('Cannot parse custom tag:', child.value);
+			}
 			let { tagName, attrs } = tagNode;
 			let childNode = tagNode.childNodes[0];
 			attrs.push({
