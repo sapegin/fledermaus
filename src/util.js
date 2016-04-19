@@ -5,6 +5,7 @@ import yaml from 'js-yaml';
 import vdo from 'vdo';
 import chalk from 'chalk';
 import striptags from 'striptags';
+import stripAnsi from 'strip-ansi';
 import escapeHtml from 'escape-html';
 import IntlMessageFormat from 'intl-messageformat';
 import { DateTimeFormat } from 'intl';
@@ -198,7 +199,7 @@ export function printError(message) {
  * @return {string}
  */
 export function formatErrorHtml(message) {
-	return _.escape(message).replace(/\n/g, '<br>');
+	return _.escape(stripAnsi(message)).replace(/\n/g, '<br>');
 }
 
 /**
