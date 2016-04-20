@@ -91,7 +91,7 @@ function remarkCustomTags(processor, customTags) {
 				result = errorInlineHtml(`Error while rendering custom tag <x-${tagName}>: ${e.message}`, { block: true });
 			}
 			node.type = 'html';
-			node.value = result.trim();
+			node.value = result.toString().trim();
 			node.children = null;
 		}
 	});
