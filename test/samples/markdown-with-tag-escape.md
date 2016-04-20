@@ -7,3 +7,5 @@ https://scontent-frt3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/1281898
 </x-group>
 
 More text.
+
+<x-video src="http://www.youtube.com/embed/6m927nSRh9I">

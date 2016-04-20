@@ -30,7 +30,7 @@ const remarkHtmlOptions = {
  * @return {string}
  */
 export function escapeMarkdownInTags(string) {
-	return string.replace(/<x-[-\w]+>[\s\S]*?<\/x-/gm, m => {
+	return string.replace(/<x-.*?>([\s\S]*?<\/x-)?/gm, m => {
 		return m.replace(/\/\//g, '\\/\\/');
 	});
 }
@@ -57,7 +57,7 @@ function remarkCustomTags(processor, customTags) {
 		let child = node.children && node.children[0];
 		if (child && child.type === 'text' && child.value.startsWith('<x-')) {
 			// Parse tag’s HTML
-			let dom = parse5.parseFragment(child.value);
+			let dom = parse5.parseFragment(unescapeMarkdown(child.value));
 			let tagNode = dom.childNodes[0];
 			if (!tagNode) {
 				throw new Error('Cannot parse custom tag:', child.value);
@@ -66,7 +66,7 @@ function remarkCustomTags(processor, customTags) {
 			let childNode = tagNode.childNodes[0];
 			attrs.push({
 				name: 'children',
-				value: childNode ? unescapeMarkdown(childNode.value).trim() : null,
+				value: childNode ? childNode.value.trim() : null,
 			});
 			tagName = tagName.replace(/^x-/, '');
 
