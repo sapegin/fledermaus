@@ -169,7 +169,7 @@ export function markdown(string) {
 		return markdownBlock(string)
 			.replace(/^\s*<p>/, '')
 			.replace(/<\/p>\s*$/, '')
-			;
+		;
 	}
 }
 
@@ -238,7 +238,7 @@ export function errorInlineHtml(message, { block } = {}) {
 	if (block) {
 		html = `<p>${html}</p>`;
 	}
-	return html;
+	return safe(html);
 }
 
 /**
