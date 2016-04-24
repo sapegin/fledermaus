@@ -3,6 +3,7 @@ import glob from 'glob';
 import fastmatter from 'fastmatter';
 import _ from 'lodash';
 
+import renderRss from './renderers/rss';
 import {
 	getExtension,
 	removeExtension,
@@ -378,20 +379,24 @@ export function generatePage(document, config, helpers, renderers) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
 	}
 
+	let pagePath = removeExtension(document.sourcePath);
+	let pageContext = makeContext(document, config, helpers);
+
+	if (document.layout === 'RSS') {
+		return {
+			pagePath: `${pagePath}.xml`,
+			content: renderRss(pageContext),
+		};
+	}
+
 	let [templateExtension, render] = _.toPairs(renderers).shift();
 	let templateFile = `${document.layout}.${templateExtension}`;
-
-	let pageContext = makeContext(document, config, helpers);
 	let content = render(templateFile, pageContext);
 
-	let pageExtension = getExtension(document.layout);
-	if (!pageExtension) {
-		pageExtension = 'html';
-	}
-	let pagePath = removeExtension(document.sourcePath) + `.${pageExtension}`;
+	let pageExtension = getExtension(document.layout) || 'html';
 
 	return {
-		pagePath,
+		pagePath: `${pagePath}.${pageExtension}`,
 		content,
 	};
 }

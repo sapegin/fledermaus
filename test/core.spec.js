@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import * as core from '../src/core';
 import { readFile } from '../src/util';
+import * as helpers from '../src/helpers';
 import createTemplateRenderer from '../src/renderers/template';
 import createMarkdownRenderer from '../src/renderers/markdown';
 
@@ -461,6 +462,42 @@ describe('core', () => {
 			}, { jsx: renderTemplate });
 			expect(result.content).to.eql('<!doctype html><foo><b>Test</b></foo>');
 			expect(result.pagePath).to.eql('all/feed.xml');
+		});
+		it('should render an RSS feed if layout is "RSS"', () => {
+			let result = core.generatePage({
+				title: 'Hello',
+				description: 'My RSS',
+				layout: 'RSS',
+				url: '/feed',
+				sourcePath: 'feed.md',
+				items: [
+					{
+						title: 'Post 1',
+						description: 'Hello world 1.',
+						url: '/blog/1',
+						date: 'Jan 1, 2016',
+					},
+					{
+						title: 'Post 2',
+						description: '<p>Read more in <a href="/blog/22">this post</a>.</p>',
+						url: '/blog/2',
+						date: 'Jan 2, 2016',
+					},
+				],
+			}, {
+				base: {
+					url: 'http://example.com/',
+				},
+			}, helpers, {
+				jsx: renderTemplate,
+			});
+
+			const content = result.content.replace(
+				/<lastBuildDate>\w+, \d+ \w+ 20\d\d \d\d:\d\d:\d\d GMT<\/lastBuildDate>/,
+				'<lastBuildDate>Sun, 1 Apr 2016 11:12:13 GMT</lastBuildDate>'
+			);
+			expect(content).to.eql(readFile('test/expected/feed.xml'));
+			expect(result.pagePath).to.eql('feed.xml');
 		});
 		it('should throw if layout is not specified', () => {
 			let func = () => {
