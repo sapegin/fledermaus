@@ -98,8 +98,8 @@ export function formatFieldsForSortByOrder(shortFields) {
  * @return {string}
  */
 export function meta(name, content) {
-	content = cleanHtml(content);
-	return `<meta name="${name}" content="${content}">`;
+	content = striptags(content);
+	return vdo('meta', { name, content });
 }
 
 /**
@@ -110,8 +110,8 @@ export function meta(name, content) {
  * @return {string}
  */
 export function og(name, content) {
-	content = cleanHtml(content);
-	return `<meta property="${name}" content="${content}">`;
+	content = striptags(content);
+	return vdo('meta', { property: name, content });
 }
 
 /**

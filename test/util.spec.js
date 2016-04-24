@@ -53,22 +53,22 @@ describe('util', () => {
 	describe('meta', () => {
 		it('should return HTML meta tag', () => {
 			let result = util.meta('description', 'My blog');
-			expect(result).to.eql('<meta name="description" content="My blog">');
+			expect(result.toString()).to.eql('<meta name="description" content="My blog">');
 		});
-		it('should clean HTML tag', () => {
+		it('should strip HTML and escape special characters', () => {
 			let result = util.meta('description', 'My <b>"blog"</b>');
-			expect(result).to.eql('<meta name="description" content="My &quot;blog&quot;">');
+			expect(result.toString()).to.eql('<meta name="description" content="My &quot;blog&quot;">');
 		});
 	});
 
 	describe('og', () => {
 		it('should return HTML meta tag for Open Graph', () => {
 			let result = util.og('description', 'My blog');
-			expect(result).to.eql('<meta property="description" content="My blog">');
+			expect(result.toString()).to.eql('<meta property="description" content="My blog">');
 		});
-		it('should clean HTML tag', () => {
+		it('should strip HTML and escape special characters', () => {
 			let result = util.og('description', 'My <b>"blog"</b>');
-			expect(result).to.eql('<meta property="description" content="My &quot;blog&quot;">');
+			expect(result.toString()).to.eql('<meta property="description" content="My &quot;blog&quot;">');
 		});
 	});
 
