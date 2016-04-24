@@ -136,11 +136,11 @@ describe('util', () => {
 	describe('errorInlineHtml', () => {
 		it('should return an HTML', () => {
 			let result = util.errorInlineHtml('Error in <tag>');
-			expect(result).to.eql('<b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b>');
+			expect(result.toString()).to.eql('<b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b>');
 		});
 		it('should wrap HTML in a <p> tag', () => {
 			let result = util.errorInlineHtml('Error in <tag>', { block: true });
-			expect(result).to.eql('<p><b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b></p>');
+			expect(result.toString()).to.eql('<p><b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b></p>');
 		});
 	});
 
