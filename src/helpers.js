@@ -23,6 +23,7 @@ import {
 	cleanHtml,
 	getMessageFormat,
 	getDateTimeFormat,
+	errorInlineHtml,
 } from './util';
 
 export {
@@ -128,7 +129,12 @@ export function dateToString(date) {
 		month: 'long',
 		day: 'numeric',
 	});
-	return format.format(date);
+	try {
+		return format.format(date);
+	}
+	catch (e) {
+		return errorInlineHtml(`dateToString: invalid date "${date}" at ${this.sourcePath}`);
+	}
 }
 
 /**
