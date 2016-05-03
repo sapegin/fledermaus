@@ -18,20 +18,25 @@ export default function renderRss(props = {}) {
 		}
 	}
 
-	props.language = props.lang;
-	props.feed_url = props.absolutizeUrl(props.feedUrl || `${props.url}.xml`);
-	props.site_url = props.absolutizeUrl(props.siteUrl || '');
-	props.image_url = props.imageUrl && props.absolutizeUrl(props.imageUrl);
-	props.custom_namespaces = props.customNamespaces;
-	props.custom_elements = props.customElements;
+	props = {
+		...props,
+		language: props.lang,
+		feed_url: props.absolutizeUrl(props.feedUrl || `${props.url}.xml`),
+		site_url: props.absolutizeUrl(props.siteUrl || ''),
+		image_url: props.imageUrl && props.absolutizeUrl(props.imageUrl),
+		custom_namespaces: props.customNamespaces,
+		custom_elements: props.customElements,
+	};
 
 	let feed = new RSS(props);
 
 	props.items.forEach(item => {
-		item.url = props.absolutizeUrl(item.url);
-		item.description = props.absolutizeLinks(item.description);
-		item.custom_elements = item.customElements;
-		feed.item(item);
+		feed.item({
+			...item,
+			url: props.absolutizeUrl(item.url),
+			description: props.absolutizeLinks(item.description),
+			custom_elements: item.customElements,
+		});
 	});
 
 	return feed.xml({ indent: true });
