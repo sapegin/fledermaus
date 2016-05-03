@@ -34,7 +34,7 @@ export default function renderRss(props = {}) {
 		feed.item({
 			...item,
 			url: props.absolutizeUrl(item.url),
-			description: props.absolutizeLinks(item.description),
+			description: props.absolutizeLinks(item.content),
 			custom_elements: item.customElements,
 		});
 	});
