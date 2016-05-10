@@ -4,7 +4,7 @@ import renderRss from '../src/renderers/rss';
 import { readFile } from '../src/util';
 import * as helpers from '../src/helpers';
 
-describe('template', () => {
+describe('RSS', () => {
 	describe('render', () => {
 		it('should render an RSS feed', () => {
 			let result = renderRss({
@@ -16,13 +16,13 @@ describe('template', () => {
 				items: [
 					{
 						title: 'Post 1',
-						description: 'Hello world 1.',
+						content: 'Hello world 1.',
 						url: '/blog/1',
 						date: 'Jan 1, 2016',
 					},
 					{
 						title: 'Post 2',
-						description: '<p>Read more in <a href="/blog/22">this post</a>.</p>',
+						content: '<p>Read more in <a href="/blog/22">this post</a>.</p>',
 						url: '/blog/2',
 						date: 'Jan 2, 2016',
 					},
