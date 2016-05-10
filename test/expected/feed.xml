@@ -11,14 +11,14 @@
             <description><![CDATA[Hello world 1.]]></description>
             <link>http://example.com/blog/1</link>
             <guid isPermaLink="true">http://example.com/blog/1</guid>
-            <pubDate>Thu, 31 Dec 2015 23:00:00 GMT</pubDate>
+            <pubDate>Sun, 1 Apr 2016 11:12:13 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Post 2]]></title>
             <description><![CDATA[<p>Read more in <a href="http://example.com//blog/22">this post</a>.</p>]]></description>
             <link>http://example.com/blog/2</link>
             <guid isPermaLink="true">http://example.com/blog/2</guid>
-            <pubDate>Fri, 01 Jan 2016 23:00:00 GMT</pubDate>
+            <pubDate>Sun, 1 Apr 2016 11:12:13 GMT</pubDate>
         </item>
     </channel>
 </rss>
