@@ -493,8 +493,8 @@ describe('core', () => {
 			});
 
 			const content = result.content.replace(
-				/<lastBuildDate>\w+, \d+ \w+ 20\d\d \d\d:\d\d:\d\d GMT<\/lastBuildDate>/,
-				'<lastBuildDate>Sun, 1 Apr 2016 11:12:13 GMT</lastBuildDate>'
+				/<(\w+Date)>\w+, \d+ \w+ 20\d\d \d\d:\d\d:\d\d GMT<\/(?:\w+Date)>/,
+				'<$1>Sun, 1 Apr 2016 11:12:13 GMT</$1>'
 			);
 			expect(content).to.eql(readFile('test/expected/feed.xml'));
 			expect(result.pagePath).to.eql('feed.xml');
