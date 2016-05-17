@@ -15,7 +15,7 @@ $ npm install --save-dev fledermaus
 Examples below are written in ES6, so you need Babel to run them (but Babel is not required to use Fledermaus):
 
 ```bash
-$ npm install --save-dev babel-cli babel-preset-node5
+$ npm install --save-dev babel-cli babel-preset-tamia babel-plugin-transform-react-jsx
 ```
 
 I also recommend to use http-server (or [tamia-build](https://github.com/tamiadev/tamia-build)) to preview your site locally:
@@ -39,30 +39,34 @@ Your `package.json` should look like this:
   "private": true,
   "devDependencies": {
     "babel-cli": "~6.4.0",
-    "babel-preset-node5": "~10.7.0",
+    "babel-plugin-transform-react-jsx": "~6.7.4",
+    "babel-preset-tamia": "~6.5.0",
     "chokidar-cli": "~1.2.0",
     "http-server": "~0.8.5",
     "fledermaus": "~4.1.0"
   },
   "scripts": {
     "start": "npm run server & npm run watch",
-    "build": "node lib",
-    "build:watch": "chokidar templates source -c 'node lib'",
-    "compile": "babel -d lib src",
-    "compile:watch": "babel --watch -d lib src",
+    "build": "babel-node src",
+    "build:watch": "chokidar templates source src -c 'babel-node src'",
     "server": "http-server public -p 4242 -o"
   }
 }
 ```
 
-Now you can use `npm run build` to build your site and `npm start` to run a local server. You’ll need to run `npm run compile` every time you change file in the `lib` folder.
+Now you can use `npm run build` to build your site and `npm start` to run a local server.
 
 Your `.babelrc` should look like this:
 
 ```json
 {
   "presets": [
-    "node5"
+    "tamia"
+  ],
+  "plugins": [
+    ["transform-react-jsx", {
+      "pragma": "vdo"
+    }]
   ]
 }
 ```
@@ -78,7 +82,7 @@ Your `.babelrc` should look like this:
 │   └── en.yml    # Language specific configs
 │   └── ru.yml
 ├── source        # Markdown sources
-├── templates     # ECT templates
+├── templates     # JSX templates
 ├── public        # Generated HTML files
 ```
 
@@ -114,7 +118,7 @@ let documents = loadSourceFiles('.', ['md'], {
   },
 });
 
-let pages = generatePages(documents, { assetsFolder: 'public' }, helpers, { ect: renderTemplate });
+let pages = generatePages(documents, { assetsFolder: 'public' }, helpers, { jsx: renderTemplate });
 
 savePages(pages, 'public');
 ```
@@ -153,7 +157,7 @@ let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {
   },
 });
 
-let pages = generatePages(documents, config, helpers, { ect: renderTemplate });
+let pages = generatePages(documents, config, helpers, { jsx: renderTemplate });
 
 savePages(pages, options.publicFolder);
 ```
@@ -183,6 +187,7 @@ You can find examples of templates and source files [here](https://github.com/sa
 * pagination;
 * cut;
 * tags;
+* RSS feed.
 
 `src/index.js`:
 
@@ -285,10 +290,23 @@ documents = languages.reduce((result, lang) => {
     return [...tagsResult, ...tagsNewDocs];
   }, []));
 
+  // RSS feed
+  newDocs.push({
+    sourcePath: `${lang}/feed.xml`,
+    url: '/feed.xml',
+    layout: 'RSS',
+    items: docs.slice(0, options.postsInFeed),
+    title: config[lang].title,
+    description: config[lang].description,
+    copyright: config[lang].author,
+    imageUrl: '/images/userpic.jpg',
+    lang,
+  });
+
   return [...result, ...docs, ...newDocs];
 }, []);
 
-let pages = generatePages(documents, config, helpers, { ect: renderTemplate });
+let pages = generatePages(documents, config, helpers, { jsx: renderTemplate });
 
 savePages(pages, options.publicFolder);
 ```
@@ -367,7 +385,7 @@ let helpers = { ...defaultHelpers, ...customHelpers };
 
 // ...
 
-let pages = generatePages(documents, config, helpers, { ect: renderTemplate });
+let pages = generatePages(documents, config, helpers, { jsx: renderTemplate });
 
 // ...
 ```
