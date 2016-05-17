@@ -107,7 +107,7 @@ describe('helpers', () => {
 				lang: 'ru',
 			});
 			let result = func('hi', { name: 'Fledermaus' });
-			expect(result).to.eql('Привет, Fledermaus!');
+			expect(result.toString()).to.eql('Привет, Fledermaus!');
 		});
 		it('should return plural form of a number (English)', () => {
 			let func = helpers.__.bind({
@@ -122,11 +122,11 @@ describe('helpers', () => {
 				},
 				lang: 'en',
 			});
-			expect(func('posts', { num: 0 })).to.eql('No posts');
-			expect(func('posts', { num: 1 })).to.eql('One post');
-			expect(func('posts', { num: 2 })).to.eql('2 posts');
-			expect(func('posts', { num: 11 })).to.eql('11 posts');
-			expect(func('posts', { num: 21 })).to.eql('21 posts');
+			expect(func('posts', { num: 0 }).toString()).to.eql('No posts');
+			expect(func('posts', { num: 1 }).toString()).to.eql('One post');
+			expect(func('posts', { num: 2 }).toString()).to.eql('2 posts');
+			expect(func('posts', { num: 11 }).toString()).to.eql('11 posts');
+			expect(func('posts', { num: 21 }).toString()).to.eql('21 posts');
 		});
 		it('should return plural form of a number (Russian)', () => {
 			let func = helpers.__.bind({
@@ -141,12 +141,12 @@ describe('helpers', () => {
 				},
 				lang: 'ru',
 			});
-			expect(func('posts', { num: 0 })).to.eql('Нет постов');
-			expect(func('posts', { num: 1 })).to.eql('Один пост');
-			expect(func('posts', { num: 2 })).to.eql('2 поста');
-			expect(func('posts', { num: 5 })).to.eql('5 постов');
-			expect(func('posts', { num: 11 })).to.eql('11 постов');
-			expect(func('posts', { num: 121 })).to.eql('121 пост');
+			expect(func('posts', { num: 0 }).toString()).to.eql('Нет постов');
+			expect(func('posts', { num: 1 }).toString()).to.eql('Один пост');
+			expect(func('posts', { num: 2 }).toString()).to.eql('2 поста');
+			expect(func('posts', { num: 5 }).toString()).to.eql('5 постов');
+			expect(func('posts', { num: 11 }).toString()).to.eql('11 постов');
+			expect(func('posts', { num: 121 }).toString()).to.eql('121 пост');
 		});
 	});
 
