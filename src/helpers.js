@@ -66,7 +66,7 @@ export function pageLang() {
 export function __(key, params = {}) {
 	let string = this.option(key);
 	let message = getMessageFormat(string, this.pageLang());
-	return message.format(params);
+	return vdo.markSafe(message.format(params));
 }
 
 /**
@@ -188,7 +188,7 @@ export let inlineFile = _.memoize(function(url) {
  * @return {string}
  */
 export function typo(string) {
-	return string && vdo.markSafe(richtypo.rich(string, this.pageLang()));
+	return string && vdo.markSafe(richtypo.rich(string.toString(), this.pageLang()));
 }
 
 /**
@@ -198,7 +198,7 @@ export function typo(string) {
  * @return {string}
  */
 export function typoTitle(string) {
-	return string && vdo.markSafe(richtypo.title(string, this.pageLang()));
+	return string && vdo.markSafe(richtypo.title(string.toString(), this.pageLang()));
 }
 
 /**
