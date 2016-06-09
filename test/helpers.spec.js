@@ -175,6 +175,18 @@ describe('helpers', () => {
 			let result = func('/all/post');
 			expect(result).to.eql('http://example.com/all/post');
 		});
+		it('should return absolute URLs as is', () => {
+			let func = helpers.absolutizeUrl.bind({
+				option: helpers.option,
+				config: {
+					base: {
+						url: 'http://example.com/',
+					},
+				},
+			});
+			let result = func('http://example.com/all/post');
+			expect(result).to.eql('http://example.com/all/post');
+		});
 	});
 
 	describe('absolutizeLinks', () => {

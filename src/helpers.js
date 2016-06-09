@@ -76,6 +76,10 @@ export function __(key, params = {}) {
  * @return {string}
  */
 export function absolutizeUrl(url) {
+	if (url.startsWith('http://') || url.startsWith('https://')) {
+		return url;
+	}
+
 	let siteUrl = this.option('url');
 	siteUrl = siteUrl.replace(/\/$/, '');
 	url = url.replace(/^\//, '');
