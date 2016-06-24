@@ -98,7 +98,7 @@ export function formatFieldsForSortByOrder(shortFields) {
  * @return {string}
  */
 export function meta(name, content) {
-	content = striptags(content);
+	content = striptags(String(content));
 	return vdo('meta', { name, content });
 }
 
@@ -110,7 +110,7 @@ export function meta(name, content) {
  * @return {string}
  */
 export function og(name, content) {
-	content = striptags(content);
+	content = striptags(String(content));
 	return vdo('meta', { property: name, content });
 }
 

@@ -59,6 +59,10 @@ describe('util', () => {
 			let result = util.meta('description', 'My <b>"blog"</b>');
 			expect(result.toString()).to.eql('<meta name="description" content="My &quot;blog&quot;">');
 		});
+		it('should work with numbers', () => {
+			let result = util.meta('description', 42);
+			expect(result.toString()).to.eql('<meta name="description" content="42">');
+		});
 	});
 
 	describe('og', () => {
@@ -69,6 +73,10 @@ describe('util', () => {
 		it('should strip HTML and escape special characters', () => {
 			let result = util.og('description', 'My <b>"blog"</b>');
 			expect(result.toString()).to.eql('<meta property="description" content="My &quot;blog&quot;">');
+		});
+		it('should work with numbers', () => {
+			let result = util.og('description', 42);
+			expect(result.toString()).to.eql('<meta property="description" content="42">');
 		});
 	});
 
