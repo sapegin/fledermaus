@@ -24,6 +24,8 @@ import {
 	getMessageFormat,
 	getDateTimeFormat,
 	errorInlineHtml,
+	absolutizeUrl as absolutizeUrlBase,
+	absolutizeLinks as absolutizeLinksBase,
 } from './util';
 
 export {
@@ -76,14 +78,7 @@ export function __(key, params = {}) {
  * @return {string}
  */
 export function absolutizeUrl(url) {
-	if (url.startsWith('http://') || url.startsWith('https://')) {
-		return url;
-	}
-
-	let siteUrl = this.option('url');
-	siteUrl = siteUrl.replace(/\/$/, '');
-	url = url.replace(/^\//, '');
-	return `${siteUrl}/${url}`;
+	return absolutizeUrlBase(url, this.option('url'));
 }
 
 /**
@@ -93,11 +88,7 @@ export function absolutizeUrl(url) {
  * @return {string}
  */
 export function absolutizeLinks(html) {
-	let url = this.option('url');
-	return html && (html
-		.replace(/href="\//g, 'href="' + url + '/')
-		.replace(/src="\//g, 'src="' + url + '/')
-	);
+	return absolutizeLinksBase(html, this.option('url'));
 }
 
 /**

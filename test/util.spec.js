@@ -102,6 +102,38 @@ describe('util', () => {
 		});
 	});
 
+	describe('absolutizeUrl', () => {
+		it('should return absolute URL', () => {
+			let result = util.absolutizeUrl('/all/post', 'http://example.com');
+			expect(result).to.eql('http://example.com/all/post');
+		});
+		it('should trim extra slashes', () => {
+			let result = util.absolutizeUrl('/all/post', 'http://example.com/');
+			expect(result).to.eql('http://example.com/all/post');
+		});
+		it('should return absolute URLs as is', () => {
+			let result = util.absolutizeUrl('http://example.com/all/post', 'http://example.com/');
+			expect(result).to.eql('http://example.com/all/post');
+		});
+	});
+
+	describe('absolutizeLinks', () => {
+		it('should make all links and image URLs absolute', () => {
+			let result = util.absolutizeLinks(`
+				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="/somewhere">somewhere</a> in <code>$PATH</code>:</p>
+				<div class="screenshot screenshot_mac">
+					<img src="/images/mac__shell_dialog_error.png" alt="AppleScript error message">
+				</div>
+			`, 'http://example.com');
+			expect(result).to.eql(`
+				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="http://example.com/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="http://example.com/somewhere">somewhere</a> in <code>$PATH</code>:</p>
+				<div class="screenshot screenshot_mac">
+					<img src="http://example.com/images/mac__shell_dialog_error.png" alt="AppleScript error message">
+				</div>
+			`);
+		});
+	});
+
 	describe('cleanHtml', () => {
 		it('should remove HTML and escape special characters in a given HTML', () => {
 			let result = util.cleanHtml(`

@@ -137,6 +137,37 @@ export function getFirstImage(text) {
 }
 
 /**
+ * Absolutize URL.
+ *
+ * @param {string} url URL.
+ * @param {string} siteUrl Site base URL.
+ * @return {string}
+ */
+export function absolutizeUrl(url, siteUrl) {
+	if (url.startsWith('http://') || url.startsWith('https://')) {
+		return url;
+	}
+
+	const baseUrl = siteUrl.replace(/\/$/, '');
+	url = url.replace(/^\//, '');
+	return `${baseUrl}/${url}`;
+}
+
+/**
+ * Absolutize all links and image URLs.
+ *
+ * @param {string} html
+ * @param {string} siteUrl Site base URL.
+ * @return {string}
+ */
+export function absolutizeLinks(html, siteUrl) {
+	return html && (html
+		.replace(/href="\//g, 'href="' + siteUrl + '/')
+		.replace(/src="\//g, 'src="' + siteUrl + '/')
+	);
+}
+
+/**
  * Render Markdown.
  *
  * @param {string} string
