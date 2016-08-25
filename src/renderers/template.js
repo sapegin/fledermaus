@@ -26,12 +26,12 @@ export default function createTemplateRenderer(options = {}) {
 			let page = require(filepath).default;
 			return '<!doctype html>' + page(props);
 		}
-		catch (e) {
-			let error = e.message.replace(`${path.resolve(options.root)}/`, '');
+		catch (exception) {
+			let error = exception.message.replace(`${path.resolve(options.root)}/`, '');
 			return errorHtml([
 				`Error while rendering a page ${props.sourcePath} with a template ${template}:`,
 				error,
-				e.stack,
+				exception.stack,
 			].join('\n'));
 		}
 	};

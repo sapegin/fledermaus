@@ -57,7 +57,10 @@ export function parseCustomFields(attributes, fieldParsers) {
 	for (let name in fieldParsers) {
 		parsedAttributes[name] = fieldParsers[name](attributes[name], attributes);
 	}
-	return { ...attributes, ...parsedAttributes };
+	return {
+		...attributes,
+		...parsedAttributes,
+	};
 }
 
 /**
@@ -157,7 +160,10 @@ export function readConfigFiles(files) {
 			configs.langs[name] = readYamlFile(filepath);
 		}
 		return configs;
-	}, { base: {}, langs: {} });
+	}, {
+		base: {},
+		langs: {},
+	});
 }
 
 /**
@@ -177,7 +183,10 @@ export function mergeConfigs(configs) {
 	}
 
 	return Object.keys(langs).reduce((merged, lang) => {
-		merged[lang] = { ...configs.base, ...langs[lang] };
+		merged[lang] = {
+			...configs.base,
+			...langs[lang],
+		};
 		return merged;
 	}, baseConfig);
 }
@@ -373,7 +382,7 @@ export function makeContext(document, config, helpers) {
  */
 export function generatePage(document, config, helpers, renderers) {
 	if (!document.sourcePath) {
-		throw new Error(`Source path not specified. Add "sourcePath" front matter field.`);
+		throw new Error('Source path not specified. Add "sourcePath" front matter field.');
 	}
 	if (!document.layout) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);

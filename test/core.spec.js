@@ -9,7 +9,7 @@ import * as helpers from '../src/helpers';
 import createTemplateRenderer from '../src/renderers/template';
 import createMarkdownRenderer from '../src/renderers/markdown';
 
-/* eslint-disable object-shorthand */
+/* eslint-disable object-shorthand, object-property-newline */
 
 let renderTemplate = createTemplateRenderer({
 	root: 'test/samples',
@@ -188,8 +188,8 @@ describe('core', () => {
 				siteTitle: function() {
 					return this.config.base.title;
 				},
-				heading: function(l) {
-					return `<h${l}>${this.title}</h${l}>`;
+				heading: function(level) {
+					return `<h${level}>${this.title}</h${level}>`;
 				},
 			});
 			expect(result.title).to.eql('Hello');

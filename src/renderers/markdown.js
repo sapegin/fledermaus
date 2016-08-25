@@ -87,8 +87,11 @@ function remarkCustomTags(processor, customTags) {
 			try {
 				result = tagFunction(attrs) || '';
 			}
-			catch (e) {
-				result = errorInlineHtml(`Error while rendering custom tag <x-${tagName}>: ${e.message}`, { block: true });
+			catch (exception) {
+				result = errorInlineHtml(
+					`Error while rendering custom tag <x-${tagName}>: ${exception.message}`,
+					{ block: true }
+				);
 			}
 			node.type = 'html';
 			node.value = result.toString().trim();
@@ -129,8 +132,8 @@ function render(processor, source) {
 	try {
 		return processor.process(source);
 	}
-	catch (e) {
-		let error = `Error while rendering Markdown: ${e.message}`;
+	catch (exception) {
+		let error = `Error while rendering Markdown: ${exception.message}`;
 		console.error(error);
 		return errorInlineHtml(error);
 	}

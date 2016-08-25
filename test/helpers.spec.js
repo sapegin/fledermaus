@@ -117,7 +117,7 @@ describe('helpers', () => {
 					base: {
 					},
 					en: {
-						posts: `{num, plural, =0 {No posts} =1 {One post} other {# posts}}`,
+						posts: '{num, plural, =0 {No posts} =1 {One post} other {# posts}}',
 					},
 				},
 				lang: 'en',
@@ -136,7 +136,7 @@ describe('helpers', () => {
 					base: {
 					},
 					ru: {
-						posts: `{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}`,
+						posts: '{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}',
 					},
 				},
 				lang: 'ru',
@@ -402,7 +402,10 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({ src: 'file.txt', inline: true });
+			let result = func({
+				src: 'file.txt',
+				inline: true,
+			});
 			expect(result.type).to.eql('script');
 			expect(result.attrs).to.eql({});
 			expect(result.children[0].innerHTML).to.eql('/*file*/Hello.');
@@ -440,7 +443,10 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({ src: 'file.txt', inline: true });
+			let result = func({
+				src: 'file.txt',
+				inline: true,
+			});
 			expect(result.type).to.eql('style');
 			expect(result.attrs).to.eql({});
 			expect(result.children[0].innerHTML).to.eql('/*file*/Hello.');

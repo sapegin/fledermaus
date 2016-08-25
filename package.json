@@ -30,8 +30,8 @@
     "babel-preset-node5": "~11.0.1",
     "chai": "~3.5.0",
     "documentation": "github:documentationjs/documentation",
-    "eslint": "~1.10.3",
-    "eslint-config-tamia": "~1.2.0",
+    "eslint": "~3.3.1",
+    "eslint-config-tamia": "~3.0.0",
     "mkdirp": "~0.5.1",
     "mocha": "~2.4.5",
     "rimraf": "~2.5.2"

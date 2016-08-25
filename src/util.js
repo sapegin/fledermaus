@@ -71,8 +71,9 @@ export function readYamlFile(filepath) {
 	try {
 		return yaml.safeLoad(readFile(filepath));
 	}
-	catch (e) {
-		console.log(`Cannot read YAML file ${filepath}:`, e);
+	catch (exception) {
+		console.log(`Cannot read YAML file ${filepath}:`, exception);
+		return '';
 	}
 }
 
@@ -99,7 +100,10 @@ export function formatFieldsForSortByOrder(shortFields) {
  */
 export function meta(name, content) {
 	content = striptags(String(content));
-	return vdo('meta', { name, content });
+	return vdo('meta', {
+		name,
+		content,
+	});
 }
 
 /**
@@ -111,7 +115,10 @@ export function meta(name, content) {
  */
 export function og(name, content) {
 	content = striptags(String(content));
-	return vdo('meta', { property: name, content });
+	return vdo('meta', {
+		property: name,
+		content,
+	});
 }
 
 /**
@@ -178,6 +185,7 @@ export function markdownBlock(string) {
 		let markdown = getMarkdownRenderer();
 		return markdown(string);
 	}
+	return '';
 }
 
 /**
@@ -202,6 +210,7 @@ export function markdown(string) {
 			.replace(/<\/p>\s*$/, '')
 		;
 	}
+	return '';
 }
 
 /**

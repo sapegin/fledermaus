@@ -127,7 +127,7 @@ export function dateToString(date) {
 	try {
 		return format.format(date);
 	}
-	catch (e) {
+	catch (exception) {
 		return errorInlineHtml(`dateToString: invalid date "${date}" at ${this.sourcePath}`);
 	}
 }
