@@ -347,7 +347,7 @@ describe('helpers', () => {
 			});
 			let result = func('no-no');
 			expect(result).to.be.an('object');
-			expect(result.innerHTML).to.eql('<nobr>no-no</nobr>');
+			expect(result.nodeValue).to.eql('<nobr>no-no</nobr>');
 		});
 	});
 
@@ -359,7 +359,7 @@ describe('helpers', () => {
 			});
 			let result = func('No &amp; No');
 			expect(result).to.be.an('object');
-			expect(result.innerHTML).to.eql('No\xA0<span class="amp">&amp;</span> No');
+			expect(result.nodeValue).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
 
@@ -368,7 +368,7 @@ describe('helpers', () => {
 			let func = helpers.json;
 			let result = func({ a: 42 });
 			expect(result).to.be.an('object');
-			expect(result.innerHTML).to.eql('{"a":42}');
+			expect(result.nodeValue).to.eql('{"a":42}');
 		});
 	});
 
@@ -386,9 +386,9 @@ describe('helpers', () => {
 				},
 			});
 			let result = func({ src: 'file.txt' });
-			expect(result.type).to.eql('script');
-			expect(result.attrs.src).to.match(/^file.txt\?[0-9a-f]{32}$/);
-			expect(result.children).to.eql([undefined]);
+			expect(result.nodeName).to.eql('script');
+			expect(result.attributes.src).to.match(/^file.txt\?[0-9a-f]{32}$/);
+			expect(result.childNodes).to.eql([undefined]);
 		});
 		it('should return a script tag with inlined script', () => {
 			let func = helpers.Script.bind({
@@ -406,9 +406,9 @@ describe('helpers', () => {
 				src: 'file.txt',
 				inline: true,
 			});
-			expect(result.type).to.eql('script');
-			expect(result.attrs).to.eql({});
-			expect(result.children[0].innerHTML).to.eql('/*file*/Hello.');
+			expect(result.nodeName).to.eql('script');
+			expect(result.attributes).to.eql({});
+			expect(result.childNodes[0].nodeValue).to.eql('/*file*/Hello.');
 		});
 	});
 
@@ -426,10 +426,10 @@ describe('helpers', () => {
 				},
 			});
 			let result = func({ src: 'file.txt' });
-			expect(result.type).to.eql('link');
-			expect(result.attrs.href).to.match(/^file.txt\?[0-9a-f]{32}$/);
-			expect(result.attrs.rel).to.eql('stylesheet');
-			expect(result.children).to.eql(false);
+			expect(result.nodeName).to.eql('link');
+			expect(result.attributes.href).to.match(/^file.txt\?[0-9a-f]{32}$/);
+			expect(result.attributes.rel).to.eql('stylesheet');
+			expect(result.childNodes).to.eql(false);
 		});
 		it('should return a style tag with inlined style', () => {
 			let func = helpers.Style.bind({
@@ -447,9 +447,9 @@ describe('helpers', () => {
 				src: 'file.txt',
 				inline: true,
 			});
-			expect(result.type).to.eql('style');
-			expect(result.attrs).to.eql({});
-			expect(result.children[0].innerHTML).to.eql('/*file*/Hello.');
+			expect(result.nodeName).to.eql('style');
+			expect(result.attributes).to.eql({});
+			expect(result.childNodes[0].nodeValue).to.eql('/*file*/Hello.');
 		});
 	});
 });
