@@ -1,7 +1,7 @@
 import remark from 'remark';
 import remarkHtml from 'remark-html';
 import visit from 'unist-util-visit';
-import hljs from 'highlight.js';
+import low from 'lowlight';
 import parse5 from 'parse5';
 import _ from 'lodash';
 import { errorInlineHtml } from '../util';
@@ -113,11 +113,18 @@ function remarkHljs(processor, options) {
 			node.data = {};
 		}
 
-		let lang = node.lang;
-		node.data.htmlContent = lang
-			? hljs.highlight(options.aliases[lang] || lang, node.value).value
-			: hljs.highlightAuto(node.value).value
+		const lang = node.lang;
+		const highlighted = lang
+			? low.highlight(options.aliases[lang] || lang, node.value).value
+			: low.highlightAuto(node.value).value
 		;
+		node.data.hChildren = highlighted;
+		node.data.hProperties = {
+			className: [
+				'hljs',
+				lang && `language-${lang}`,
+			],
+		};
 	});
 }
 
@@ -130,7 +137,7 @@ function remarkHljs(processor, options) {
  */
 function render(processor, source) {
 	try {
-		return processor.process(source);
+		return processor.process(source).contents;
 	}
 	catch (exception) {
 		let error = `Error while rendering Markdown: ${exception.message}`;

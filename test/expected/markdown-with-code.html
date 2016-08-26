@@ -1,13 +1,13 @@
 <p>Vladimir Starkov <a href="http://vstarkov.com/monthbook/">suggests</a> to read at least two technical books a month.</p>
-<pre><code><span class="hljs-comment">// TODO</span>
+<pre><code class="hljs"><span class="hljs-comment">// TODO</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readFile</span><span class="hljs-params">(filepath)</span> </span>{
 	<span class="hljs-keyword">return</span> fs.readFileSync(filepath, {encoding: <span class="hljs-string">'utf8'</span>});
 }</code></pre>
 <p>It’s very important to be up-to-date with latest trends, especially in so fast changing industry as front-end development. But there are so many interesting subjects besides  programming languages and new frameworks.</p>
-<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Renderer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">marked</span>.<span class="hljs-title">Renderer</span> </span>{
+<pre><code class="hljs language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Renderer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">marked</span>.<span class="hljs-title">Renderer</span> </span>{
 	<span class="hljs-comment">// Do not put IDs in headers</span>
 	heading(text, level, raw) {
 		<span class="hljs-keyword">let</span> tag = <span class="hljs-string">`h<span class="hljs-subst">${level}</span>`</span>;
-		<span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;<span class="hljs-subst">${tag}</span>&gt;<span class="hljs-subst">${text}</span>&lt;/<span class="hljs-subst">${tag}</span>&gt;\n`</span>;
+		<span class="hljs-keyword">return</span> <span class="hljs-string">`&#x3C;<span class="hljs-subst">${tag}</span>><span class="hljs-subst">${text}</span>&#x3C;/<span class="hljs-subst">${tag}</span>>\n`</span>;
 	}
 };</code></pre>
