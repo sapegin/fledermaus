@@ -149,7 +149,7 @@ export function assetFilepath(url) {
  * @return {string}
  */
 export let fingerprint = _.memoize(function(url) {
-	let hash = md5File(this.assetFilepath(url));
+	let hash = md5File.sync(this.assetFilepath(url));
 	return `${url}?${hash}`;
 });
 
