@@ -24,7 +24,7 @@ export default function createTemplateRenderer(options = {}) {
 		const filepath = path.resolve(options.root, template);
 		try {
 			let page = require(filepath).default;
-			return '<!doctype html>' + page(props);
+			return '<!doctype html>' + vdo.with(props, page);
 		}
 		catch (exception) {
 			let error = exception.message.replace(`${path.resolve(options.root)}/`, '');
