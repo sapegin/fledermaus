@@ -23,11 +23,11 @@ export default function createTemplateRenderer(options = {}) {
 	return (template, props) => {
 		const filepath = path.resolve(options.root, template);
 		try {
-			let page = require(filepath).default;
+			const page = require(filepath).default;
 			return '<!doctype html>' + vdo.with(props, page);
 		}
 		catch (exception) {
-			let error = exception.message.replace(`${path.resolve(options.root)}/`, '');
+			const error = exception.message.replace(`${path.resolve(options.root)}/`, '');
 			return errorHtml([
 				`Error while rendering a page ${props.sourcePath} with a template ${template}:`,
 				error,

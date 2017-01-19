@@ -66,8 +66,8 @@ export function pageLang() {
  * @return {string}
  */
 export function __(key, params = {}) {
-	let string = this.option(key);
-	let message = getMessageFormat(string, this.pageLang());
+	const string = this.option(key);
+	const message = getMessageFormat(string, this.pageLang());
 	return vdo.markSafe(message.format(params));
 }
 
@@ -119,7 +119,7 @@ export function getPageTitle({ title, suffix } = {}) {
  * @return {string}
  */
 export function dateToString(date) {
-	let format = getDateTimeFormat(this.pageLang(), {
+	const format = getDateTimeFormat(this.pageLang(), {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
@@ -148,8 +148,8 @@ export function assetFilepath(url) {
  * @param {string} url
  * @return {string}
  */
-export let fingerprint = _.memoize(function(url) {
-	let hash = md5File.sync(this.assetFilepath(url));
+export const fingerprint = _.memoize(function(url) {
+	const hash = md5File.sync(this.assetFilepath(url));
 	return `${url}?${hash}`;
 });
 
@@ -159,7 +159,7 @@ export let fingerprint = _.memoize(function(url) {
  * @param {string} url
  * @return {string}
  */
-export let embedFile = _.memoize(function(url) {
+export const embedFile = _.memoize(function(url) {
 	return readFile(this.assetFilepath(url));
 });
 
@@ -170,9 +170,9 @@ export let embedFile = _.memoize(function(url) {
  * @param {string} url
  * @return {string}
  */
-export let inlineFile = _.memoize(function(url) {
-	let name = removeExtension(path.basename(url));
-	let comment = `/*${name}*/`;
+export const inlineFile = _.memoize(function(url) {
+	const name = removeExtension(path.basename(url));
+	const comment = `/*${name}*/`;
 	return comment + readFile(this.assetFilepath(url));
 });
 
@@ -215,7 +215,7 @@ export function json(object) {
  */
 export function Script(props) {
 	props = props || {};
-	let attrs = {};
+	const attrs = {};
 	let children;
 	if (props.inline) {
 		children = this.inlineFile(props.src);
@@ -236,7 +236,7 @@ export function Script(props) {
  */
 export function Style(props) {
 	props = props || {};
-	let attrs = {};
+	const attrs = {};
 	let children;
 	if (props.inline) {
 		children = this.inlineFile(props.src);
@@ -245,6 +245,6 @@ export function Style(props) {
 		attrs.href = this.fingerprint(props.src);
 		attrs.rel = 'stylesheet';
 	}
-	let tag = children ? 'style' : 'link';
+	const tag = children ? 'style' : 'link';
 	return vdo(tag, attrs, children && vdo.markSafe(children));
 }

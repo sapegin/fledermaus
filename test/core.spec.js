@@ -11,52 +11,52 @@ import createMarkdownRenderer from '../src/renderers/markdown';
 
 /* eslint-disable object-shorthand, object-property-newline */
 
-let renderTemplate = createTemplateRenderer({
+const renderTemplate = createTemplateRenderer({
 	root: 'test/samples',
 });
-let renderMarkdown = createMarkdownRenderer();
+const renderMarkdown = createMarkdownRenderer();
 
 // console.log(JSON.stringify(result));
 
 describe('core', () => {
 	describe('filepathToUrl', () => {
 		it('should transform file path to relative URL', () => {
-			let result = core.filepathToUrl('ru/markdown.md');
+			const result = core.filepathToUrl('ru/markdown.md');
 			expect(result).to.eql('/ru/markdown');
 		});
 		it('should strip "index" at the end', () => {
-			let result = core.filepathToUrl('ru/index.md');
+			const result = core.filepathToUrl('ru/index.md');
 			expect(result).to.eql('/ru');
 		});
 		it('should return "/" if "index" is the only part of URL', () => {
-			let result = core.filepathToUrl('index.md');
+			const result = core.filepathToUrl('index.md');
 			expect(result).to.eql('/');
 		});
 	});
 
 	describe('renderByType', () => {
 		it('should render string using a renderer that matches the file extension', () => {
-			let result = core.renderByType('Hello *Markdown*!', 'test.md', { md: renderMarkdown });
+			const result = core.renderByType('Hello *Markdown*!', 'test.md', { md: renderMarkdown });
 			expect(result).to.eql('<p>Hello <em>Markdown</em>!</p>\n');
 		});
 		it('should return source string if no matching renderer found', () => {
-			let result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', { md: renderMarkdown });
+			const result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', { md: renderMarkdown });
 			expect(result).to.eql('<p>Hello <em>HTML</em>!</p>');
 		});
 	});
 
 	describe('parseCustomFields', () => {
 		it('should return attributes with parsed custom fields', () => {
-			let ddd = { title: 'Post', date: 'Nov 8, 2013' };
-			let result = core.parseCustomFields(ddd, {
+			const ddd = { title: 'Post', date: 'Nov 8, 2013' };
+			const result = core.parseCustomFields(ddd, {
 				date: Date.parse,
 			});
 			expect(result.title).to.eql('Post');
 			expect((new Date(result.date)).toDateString()).to.eql('Fri Nov 08 2013');
 		});
 		it('should be able to create new attributes', () => {
-			let ddd = { title: 'Post', date: 'Nov 8, 2013' };
-			let result = core.parseCustomFields(ddd, {
+			const ddd = { title: 'Post', date: 'Nov 8, 2013' };
+			const result = core.parseCustomFields(ddd, {
 				timestamp: (t, attrs) => Date.parse(attrs.date),
 				date: (d) => new Date(Date.parse(d)),
 			});
@@ -67,17 +67,17 @@ describe('core', () => {
 	});
 
 	describe('parsePage', () => {
-		let renderers = { md: renderMarkdown };
+		const renderers = { md: renderMarkdown };
 		it('should parse Markdown source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
+			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.js'));
 		});
 		it('should modify all fields using custom field parsers', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
+			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
 				renderers,
 				fieldParsers: {
 					lang: () => 'ru',
@@ -89,7 +89,7 @@ describe('core', () => {
 		it('should split content to excerpt and more if cut tag is used', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-cut.md';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
+			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
 				cutTag: '<!-- cut -->',
 				renderers,
 			});
@@ -98,14 +98,14 @@ describe('core', () => {
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';
-			let result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
+			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
 			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.js'));
 		});
 	});
 
 	describe('getSourceFilesList', () => {
 		it('should return a list of source files', () => {
-			let result = core.getSourceFilesList('test/source', ['md', 'html']);
+			const result = core.getSourceFilesList('test/source', ['md', 'html']);
 			expect(result).to.eql([
 				'en/plugins-requirejs.md',
 				'en/read-less-tech-books.md',
@@ -116,18 +116,18 @@ describe('core', () => {
 
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
-			let result = core.loadSourceFiles('test/source', ['md', 'html'], { renderers: { md: renderMarkdown } });
+			const result = core.loadSourceFiles('test/source', ['md', 'html'], { renderers: { md: renderMarkdown } });
 			expect(result).to.eql(require('./expected/files.js'));
 		});
 		it('should work with a single file type', () => {
-			let result = core.loadSourceFiles('test/source', ['md'], { renderers: { md: renderMarkdown } });
+			const result = core.loadSourceFiles('test/source', ['md'], { renderers: { md: renderMarkdown } });
 			expect(result).to.eql(require('./expected/files.js'));
 		});
 	});
 
 	describe('getConfigFilesList', () => {
 		it('should return a list of config files', () => {
-			let result = core.getConfigFilesList('test/config');
+			const result = core.getConfigFilesList('test/config');
 			expect(result).to.eql([
 				'test/config/base.yml',
 				'test/config/en.yml',
@@ -138,7 +138,7 @@ describe('core', () => {
 
 	describe('readConfigFiles', () => {
 		it('should read config files to an object', () => {
-			let result = core.readConfigFiles([
+			const result = core.readConfigFiles([
 				'test/config/base.yml',
 			]);
 			expect(result).to.eql(require('./expected/configs.json'));
@@ -147,7 +147,7 @@ describe('core', () => {
 
 	describe('readConfigFiles', () => {
 		it('should read config files (with langs) to an object', () => {
-			let result = core.readConfigFiles([
+			const result = core.readConfigFiles([
 				'test/config/base.yml',
 				'test/config/en.yml',
 				'test/config/ru.yml',
@@ -158,25 +158,25 @@ describe('core', () => {
 
 	describe('mergeConfigs', () => {
 		it('should merge config objects', () => {
-			let result = core.mergeConfigs(require('./expected/configs.json'));
+			const result = core.mergeConfigs(require('./expected/configs.json'));
 			expect(result).to.eql(require('./expected/configs-merged.json'));
 		});
 		it('should merge config objects (with langs)', () => {
-			let result = core.mergeConfigs(require('./expected/configs-langs.json'));
+			const result = core.mergeConfigs(require('./expected/configs-langs.json'));
 			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
 		});
 	});
 
 	describe('loadConfig', () => {
 		it('should return merged config object', () => {
-			let result = core.loadConfig('test/config');
+			const result = core.loadConfig('test/config');
 			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
 		});
 	});
 
 	describe('makeContext', () => {
 		it('should return merged config object', () => {
-			let result = core.makeContext({
+			const result = core.makeContext({
 				title: 'Hello',
 				content: '<b>Test</b>',
 			}, {
@@ -201,7 +201,7 @@ describe('core', () => {
 
 	describe('filterDocuments', () => {
 		it('should filter documents by field value', () => {
-			let result = core.filterDocuments([
+			const result = core.filterDocuments([
 				{
 					title: 'Post 1',
 					sourcePath: 'all/post1.md',
@@ -222,7 +222,7 @@ describe('core', () => {
 			expect(result[0].title).to.eql('Post 2');
 		});
 		it('should filter documents by RegExp', () => {
-			let result = core.filterDocuments([
+			const result = core.filterDocuments([
 				{
 					title: 'Post 1',
 					sourcePath: 'all/post1.md',
@@ -240,7 +240,7 @@ describe('core', () => {
 			expect(result[0].title).to.eql('Post 1');
 		});
 		it('should filter documents by function result', () => {
-			let result = core.filterDocuments([
+			const result = core.filterDocuments([
 				{
 					title: 'Post 1',
 					sourcePath: 'all/post1.md',
@@ -258,7 +258,7 @@ describe('core', () => {
 			expect(result[0].title).to.eql('Post 1');
 		});
 		it('should filter documents by multiple fields', () => {
-			let result = core.filterDocuments([
+			const result = core.filterDocuments([
 				{
 					title: 'Post 1',
 					sourcePath: 'all/post1.md',
@@ -279,7 +279,7 @@ describe('core', () => {
 
 	describe('orderDocuments', () => {
 		it('should sort array of documents', () => {
-			let result = core.orderDocuments([
+			const result = core.orderDocuments([
 				{
 					title: 'Post 2',
 					sourcePath: 'all/post2.md',
@@ -296,7 +296,7 @@ describe('core', () => {
 			expect(_.map(result, 'title')).to.eql(['About', 'Post 1', 'Post 2']);
 		});
 		it('should sort array of documents backwards', () => {
-			let result = core.orderDocuments([
+			const result = core.orderDocuments([
 				{
 					title: 'Post 2',
 					sourcePath: 'all/post2.md',
@@ -313,7 +313,7 @@ describe('core', () => {
 			expect(_.map(result, 'title')).to.eql(['Post 2', 'Post 1', 'About']);
 		});
 		it('should sort array by miltiple fields', () => {
-			let result = core.orderDocuments([
+			const result = core.orderDocuments([
 				{
 					title: 'Post 1',
 					sourcePath: 'all/post1.md',
@@ -336,7 +336,7 @@ describe('core', () => {
 
 	describe('groupDocuments', () => {
 		it('should group documents by a single value', () => {
-			let result = core.groupDocuments([
+			const result = core.groupDocuments([
 				{
 					title: 'Post 1',
 					layout: 'post',
@@ -361,7 +361,7 @@ describe('core', () => {
 			});
 		});
 		it('should group documents by every item if the value is an array', () => {
-			let result = core.groupDocuments([
+			const result = core.groupDocuments([
 				{
 					title: 'Post 1',
 					tags: 'foo',
@@ -387,7 +387,7 @@ describe('core', () => {
 			});
 		});
 		it('should skip document if the field value is undefined', () => {
-			let result = core.groupDocuments([
+			const result = core.groupDocuments([
 				{
 					title: 'Post 1',
 					layout: 'post',
@@ -410,7 +410,7 @@ describe('core', () => {
 			});
 		});
 		it('should group documents by the result of function call', () => {
-			let result = core.groupDocuments([
+			const result = core.groupDocuments([
 				{
 					title: 'Post 1',
 					date: '2014-06-17',
@@ -438,7 +438,7 @@ describe('core', () => {
 
 	describe('generatePage', () => {
 		it('should render page using template from frontmatter', () => {
-			let result = core.generatePage({
+			const result = core.generatePage({
 				title: 'Hello',
 				layout: 'layout',
 				sourcePath: 'all/post.md',
@@ -451,7 +451,7 @@ describe('core', () => {
 			expect(result.pagePath).to.eql('all/post.html');
 		});
 		it('should use layout extension if it is specified (feed.xml.jsx → feed.xml)', () => {
-			let result = core.generatePage({
+			const result = core.generatePage({
 				title: 'Hello',
 				layout: 'layout.xml',
 				sourcePath: 'all/feed.md',
@@ -464,7 +464,7 @@ describe('core', () => {
 			expect(result.pagePath).to.eql('all/feed.xml');
 		});
 		it('should render an RSS feed if layout is "RSS"', () => {
-			let result = core.generatePage({
+			const result = core.generatePage({
 				title: 'Hello',
 				description: 'My RSS',
 				layout: 'RSS',
@@ -500,7 +500,7 @@ describe('core', () => {
 			expect(result.pagePath).to.eql('feed.xml');
 		});
 		it('should throw if layout is not specified', () => {
-			let func = () => {
+			const func = () => {
 				core.generatePage({
 					title: 'Hello',
 					sourcePath: 'all/post.md',
@@ -516,7 +516,7 @@ describe('core', () => {
 
 	describe('generatePages', () => {
 		it('should render array of pages', () => {
-			let result = core.generatePages([
+			const result = core.generatePages([
 				{
 					title: 'Hello',
 					layout: 'layout',
@@ -543,34 +543,34 @@ describe('core', () => {
 
 	describe('getPageNumberUrl', () => {
 		it('should return pagination page number', () => {
-			let result = core.getPageNumberUrl('all', 5);
+			const result = core.getPageNumberUrl('all', 5);
 			expect(result).to.eql('all/page/5');
 		});
 		it('should return URL prefix for the first page', () => {
-			let result = core.getPageNumberUrl('all', 1);
+			const result = core.getPageNumberUrl('all', 1);
 			expect(result).to.eql('all');
 		});
 		it('should add index if index options is true', () => {
-			let result = core.getPageNumberUrl('all', 1, { index: true });
+			const result = core.getPageNumberUrl('all', 1, { index: true });
 			expect(result).to.eql('all/index');
 		});
 		it('should not return double slash: page number', () => {
-			let result = core.getPageNumberUrl('/', 5);
+			const result = core.getPageNumberUrl('/', 5);
 			expect(result).to.eql('/page/5');
 		});
 		it('should not return double slash: first page', () => {
-			let result = core.getPageNumberUrl('/', 1);
+			const result = core.getPageNumberUrl('/', 1);
 			expect(result).to.eql('/');
 		});
 		it('should not return double slash: index', () => {
-			let result = core.getPageNumberUrl('/', 1, { index: true });
+			const result = core.getPageNumberUrl('/', 1, { index: true });
 			expect(result).to.eql('/index');
 		});
 	});
 
 	describe('paginate', () => {
 		it('should return an array of documents with pagination info', () => {
-			let result = core.paginate(
+			const result = core.paginate(
 				[
 					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>' },
 					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>' },
@@ -593,7 +593,7 @@ describe('core', () => {
 			expect(result).to.eql(require('./expected/pagination.json'));
 		});
 		it('should add extra options to every generated document', () => {
-			let result = core.paginate(
+			const result = core.paginate(
 				[
 					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>' },
 					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>' },

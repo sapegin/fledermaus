@@ -1,7 +1,7 @@
 import vdo from 'vdo';
 
 export function Group({ glue = ' ', inline = false, ...rest }, children) {
-	let items = [];
+	const items = [];
 	children = children.filter(child => !!child);
 	children.forEach((item, index) => {
 		items.push(item);
@@ -9,6 +9,6 @@ export function Group({ glue = ' ', inline = false, ...rest }, children) {
 			items.push(glue);
 		}
 	});
-	let tag = inline ? 'span' : 'div';
+	const tag = inline ? 'span' : 'div';
 	return vdo(tag, rest, items);
 }

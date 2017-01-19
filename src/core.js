@@ -37,8 +37,8 @@ export function filepathToUrl(filepath) {
  * @return {string}
  */
 export function renderByType(source, filepath, renderers = {}) {
-	let extension = getExtension(filepath);
-	let render = renderers[extension];
+	const extension = getExtension(filepath);
+	const render = renderers[extension];
 	if (_.isFunction(render)) {
 		return render(source);
 	}
@@ -53,8 +53,8 @@ export function renderByType(source, filepath, renderers = {}) {
  * @return {object}
  */
 export function parseCustomFields(attributes, fieldParsers) {
-	let parsedAttributes = {};
-	for (let name in fieldParsers) {
+	const parsedAttributes = {};
+	for (const name in fieldParsers) {
 		parsedAttributes[name] = fieldParsers[name](attributes[name], attributes);
 	}
 	return {
@@ -74,11 +74,11 @@ export function parseCustomFields(attributes, fieldParsers) {
  * @return {object} { sourcePath, content, excerpt, more, url }
  */
 export function parsePage(source, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
-	let { attributes, body } = fastmatter(source);
+	const { attributes, body } = fastmatter(source);
 
-	let url = filepathToUrl(filepath);
+	const url = filepathToUrl(filepath);
 
-	let content = renderByType(body, filepath, renderers);
+	const content = renderByType(body, filepath, renderers);
 
 	let excerpt;
 	let more;
@@ -86,7 +86,7 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 		[excerpt, more] = content.split(cutTag);
 	}
 
-	attributes = {
+	const extendedAttributes = {
 		...attributes,
 		sourcePath: filepath,
 		content: content && content.trim(),
@@ -95,9 +95,7 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
 		url,
 	};
 
-	attributes = parseCustomFields(attributes, fieldParsers);
-
-	return attributes;
+	return parseCustomFields(extendedAttributes, fieldParsers);
 }
 
 /**
@@ -108,8 +106,8 @@ export function parsePage(source, filepath, { renderers = {}, fieldParsers = {},
  * @return {Array}
  */
 export function getSourceFilesList(folder, types) {
-	let typesMask = types.length > 1 ? `{${types.join(',')}}` : types[0];
-	let mask = '**/*.' + typesMask;
+	const typesMask = types.length > 1 ? `{${types.join(',')}}` : types[0];
+	const mask = '**/*.' + typesMask;
 	return glob.sync(mask, { cwd: folder });
 }
 
@@ -122,14 +120,14 @@ export function getSourceFilesList(folder, types) {
  * @return {Array} [{ sourcePath, content, url }, ...]
  */
 export function loadSourceFiles(folder, types, options) {
-	let files = getSourceFilesList(folder, types);
+	const files = getSourceFilesList(folder, types);
 	if (!files.length) {
 		/* eslint-disable no-console */
 		console.warn(`No source files found in a folder ${path.resolve(folder)} with types ${types.join(', ')}`);
 		/* eslint-enable no-console */
 	}
 	return files.map((filepath) => {
-		let source = readFile(path.join(folder, filepath));
+		const source = readFile(path.join(folder, filepath));
 		return parsePage(source, filepath, options);
 	});
 }
@@ -152,7 +150,7 @@ export function getConfigFilesList(folder) {
  */
 export function readConfigFiles(files) {
 	return files.reduce((configs, filepath) => {
-		let name = removeExtension(path.basename(filepath));
+		const name = removeExtension(path.basename(filepath));
 		if (name === 'base') {
 			configs.base = readYamlFile(filepath);
 		}
@@ -173,8 +171,8 @@ export function readConfigFiles(files) {
  * @return {object} {base: {...}} or {langs: {...}}
  */
 export function mergeConfigs(configs) {
-	let { base, langs } = configs;
-	let baseConfig = {
+	const { base, langs } = configs;
+	const baseConfig = {
 		base,
 	};
 
@@ -198,8 +196,8 @@ export function mergeConfigs(configs) {
  * @return {object} {base: {...}} or {langs: {...}}
  */
 export function loadConfig(folder) {
-	let files = getConfigFilesList(folder);
-	let configs = readConfigFiles(files);
+	const files = getConfigFilesList(folder);
+	const configs = readConfigFiles(files);
 	return mergeConfigs(configs);
 }
 
@@ -212,9 +210,9 @@ export function loadConfig(folder) {
  */
 export function filterDocuments(documents, fields) {
 	return documents.filter((document) => {
-		for (let field in fields) {
-			let value = fields[field];
-			let documentValue = document[field];
+		for (const field in fields) {
+			const value = fields[field];
+			const documentValue = document[field];
 			if (_.isFunction(value)) {
 				if (!value(documentValue)) {
 					return false;
@@ -329,13 +327,13 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
 		throw new Error('"layout" not specified for paginate().');
 	}
 
-	let totalPages = Math.ceil(documents.length / documentsPerPage);
+	const totalPages = Math.ceil(documents.length / documentsPerPage);
 
 	return _.range(totalPages).map((pageNumber) => {
 		pageNumber++;
-		let sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber, { index });
-		let url = getPageNumberUrl(urlPrefix, pageNumber);
-		let begin = (pageNumber - 1) * documentsPerPage;
+		const sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber, { index });
+		const url = getPageNumberUrl(urlPrefix, pageNumber);
+		const begin = (pageNumber - 1) * documentsPerPage;
 		return {
 			...extra,
 			previousUrl: pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
@@ -358,7 +356,7 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
  * @return {object}
  */
 export function makeContext(document, config, helpers) {
-	let context = {
+	const context = {
 		config,
 		...document,
 	};
@@ -388,8 +386,8 @@ export function generatePage(document, config, helpers, renderers) {
 		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
 	}
 
-	let pagePath = removeExtension(document.sourcePath);
-	let pageContext = makeContext(document, config, helpers);
+	const pagePath = removeExtension(document.sourcePath);
+	const pageContext = makeContext(document, config, helpers);
 
 	if (document.layout === 'RSS') {
 		return {
@@ -398,11 +396,11 @@ export function generatePage(document, config, helpers, renderers) {
 		};
 	}
 
-	let [templateExtension, render] = _.toPairs(renderers).shift();
-	let templateFile = `${document.layout}.${templateExtension}`;
-	let content = render(templateFile, pageContext);
+	const [templateExtension, render] = _.toPairs(renderers).shift();
+	const templateFile = `${document.layout}.${templateExtension}`;
+	const content = render(templateFile, pageContext);
 
-	let pageExtension = getExtension(document.layout) || 'html';
+	const pageExtension = getExtension(document.layout) || 'html';
 
 	return {
 		pagePath: `${pagePath}.${pageExtension}`,

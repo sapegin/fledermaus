@@ -54,16 +54,16 @@ export function unescapeMarkdown(string) {
  */
 function remarkCustomTags(processor, customTags) {
 	return ast => visit(ast, 'paragraph', node => {
-		let child = node.children && node.children[0];
+		const child = node.children && node.children[0];
 		if (child && child.type === 'text' && child.value.startsWith('<x-')) {
 			// Parse tag’s HTML
-			let dom = parse5.parseFragment(unescapeMarkdown(child.value));
-			let tagNode = dom.childNodes[0];
+			const dom = parse5.parseFragment(unescapeMarkdown(child.value));
+			const tagNode = dom.childNodes[0];
 			if (!tagNode) {
 				throw new Error('Cannot parse custom tag:', child.value);
 			}
 			let { tagName, attrs } = tagNode;
-			let childNode = tagNode.childNodes[0];
+			const childNode = tagNode.childNodes[0];
 			attrs.push({
 				name: 'children',
 				value: childNode ? childNode.value.trim() : null,
@@ -71,7 +71,7 @@ function remarkCustomTags(processor, customTags) {
 			tagName = tagName.replace(/^x-/, '');
 
 			// Check tag function
-			let tagFunction = customTags[tagName];
+			const tagFunction = customTags[tagName];
 			if (!tagFunction || !_.isFunction(tagFunction)) {
 				throw new Error(`Custom tag "${tagName}" is not defined or is not a function.`);
 			}
@@ -140,7 +140,7 @@ function render(processor, source) {
 		return processor.process(source).contents;
 	}
 	catch (exception) {
-		let error = `Error while rendering Markdown: ${exception.message}`;
+		const error = `Error while rendering Markdown: ${exception.message}`;
 		console.error(error);
 		return errorInlineHtml(error);
 	}
@@ -159,7 +159,7 @@ export default function createMarkdownRenderer(options = {}) {
 	const processor = remark();
 
 	// Attach plugins
-	let plugins = options.plugins;
+	const plugins = options.plugins;
 	plugins.push(
 		[remarkCustomTags, options.customTags],
 		[remarkHtml, remarkHtmlOptions]

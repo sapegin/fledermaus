@@ -128,7 +128,7 @@ export function og(name, content) {
  * @return {string}
  */
 export function getFirstParagraph(text) {
-	let m = text.match(/<p[^>]*>(.*?)<\/p>/i);
+	const m = text.match(/<p[^>]*>(.*?)<\/p>/i);
 	return m && m[1];
 }
 
@@ -139,7 +139,7 @@ export function getFirstParagraph(text) {
  * @return {string}
  */
 export function getFirstImage(text) {
-	let m = text.match(/<img\s+src=["']([^"']+)["']/i);
+	const m = text.match(/<img\s+src=["']([^"']+)["']/i);
 	return m && m[1];
 }
 
@@ -182,7 +182,7 @@ export function absolutizeLinks(html, siteUrl) {
  */
 export function markdownBlock(string) {
 	if (string) {
-		let markdown = getMarkdownRenderer();
+		const markdown = getMarkdownRenderer();
 		return markdown(string);
 	}
 	return '';
@@ -291,11 +291,11 @@ export function errorInlineHtml(message, { block } = {}) {
 export function codeFragment(code, line) {
 	const contextLines = 2;
 	let lines = code.split('\n');
-	let begin = Math.max(line - contextLines, 1);
-	let end = Math.min(line + contextLines, lines.length);
+	const begin = Math.max(line - contextLines, 1);
+	const end = Math.min(line + contextLines, lines.length);
 	lines = lines.slice(begin - 1, end);
 	lines = lines.map((str, index) => {
-		let currentLineNum = index + begin;
+		const currentLineNum = index + begin;
 		return [
 			currentLineNum === line ? '>' : ' ',
 			_.padStart(currentLineNum, 3),
@@ -313,12 +313,12 @@ export function codeFragment(code, line) {
  */
 export function start(message) {
 	console.log(message);
-	let startTime = new Date().getTime();
+	const startTime = new Date().getTime();
 
 	process.on('exit', () => {
-		let time = new Date().getTime() - startTime;
-		let minutes = Math.floor(time / 1000 / 60) % 60;
-		let seconds = Math.floor(time / 1000) % 60;
+		const time = new Date().getTime() - startTime;
+		const minutes = Math.floor(time / 1000 / 60) % 60;
+		const seconds = Math.floor(time / 1000) % 60;
 		console.log(
 			'Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : '') +
 			(!minutes && !seconds ? 'a moment' : '')

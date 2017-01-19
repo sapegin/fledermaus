@@ -5,7 +5,7 @@ import * as helpers from '../src/helpers';
 describe('helpers', () => {
 	describe('option', () => {
 		it('should return localized config option', () => {
-			let func = helpers.option.bind({
+			const func = helpers.option.bind({
 				config: {
 					base: {
 						title: 'My blog',
@@ -16,31 +16,31 @@ describe('helpers', () => {
 				},
 				lang: 'ru',
 			});
-			let result = func('title');
+			const result = func('title');
 			expect(result).to.eql('Мой блог');
 		});
 		it('should return base config option if there’s no language', () => {
-			let func = helpers.option.bind({
+			const func = helpers.option.bind({
 				config: {
 					base: {
 						title: 'My blog',
 					},
 				},
 			});
-			let result = func('title');
+			const result = func('title');
 			expect(result).to.eql('My blog');
 		});
 		it('should return return top-level value if localized or base value not found', () => {
-			let func = helpers.option.bind({
+			const func = helpers.option.bind({
 				config: {
 					title: 'My blog',
 				},
 			});
-			let result = func('title');
+			const result = func('title');
 			expect(result).to.eql('My blog');
 		});
 		it('should support dot notation for keys (key.subkey)', () => {
-			let func = helpers.option.bind({
+			const func = helpers.option.bind({
 				config: {
 					base: {
 						foo: {
@@ -49,11 +49,11 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func('foo.bar');
+			const result = func('foo.bar');
 			expect(result).to.eql('Baz');
 		});
 		it('should throw if option is not specifeid in the config', () => {
-			let func = helpers.option.bind({
+			const func = helpers.option.bind({
 				config: {
 					base: {
 						foo: 42,
@@ -66,7 +66,7 @@ describe('helpers', () => {
 
 	describe('pageLang', () => {
 		it('should return page language if it is specified', () => {
-			let func = helpers.pageLang.bind({
+			const func = helpers.pageLang.bind({
 				config: {
 					base: {
 						lang: 'en',
@@ -74,11 +74,11 @@ describe('helpers', () => {
 				},
 				lang: 'ru',
 			});
-			let result = func();
+			const result = func();
 			expect(result).to.eql('ru');
 		});
 		it('should return config language if page language is not specified', () => {
-			let func = helpers.pageLang.bind({
+			const func = helpers.pageLang.bind({
 				option: helpers.option,
 				config: {
 					base: {
@@ -86,14 +86,14 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func();
+			const result = func();
 			expect(result).to.eql('en');
 		});
 	});
 
 	describe('__', () => {
 		it('should return localized config option with expanded {} templates', () => {
-			let func = helpers.__.bind({
+			const func = helpers.__.bind({
 				option: helpers.option,
 				pageLang: helpers.pageLang,
 				config: {
@@ -106,11 +106,11 @@ describe('helpers', () => {
 				},
 				lang: 'ru',
 			});
-			let result = func('hi', { name: 'Fledermaus' });
+			const result = func('hi', { name: 'Fledermaus' });
 			expect(result.toString()).to.eql('Привет, Fledermaus!');
 		});
 		it('should return plural form of a number (English)', () => {
-			let func = helpers.__.bind({
+			const func = helpers.__.bind({
 				option: helpers.option,
 				pageLang: helpers.pageLang,
 				config: {
@@ -129,7 +129,7 @@ describe('helpers', () => {
 			expect(func('posts', { num: 21 }).toString()).to.eql('21 posts');
 		});
 		it('should return plural form of a number (Russian)', () => {
-			let func = helpers.__.bind({
+			const func = helpers.__.bind({
 				option: helpers.option,
 				pageLang: helpers.pageLang,
 				config: {
@@ -152,7 +152,7 @@ describe('helpers', () => {
 
 	describe('absolutizeUrl', () => {
 		it('should return absolute URL', () => {
-			let func = helpers.absolutizeUrl.bind({
+			const func = helpers.absolutizeUrl.bind({
 				option: helpers.option,
 				config: {
 					base: {
@@ -160,14 +160,14 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func('/all/post');
+			const result = func('/all/post');
 			expect(result).to.eql('http://example.com/all/post');
 		});
 	});
 
 	describe('absolutizeLinks', () => {
 		it('should make all links and image URLs absolute', () => {
-			let func = helpers.absolutizeLinks.bind({
+			const func = helpers.absolutizeLinks.bind({
 				option: helpers.option,
 				config: {
 					base: {
@@ -175,7 +175,7 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func(`
+			const result = func(`
 				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="/somewhere">somewhere</a> in <code>$PATH</code>:</p>
 				<div class="screenshot screenshot_mac">
 					<img src="/images/mac__shell_dialog_error.png" alt="AppleScript error message">
@@ -192,7 +192,7 @@ describe('helpers', () => {
 
 	describe('getPageTitle', () => {
 		it('should return a title with a site name', () => {
-			let func = helpers.getPageTitle.bind({
+			const func = helpers.getPageTitle.bind({
 				option: helpers.option,
 				title: 'Foo',
 				config: {
@@ -201,11 +201,11 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func();
+			const result = func();
 			expect(result).to.eql('Foo — My blog');
 		});
 		it('should return a title if suffix=false', () => {
-			let func = helpers.getPageTitle.bind({
+			const func = helpers.getPageTitle.bind({
 				option: helpers.option,
 				title: 'Foo',
 				config: {
@@ -214,11 +214,11 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({ suffix: false });
+			const result = func({ suffix: false });
 			expect(result).to.eql('Foo');
 		});
 		it('should return a page title if is defined', () => {
-			let func = helpers.getPageTitle.bind({
+			const func = helpers.getPageTitle.bind({
 				option: helpers.option,
 				title: 'Foo',
 				pageTitle: 'Bar',
@@ -228,11 +228,11 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func();
+			const result = func();
 			expect(result).to.eql('Bar');
 		});
 		it('should return site title if title is not defined', () => {
-			let func = helpers.getPageTitle.bind({
+			const func = helpers.getPageTitle.bind({
 				option: helpers.option,
 				config: {
 					base: {
@@ -240,11 +240,11 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func();
+			const result = func();
 			expect(result).to.eql('My blog');
 		});
 		it('should return a passed title and suffix if title is not defined', () => {
-			let func = helpers.getPageTitle.bind({
+			const func = helpers.getPageTitle.bind({
 				option: helpers.option,
 				config: {
 					base: {
@@ -252,33 +252,33 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({ title: 'My custom title' });
+			const result = func({ title: 'My custom title' });
 			expect(result).to.eql('My custom title — My blog');
 		});
 	});
 
 	describe('dateToString', () => {
 		it('should return date in English format', () => {
-			let func = helpers.dateToString.bind({
+			const func = helpers.dateToString.bind({
 				pageLang: helpers.pageLang,
 				lang: 'en',
 			});
-			let result = func(new Date(1445543242080));
+			const result = func(new Date(1445543242080));
 			expect(result).to.eql('October 22, 2015');
 		});
 		it('should return date in Russian', () => {
-			let func = helpers.dateToString.bind({
+			const func = helpers.dateToString.bind({
 				pageLang: helpers.pageLang,
 				lang: 'ru',
 			});
-			let result = func(new Date(1445543242080));
+			const result = func(new Date(1445543242080));
 			expect(result).to.eql('22 октября 2015 г.');
 		});
 	});
 
 	describe('assetFilepath', () => {
 		it('should return a path for a static file', () => {
-			let func = helpers.assetFilepath.bind({
+			const func = helpers.assetFilepath.bind({
 				option: helpers.option,
 				config: {
 					base: {
@@ -286,14 +286,14 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func('images/photo.jpg');
+			const result = func('images/photo.jpg');
 			expect(result).to.eql('test/samples/images/photo.jpg');
 		});
 	});
 
 	describe('fingerprint', () => {
 		it('should return a fingerprinted URL for a static file', () => {
-			let func = helpers.fingerprint.bind({
+			const func = helpers.fingerprint.bind({
 				option: helpers.option,
 				assetFilepath: helpers.assetFilepath,
 				config: {
@@ -302,14 +302,14 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func('file.txt');
+			const result = func('file.txt');
 			expect(result).to.match(/^file.txt\?[0-9a-f]{32}$/);
 		});
 	});
 
 	describe('embedFile', () => {
 		it('should return a static file content', () => {
-			let func = helpers.embedFile.bind({
+			const func = helpers.embedFile.bind({
 				option: helpers.option,
 				assetFilepath: helpers.assetFilepath,
 				config: {
@@ -318,14 +318,14 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func('file.txt');
+			const result = func('file.txt');
 			expect(result).to.eql('Hello.');
 		});
 	});
 
 	describe('inlineFile', () => {
 		it('should return a static file content with a comment', () => {
-			let func = helpers.inlineFile.bind({
+			const func = helpers.inlineFile.bind({
 				option: helpers.option,
 				assetFilepath: helpers.assetFilepath,
 				config: {
@@ -334,18 +334,18 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func('file.txt');
+			const result = func('file.txt');
 			expect(result).to.eql('/*file*/Hello.');
 		});
 	});
 
 	describe('typo', () => {
 		it('should enhance typography for body text', () => {
-			let func = helpers.typo.bind({
+			const func = helpers.typo.bind({
 				pageLang: helpers.pageLang,
 				lang: 'en',
 			});
-			let result = func('no-no');
+			const result = func('no-no');
 			expect(result).to.be.an('object');
 			expect(result.nodeValue).to.eql('<nobr>no-no</nobr>');
 		});
@@ -353,11 +353,11 @@ describe('helpers', () => {
 
 	describe('typoTitle', () => {
 		it('should enhance typography for titles', () => {
-			let func = helpers.typoTitle.bind({
+			const func = helpers.typoTitle.bind({
 				pageLang: helpers.pageLang,
 				lang: 'en',
 			});
-			let result = func('No &amp; No');
+			const result = func('No &amp; No');
 			expect(result).to.be.an('object');
 			expect(result.nodeValue).to.eql('No\xA0<span class="amp">&amp;</span> No');
 		});
@@ -365,8 +365,8 @@ describe('helpers', () => {
 
 	describe('json', () => {
 		it('should return json string', () => {
-			let func = helpers.json;
-			let result = func({ a: 42 });
+			const func = helpers.json;
+			const result = func({ a: 42 });
 			expect(result).to.be.an('object');
 			expect(result.nodeValue).to.eql('{"a":42}');
 		});
@@ -374,7 +374,7 @@ describe('helpers', () => {
 
 	describe('Script', () => {
 		it('should return a script tag', () => {
-			let func = helpers.Script.bind({
+			const func = helpers.Script.bind({
 				inlineFile: helpers.inlineFile,
 				fingerprint: helpers.fingerprint,
 				assetFilepath: helpers.assetFilepath,
@@ -385,13 +385,13 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({ src: 'file.txt' });
+			const result = func({ src: 'file.txt' });
 			expect(result.nodeName).to.eql('script');
 			expect(result.attributes.src).to.match(/^file.txt\?[0-9a-f]{32}$/);
 			expect(result.childNodes).to.eql([undefined]);
 		});
 		it('should return a script tag with inlined script', () => {
-			let func = helpers.Script.bind({
+			const func = helpers.Script.bind({
 				inlineFile: helpers.inlineFile,
 				fingerprint: helpers.fingerprint,
 				assetFilepath: helpers.assetFilepath,
@@ -402,7 +402,7 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({
+			const result = func({
 				src: 'file.txt',
 				inline: true,
 			});
@@ -414,7 +414,7 @@ describe('helpers', () => {
 
 	describe('Style', () => {
 		it('should return a link tag', () => {
-			let func = helpers.Style.bind({
+			const func = helpers.Style.bind({
 				inlineFile: helpers.inlineFile,
 				fingerprint: helpers.fingerprint,
 				assetFilepath: helpers.assetFilepath,
@@ -425,14 +425,14 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({ src: 'file.txt' });
+			const result = func({ src: 'file.txt' });
 			expect(result.nodeName).to.eql('link');
 			expect(result.attributes.href).to.match(/^file.txt\?[0-9a-f]{32}$/);
 			expect(result.attributes.rel).to.eql('stylesheet');
 			expect(result.childNodes).to.eql(false);
 		});
 		it('should return a style tag with inlined style', () => {
-			let func = helpers.Style.bind({
+			const func = helpers.Style.bind({
 				inlineFile: helpers.inlineFile,
 				fingerprint: helpers.fingerprint,
 				assetFilepath: helpers.assetFilepath,
@@ -443,7 +443,7 @@ describe('helpers', () => {
 					},
 				},
 			});
-			let result = func({
+			const result = func({
 				src: 'file.txt',
 				inline: true,
 			});

@@ -12,7 +12,7 @@ export default function renderRss(props = {}) {
 		`missing required property "${prop}".`);
 
 	const requiredProps = ['title', 'description', 'items'];
-	for (let prop of requiredProps) {
+	for (const prop of requiredProps) {
 		if (!props[prop]) {
 			return missingProp(prop);
 		}
@@ -28,7 +28,7 @@ export default function renderRss(props = {}) {
 		custom_elements: props.customElements,
 	};
 
-	let feed = new RSS(props);
+	const feed = new RSS(props);
 
 	props.items.forEach(item => {
 		feed.item({
