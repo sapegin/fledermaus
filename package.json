@@ -1,6 +1,6 @@
 {
   "name": "fledermaus",
-  "version": "5.0.4",
+  "version": "0.0.0-development",
   "description": "Batman’s toolbelt for static site generation",
   "homepage": "https://github.com/sapegin/fledermaus",
   "author": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/sapegin/fledermaus.git"
+    "url": "https://github.com/sapegin/fledermaus.git"
   },
   "bugs": {
     "url": "https://github.com/sapegin/fledermaus/issues"
@@ -34,7 +34,9 @@
     "eslint-config-tamia": "~3.3.1",
     "mkdirp": "~0.5.1",
     "mocha": "~3.2.0",
-    "rimraf": "~2.5.4"
+    "rimraf": "~2.5.4",
+    "semantic-release": "^6.3.2",
+    "semantic-release-tamia": "^1.1.0"
   },
   "dependencies": {
     "chalk": "~1.1.3",
@@ -69,6 +71,12 @@
     "docs": "mkdirp docs && npm run docs:core && npm run docs:helpers && npm run docs:util",
     "docs:core": "documentation build --shallow --format md --output docs/core.md src/core.js",
     "docs:helpers": "documentation build --shallow --format md --output docs/helpers.md  src/helpers.js",
-    "docs:util": "documentation build --shallow --format md --output docs/util.md  src/util.js"
+    "docs:util": "documentation build --shallow --format md --output docs/util.md  src/util.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "release": {
+    "analyzeCommits": "semantic-release-tamia/analyzeCommits",
+    "generateNotes": "semantic-release-tamia/generateNotes",
+    "verifyRelease": "semantic-release-tamia/verifyReleas"
   }
 }
