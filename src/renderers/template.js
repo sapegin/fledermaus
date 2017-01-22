@@ -6,7 +6,9 @@ import { errorHtml } from '../util';
 /* eslint-disable no-console */
 
 // Expose VDO globally so JSX pragma can see it in every template
+// Also expose as `h` to allow reusing of component with Preact (Hyperscript)
 global.vdo = vdo;
+global.h = vdo;
 
 const defaultOptions = {
 	root: 'templates',
