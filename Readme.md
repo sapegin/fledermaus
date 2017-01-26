@@ -1,5 +1,6 @@
 # Fledermaus: Batman’s toolbelt for static site generation
 
+[![npm](https://img.shields.io/npm/v/fledermaus.svg)](https://www.npmjs.com/package/fledermaus)
 [![Build Status](https://travis-ci.org/sapegin/fledermaus.svg)](https://travis-ci.org/sapegin/fledermaus)
 
 Infinitely extensible simple ES6 static site generator.
