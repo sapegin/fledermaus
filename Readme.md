@@ -3,9 +3,21 @@
 [![npm](https://img.shields.io/npm/v/fledermaus.svg)](https://www.npmjs.com/package/fledermaus)
 [![Build Status](https://travis-ci.org/sapegin/fledermaus.svg)](https://travis-ci.org/sapegin/fledermaus)
 
-Infinitely extensible simple ES6 static site generator.
+Infinitely extensible simple static site generator.
 
 Based on [JSX](https://github.com/DylanPiercey/vdo), [Remark](http://remark.js.org/), [Richtypo](https://github.com/sapegin/richtypo.js), [Highlight.js](https://highlightjs.org/) and [Intl MessageFormat](https://github.com/yahoo/intl-messageformat).
+
+## Features
+
+* JSX templates
+* I18n
+* Syntax highlighting
+* Custom Markdown tags
+* Tools to generate custom pages (not based on Markdown source)
+* Tools for pagination, etc.
+* RSS feed generation
+* Simple and fast
+* Very customizable
 
 ## Installation
 
