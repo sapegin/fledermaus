@@ -444,7 +444,7 @@ Markdown source (on a separate line):
 <x-embed id="ironman" title="Use keys ← and →, mouse or thumbs and have the pleasure of Ivan’s sprites.">
 ```
 
-### Tweaking Markdown renderering
+### Tweaking Markdown rendering
 
 `src/index.js`:
 
@@ -501,9 +501,9 @@ Now you can use `npm run deploy` to build and upload your site to GitHub Pages.
 * [Artem Sapegin’s site](http://sapegin.me/) ([source](https://github.com/sapegin/sapegin.me))
 * [Artem Sapegin’s blog](http://blog.sapegin.me/) ([source](https://github.com/sapegin/blog.sapegin.me))
 
-## Changelog
+## Change log
 
-The changelog can be found on the [Releases page](https://github.com/sapegin/fledermaus/releases).
+The change log can be found on the [Releases page](https://github.com/sapegin/fledermaus/releases).
 
 
 ## Author
