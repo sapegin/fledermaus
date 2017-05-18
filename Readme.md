@@ -500,6 +500,7 @@ Now you can use `npm run deploy` to build and upload your site to GitHub Pages.
 
 * [Artem Sapegin’s site](http://sapegin.me/) ([source](https://github.com/sapegin/sapegin.me))
 * [Artem Sapegin’s blog](http://blog.sapegin.me/) ([source](https://github.com/sapegin/blog.sapegin.me))
+* [React Styleguidist](https://react-styleguidist.js.org/) ([source](https://github.com/styleguidist/site))
 
 ## Change log
 
