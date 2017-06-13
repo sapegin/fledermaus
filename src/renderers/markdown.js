@@ -53,14 +53,13 @@ export function unescapeMarkdown(string) {
  * @return {Function}
  */
 function remarkCustomTags(processor, customTags) {
-	return ast => visit(ast, 'paragraph', node => {
-		const child = node.children && node.children[0];
-		if (child && child.type === 'text' && child.value.startsWith('<x-')) {
+	return ast => visit(ast, 'html', node => {
+		if (node.value.startsWith('<x-')) {
 			// Parse tag’s HTML
-			const dom = parse5.parseFragment(unescapeMarkdown(child.value));
+			const dom = parse5.parseFragment(unescapeMarkdown(node.value));
 			const tagNode = dom.childNodes[0];
 			if (!tagNode) {
-				throw new Error('Cannot parse custom tag:', child.value);
+				throw new Error('Cannot parse custom tag:', node.value);
 			}
 			let { tagName, attrs } = tagNode;
 			const childNode = tagNode.childNodes[0];
@@ -93,9 +92,7 @@ function remarkCustomTags(processor, customTags) {
 					{ block: true }
 				);
 			}
-			node.type = 'html';
 			node.value = result.toString().trim();
-			node.children = null;
 		}
 	});
 }
