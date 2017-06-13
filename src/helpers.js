@@ -94,6 +94,7 @@ export function absolutizeLinks(html) {
 /**
  * Title to use in a <title> tag.
  *
+ * @param {Object} $1
  * @param {string} $1.title Custom title.
  * @param {boolean} $1.suffix Do not append suffix if `false`.
  * @return {string}

@@ -68,6 +68,7 @@ export function parseCustomFields(attributes, fieldParsers) {
  *
  * @param {string} source Source file contents.
  * @param {string} filepath Source file path relative to `folder`.
+ * @param {Object} $2
  * @param {object} $2.renderers Content renderers: {ext: renderFunction}.
  * @param {object} $2.fieldParsers Custom field parsers: {name: parseFunction}.
  * @param {object} $2.cutTag Cut separator.
@@ -282,6 +283,7 @@ export function groupDocuments(documents, field) {
  *
  * @param {string} urlPrefix
  * @param {number} pageNumber
+ * @param {Object} $2
  * @param {boolean} $2.index First page will be `index` if true.
  * @return {string}
  */
@@ -305,6 +307,7 @@ export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
  * Generate documents to paginate given documents.
  *
  * @param {Array} documents Documents to paginate
+ * @param {Object} $1
  * @param {string} $1.sourcePathPrefix Source path prefix.
  * @param {string} $1.urlPrefix URL prefix.
  * @param {number} $1.documentsPerPage Documents per page.
