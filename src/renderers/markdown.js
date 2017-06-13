@@ -48,11 +48,10 @@ export function unescapeMarkdown(string) {
 /**
  * Remark plugin for custom tags: <x-foo data-value="42"/>
  *
- * @param {Object} processor
  * @param {Object} customTags
  * @return {Function}
  */
-function remarkCustomTags(processor, customTags) {
+function remarkCustomTags(customTags) {
 	return ast => visit(ast, 'html', node => {
 		if (node.value.startsWith('<x-')) {
 			// Parse tag’s HTML
@@ -100,11 +99,10 @@ function remarkCustomTags(processor, customTags) {
 /**
  * Remark plugin for Highlight.js.
  *
- * @param {Object} processor
  * @param {Object} options
  * @return {Function}
  */
-function remarkHljs(processor, options) {
+function remarkHljs({ aliases }) {
 	return ast => visit(ast, 'code', node => {
 		if (!node.data) {
 			node.data = {};
@@ -112,7 +110,7 @@ function remarkHljs(processor, options) {
 
 		const lang = node.lang;
 		const highlighted = lang
-			? low.highlight(options.aliases[lang] || lang, node.value).value
+			? low.highlight(aliases[lang] || lang, node.value).value
 			: low.highlightAuto(node.value).value
 		;
 		node.data.hChildren = highlighted;
@@ -134,12 +132,12 @@ function remarkHljs(processor, options) {
  */
 function render(processor, source) {
 	try {
-		return processor.process(source).contents;
+		return processor.processSync(source).contents;
 	}
 	catch (exception) {
 		const error = `Error while rendering Markdown: ${exception.message}`;
 		console.error(error);
-		return errorInlineHtml(error);
+		return errorInlineHtml(error).toString();
 	}
 }
 
