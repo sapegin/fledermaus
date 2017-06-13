@@ -52,48 +52,48 @@ export function unescapeMarkdown(string) {
  * @return {Function}
  */
 function remarkCustomTags(customTags) {
-	return ast => visit(ast, 'html', node => {
-		if (node.value.startsWith('<x-')) {
-			// Parse tag’s HTML
-			const dom = parse5.parseFragment(unescapeMarkdown(node.value));
-			const tagNode = dom.childNodes[0];
-			if (!tagNode) {
-				throw new Error('Cannot parse custom tag:', node.value);
-			}
-			let { tagName, attrs } = tagNode;
-			const childNode = tagNode.childNodes[0];
-			attrs.push({
-				name: 'children',
-				value: childNode ? childNode.value.trim() : null,
-			});
-			tagName = tagName.replace(/^x-/, '');
+	return ast =>
+		visit(ast, 'html', node => {
+			if (node.value.startsWith('<x-')) {
+				// Parse tag’s HTML
+				const dom = parse5.parseFragment(unescapeMarkdown(node.value));
+				const tagNode = dom.childNodes[0];
+				if (!tagNode) {
+					throw new Error('Cannot parse custom tag:', node.value);
+				}
+				let { tagName, attrs } = tagNode;
+				const childNode = tagNode.childNodes[0];
+				attrs.push({
+					name: 'children',
+					value: childNode ? childNode.value.trim() : null,
+				});
+				tagName = tagName.replace(/^x-/, '');
 
-			// Check tag function
-			const tagFunction = customTags[tagName];
-			if (!tagFunction || !_.isFunction(tagFunction)) {
-				throw new Error(`Custom tag "${tagName}" is not defined or is not a function.`);
-			}
+				// Check tag function
+				const tagFunction = customTags[tagName];
+				if (!tagFunction || !_.isFunction(tagFunction)) {
+					throw new Error(`Custom tag "${tagName}" is not defined or is not a function.`);
+				}
 
-			// Unzip attributes
-			attrs = attrs.reduce((attrsObj, attr) => {
-				attrsObj[attr.name] = attr.value;
-				return attrsObj;
-			}, {});
+				// Unzip attributes
+				attrs = attrs.reduce((attrsObj, attr) => {
+					attrsObj[attr.name] = attr.value;
+					return attrsObj;
+				}, {});
 
-			// Render
-			let result;
-			try {
-				result = tagFunction(attrs) || '';
+				// Render
+				let result;
+				try {
+					result = tagFunction(attrs) || '';
+				} catch (exception) {
+					result = errorInlineHtml(
+						`Error while rendering custom tag <x-${tagName}>: ${exception.message}`,
+						{ block: true }
+					);
+				}
+				node.value = result.toString().trim();
 			}
-			catch (exception) {
-				result = errorInlineHtml(
-					`Error while rendering custom tag <x-${tagName}>: ${exception.message}`,
-					{ block: true }
-				);
-			}
-			node.value = result.toString().trim();
-		}
-	});
+		});
 }
 
 /**
@@ -103,24 +103,21 @@ function remarkCustomTags(customTags) {
  * @return {Function}
  */
 function remarkHljs({ aliases }) {
-	return ast => visit(ast, 'code', node => {
-		if (!node.data) {
-			node.data = {};
-		}
+	return ast =>
+		visit(ast, 'code', node => {
+			if (!node.data) {
+				node.data = {};
+			}
 
-		const lang = node.lang;
-		const highlighted = lang
-			? low.highlight(aliases[lang] || lang, node.value).value
-			: low.highlightAuto(node.value).value
-		;
-		node.data.hChildren = highlighted;
-		node.data.hProperties = {
-			className: [
-				'hljs',
-				lang && `language-${lang}`,
-			],
-		};
-	});
+			const lang = node.lang;
+			const highlighted = lang
+				? low.highlight(aliases[lang] || lang, node.value).value
+				: low.highlightAuto(node.value).value;
+			node.data.hChildren = highlighted;
+			node.data.hProperties = {
+				className: ['hljs', lang && `language-${lang}`],
+			};
+		});
 }
 
 /**
@@ -133,8 +130,7 @@ function remarkHljs({ aliases }) {
 function render(processor, source) {
 	try {
 		return processor.processSync(source).contents;
-	}
-	catch (exception) {
+	} catch (exception) {
 		const error = `Error while rendering Markdown: ${exception.message}`;
 		console.error(error);
 		return errorInlineHtml(error).toString();
@@ -155,20 +151,14 @@ export default function createMarkdownRenderer(options = {}) {
 
 	// Attach plugins
 	const plugins = options.plugins;
-	plugins.push(
-		[remarkCustomTags, options.customTags],
-		[remarkHtml, remarkHtmlOptions]
-	);
+	plugins.push([remarkCustomTags, options.customTags], [remarkHtml, remarkHtmlOptions]);
 	if (options.hljs) {
-		plugins.push(
-			[remarkHljs, options.hljs]
-		);
+		plugins.push([remarkHljs, options.hljs]);
 	}
 	plugins.forEach(plugin => {
 		if (Array.isArray(plugin)) {
 			processor.use(plugin[0], plugin[1]);
-		}
-		else {
+		} else {
 			processor.use(plugin);
 		}
 	});

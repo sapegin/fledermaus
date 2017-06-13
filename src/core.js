@@ -124,10 +124,12 @@ export function loadSourceFiles(folder, types, options) {
 	const files = getSourceFilesList(folder, types);
 	if (!files.length) {
 		/* eslint-disable no-console */
-		console.warn(`No source files found in a folder ${path.resolve(folder)} with types ${types.join(', ')}`);
+		console.warn(
+			`No source files found in a folder ${path.resolve(folder)} with types ${types.join(', ')}`
+		);
 		/* eslint-enable no-console */
 	}
-	return files.map((filepath) => {
+	return files.map(filepath => {
 		const source = readFile(path.join(folder, filepath));
 		return parsePage(source, filepath, options);
 	});
@@ -150,19 +152,21 @@ export function getConfigFilesList(folder) {
  * @return {object} {base: {...}, langs: {...}}
  */
 export function readConfigFiles(files) {
-	return files.reduce((configs, filepath) => {
-		const name = removeExtension(path.basename(filepath));
-		if (name === 'base') {
-			configs.base = readYamlFile(filepath);
+	return files.reduce(
+		(configs, filepath) => {
+			const name = removeExtension(path.basename(filepath));
+			if (name === 'base') {
+				configs.base = readYamlFile(filepath);
+			} else {
+				configs.langs[name] = readYamlFile(filepath);
+			}
+			return configs;
+		},
+		{
+			base: {},
+			langs: {},
 		}
-		else {
-			configs.langs[name] = readYamlFile(filepath);
-		}
-		return configs;
-	}, {
-		base: {},
-		langs: {},
-	});
+	);
 }
 
 /**
@@ -210,7 +214,7 @@ export function loadConfig(folder) {
  * @return {Array}
  */
 export function filterDocuments(documents, fields) {
-	return documents.filter((document) => {
+	return documents.filter(document => {
 		for (const field in fields) {
 			const value = fields[field];
 			const documentValue = document[field];
@@ -218,13 +222,11 @@ export function filterDocuments(documents, fields) {
 				if (!value(documentValue)) {
 					return false;
 				}
-			}
-			else if (_.isRegExp(value)) {
+			} else if (_.isRegExp(value)) {
 				if (!value.test(documentValue)) {
 					return false;
 				}
-			}
-			else if (documentValue !== value) {
+			} else if (documentValue !== value) {
 				return false;
 			}
 		}
@@ -255,14 +257,13 @@ export function groupDocuments(documents, field) {
 	return documents.reduce((grouped, document) => {
 		let value = document[field];
 		if (Array.isArray(value)) {
-			value.forEach((subValue) => {
+			value.forEach(subValue => {
 				if (!grouped[subValue]) {
 					grouped[subValue] = [];
 				}
 				grouped[subValue].push(document);
 			});
-		}
-		else {
+		} else {
 			if (_.isFunction(field)) {
 				value = field(document);
 			}
@@ -292,12 +293,10 @@ export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
 	if (pageNumber === 1) {
 		if (index) {
 			url = `${urlPrefix}/index`;
-		}
-		else {
+		} else {
 			url = urlPrefix;
 		}
-	}
-	else {
+	} else {
 		url = `${urlPrefix}/page/${pageNumber}`;
 	}
 	return url.replace(/\/\//, '/');
@@ -316,7 +315,10 @@ export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
  * @param {object} $1.extra Extra document options.
  * @return {Array}
  */
-export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerPage, layout, index, extra = {} } = {}) {
+export function paginate(
+	documents,
+	{ sourcePathPrefix, urlPrefix, documentsPerPage, layout, index, extra = {} } = {}
+) {
 	if (sourcePathPrefix === undefined) {
 		throw new Error('"sourcePathPrefix" not specified for paginate().');
 	}
@@ -332,7 +334,7 @@ export function paginate(documents, { sourcePathPrefix, urlPrefix, documentsPerP
 
 	const totalPages = Math.ceil(documents.length / documentsPerPage);
 
-	return _.range(totalPages).map((pageNumber) => {
+	return _.range(totalPages).map(pageNumber => {
 		pageNumber++;
 		const sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber, { index });
 		const url = getPageNumberUrl(urlPrefix, pageNumber);
@@ -386,7 +388,9 @@ export function generatePage(document, config, helpers, renderers) {
 		throw new Error('Source path not specified. Add "sourcePath" front matter field.');
 	}
 	if (!document.layout) {
-		throw new Error(`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`);
+		throw new Error(
+			`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`
+		);
 	}
 
 	const pagePath = removeExtension(document.sourcePath);

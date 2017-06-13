@@ -72,7 +72,9 @@ describe('util', () => {
 		});
 		it('should strip HTML and escape special characters', () => {
 			const result = util.og('description', 'My <b>"blog"</b>');
-			expect(result.toString()).to.eql('<meta property="description" content="My &quot;blog&quot;">');
+			expect(result.toString()).to.eql(
+				'<meta property="description" content="My &quot;blog&quot;">'
+			);
 		});
 		it('should work with numbers', () => {
 			const result = util.og('description', 42);
@@ -87,7 +89,9 @@ describe('util', () => {
 					<p>First, however, she waited for a few minutes to see if she was going to shrink any further: she felt a little nervous about this; ‘for it might end, you know,’ said Alice to herself, ‘in my going out altogether, like a candle. I wonder what I should be like then?’</p>
 					<p>And she tried to fancy what the flame of a candle is like after the candle is blown out, for she could not remember ever having seen such a thing.</p>
 			`);
-			expect(result).to.eql('And so it was indeed: she was now only ten inches high, and her face brightened up at the thought that she was now the right size for going though the little door into that lovely garden.');
+			expect(result).to.eql(
+				'And so it was indeed: she was now only ten inches high, and her face brightened up at the thought that she was now the right size for going though the little door into that lovely garden.'
+			);
 		});
 	});
 
@@ -119,12 +123,15 @@ describe('util', () => {
 
 	describe('absolutizeLinks', () => {
 		it('should make all links and image URLs absolute', () => {
-			const result = util.absolutizeLinks(`
+			const result = util.absolutizeLinks(
+				`
 				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="/somewhere">somewhere</a> in <code>$PATH</code>:</p>
 				<div class="screenshot screenshot_mac">
 					<img src="/images/mac__shell_dialog_error.png" alt="AppleScript error message">
 				</div>
-			`, 'http://example.com');
+			`,
+				'http://example.com'
+			);
 			expect(result).to.eql(`
 				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="http://example.com/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="http://example.com/somewhere">somewhere</a> in <code>$PATH</code>:</p>
 				<div class="screenshot screenshot_mac">
@@ -140,7 +147,9 @@ describe('util', () => {
 					<p>And so it was indeed: "she" was now only ten inches < high.</p>
 					<img src="facepalm.jpg" with="120" height="80">
 			`);
-			expect(result).to.eql('And so it was indeed: &quot;she&quot; was now only ten inches &lt; high.');
+			expect(result).to.eql(
+				'And so it was indeed: &quot;she&quot; was now only ten inches &lt; high.'
+			);
 		});
 	});
 
@@ -176,11 +185,15 @@ describe('util', () => {
 	describe('errorInlineHtml', () => {
 		it('should return an HTML', () => {
 			const result = util.errorInlineHtml('Error in <tag>');
-			expect(result.toString()).to.eql('<b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b>');
+			expect(result.toString()).to.eql(
+				'<b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b>'
+			);
 		});
 		it('should wrap HTML in a <p> tag', () => {
 			const result = util.errorInlineHtml('Error in <tag>', { block: true });
-			expect(result.toString()).to.eql('<p><b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b></p>');
+			expect(result.toString()).to.eql(
+				'<p><b style="color:#c00; font-family:Helvetica">Error in &lt;tag&gt;</b></p>'
+			);
 		});
 	});
 

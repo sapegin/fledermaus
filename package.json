@@ -30,9 +30,11 @@
     "babel-preset-node5": "^12.0.0",
     "chai": "^3.5.0",
     "documentation": "^4.0.0-rc.1",
-    "eslint": "^3.14.0",
-    "eslint-config-tamia": "^3.3.1",
+    "eslint": "^4.0.0",
+    "eslint-config-tamia": "^4.0.2",
+    "eslint-plugin-prettier": "^2.1.1",
     "mocha": "^3.2.0",
+    "prettier": "^1.4.4",
     "rimraf": "^2.6.1",
     "semantic-release": "^6.3.6",
     "semantic-release-tamia": "^1.1.1"

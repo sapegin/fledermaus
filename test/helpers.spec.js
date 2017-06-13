@@ -114,8 +114,7 @@ describe('helpers', () => {
 				option: helpers.option,
 				pageLang: helpers.pageLang,
 				config: {
-					base: {
-					},
+					base: {},
 					en: {
 						posts: '{num, plural, =0 {No posts} =1 {One post} other {# posts}}',
 					},
@@ -133,10 +132,10 @@ describe('helpers', () => {
 				option: helpers.option,
 				pageLang: helpers.pageLang,
 				config: {
-					base: {
-					},
+					base: {},
 					ru: {
-						posts: '{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}',
+						posts:
+							'{num, plural, =0 {Нет постов} =1 {Один пост} one {# пост} few {# поста} many {# постов} other {# поста}}',
 					},
 				},
 				lang: 'ru',

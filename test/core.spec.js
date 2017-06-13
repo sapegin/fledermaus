@@ -40,7 +40,9 @@ describe('core', () => {
 			expect(result).to.eql('<p>Hello <em>Markdown</em>!</p>\n');
 		});
 		it('should return source string if no matching renderer found', () => {
-			const result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', { md: renderMarkdown });
+			const result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', {
+				md: renderMarkdown,
+			});
 			expect(result).to.eql('<p>Hello <em>HTML</em>!</p>');
 		});
 	});
@@ -52,16 +54,16 @@ describe('core', () => {
 				date: Date.parse,
 			});
 			expect(result.title).to.eql('Post');
-			expect((new Date(result.date)).toDateString()).to.eql('Fri Nov 08 2013');
+			expect(new Date(result.date).toDateString()).to.eql('Fri Nov 08 2013');
 		});
 		it('should be able to create new attributes', () => {
 			const ddd = { title: 'Post', date: 'Nov 8, 2013' };
 			const result = core.parseCustomFields(ddd, {
 				timestamp: (t, attrs) => Date.parse(attrs.date),
-				date: (d) => new Date(Date.parse(d)),
+				date: d => new Date(Date.parse(d)),
 			});
 			expect(result.title).to.eql('Post');
-			expect((new Date(result.timestamp)).toDateString()).to.eql('Fri Nov 08 2013');
+			expect(new Date(result.timestamp).toDateString()).to.eql('Fri Nov 08 2013');
 			expect(result.date.toDateString()).to.eql('Fri Nov 08 2013');
 		});
 	});
@@ -81,7 +83,7 @@ describe('core', () => {
 				renderers,
 				fieldParsers: {
 					lang: () => 'ru',
-					url: (u) => `/ru${u}`,
+					url: u => `/ru${u}`,
 				},
 			});
 			expect(result).to.eql(require('./expected/markdown-with-custom-fields.js'));
@@ -116,11 +118,15 @@ describe('core', () => {
 
 	describe('loadSourceFiles', () => {
 		it('should return an object with parsed source files', () => {
-			const result = core.loadSourceFiles('test/source', ['md', 'html'], { renderers: { md: renderMarkdown } });
+			const result = core.loadSourceFiles('test/source', ['md', 'html'], {
+				renderers: { md: renderMarkdown },
+			});
 			expect(result).to.eql(require('./expected/files.js'));
 		});
 		it('should work with a single file type', () => {
-			const result = core.loadSourceFiles('test/source', ['md'], { renderers: { md: renderMarkdown } });
+			const result = core.loadSourceFiles('test/source', ['md'], {
+				renderers: { md: renderMarkdown },
+			});
 			expect(result).to.eql(require('./expected/files.js'));
 		});
 	});
@@ -128,19 +134,13 @@ describe('core', () => {
 	describe('getConfigFilesList', () => {
 		it('should return a list of config files', () => {
 			const result = core.getConfigFilesList('test/config');
-			expect(result).to.eql([
-				'test/config/base.yml',
-				'test/config/en.yml',
-				'test/config/ru.yml',
-			]);
+			expect(result).to.eql(['test/config/base.yml', 'test/config/en.yml', 'test/config/ru.yml']);
 		});
 	});
 
 	describe('readConfigFiles', () => {
 		it('should read config files to an object', () => {
-			const result = core.readConfigFiles([
-				'test/config/base.yml',
-			]);
+			const result = core.readConfigFiles(['test/config/base.yml']);
 			expect(result).to.eql(require('./expected/configs.json'));
 		});
 	});
@@ -176,22 +176,26 @@ describe('core', () => {
 
 	describe('makeContext', () => {
 		it('should return merged config object', () => {
-			const result = core.makeContext({
-				title: 'Hello',
-				content: '<b>Test</b>',
-			}, {
-				base: {
-					title: 'Blog',
-					author: 'Artem Sapegin',
+			const result = core.makeContext(
+				{
+					title: 'Hello',
+					content: '<b>Test</b>',
 				},
-			}, {
-				siteTitle: function() {
-					return this.config.base.title;
+				{
+					base: {
+						title: 'Blog',
+						author: 'Artem Sapegin',
+					},
 				},
-				heading: function(level) {
-					return `<h${level}>${this.title}</h${level}>`;
-				},
-			});
+				{
+					siteTitle: function() {
+						return this.config.base.title;
+					},
+					heading: function(level) {
+						return `<h${level}>${this.title}</h${level}>`;
+					},
+				}
+			);
 			expect(result.title).to.eql('Hello');
 			expect(result.config.base.title).to.eql('Blog');
 			expect(result.siteTitle()).to.eql('Blog');
@@ -201,77 +205,89 @@ describe('core', () => {
 
 	describe('filterDocuments', () => {
 		it('should filter documents by field value', () => {
-			const result = core.filterDocuments([
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-					lang: 'en',
-				},
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-					lang: 'ru',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-					lang: 'ru',
-				},
-			], { lang: 'ru' });
+			const result = core.filterDocuments(
+				[
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+						lang: 'en',
+					},
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+						lang: 'ru',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+						lang: 'ru',
+					},
+				],
+				{ lang: 'ru' }
+			);
 			expect(result.length).to.eql(2);
 			expect(result[0].title).to.eql('Post 2');
 		});
 		it('should filter documents by RegExp', () => {
-			const result = core.filterDocuments([
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-				},
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-				},
-			], { sourcePath: /^all\// });
+			const result = core.filterDocuments(
+				[
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+					},
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+					},
+				],
+				{ sourcePath: /^all\// }
+			);
 			expect(result.length).to.eql(2);
 			expect(result[0].title).to.eql('Post 1');
 		});
 		it('should filter documents by function result', () => {
-			const result = core.filterDocuments([
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-				},
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-				},
-			], { sourcePath: val => val.startsWith('all/') });
+			const result = core.filterDocuments(
+				[
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+					},
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+					},
+				],
+				{ sourcePath: val => val.startsWith('all/') }
+			);
 			expect(result.length).to.eql(2);
 			expect(result[0].title).to.eql('Post 1');
 		});
 		it('should filter documents by multiple fields', () => {
-			const result = core.filterDocuments([
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-				},
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-				},
-			], { title: 'Post 1', sourcePath: /^all\// });
+			const result = core.filterDocuments(
+				[
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+					},
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+					},
+				],
+				{ title: 'Post 1', sourcePath: /^all\// }
+			);
 			expect(result.length).to.eql(1);
 			expect(result[0].title).to.eql('Post 1');
 		});
@@ -279,218 +295,236 @@ describe('core', () => {
 
 	describe('orderDocuments', () => {
 		it('should sort array of documents', () => {
-			const result = core.orderDocuments([
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-				},
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-				},
-			], ['title']);
+			const result = core.orderDocuments(
+				[
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+					},
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+					},
+				],
+				['title']
+			);
 			expect(_.map(result, 'title')).to.eql(['About', 'Post 1', 'Post 2']);
 		});
 		it('should sort array of documents backwards', () => {
-			const result = core.orderDocuments([
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-				},
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-				},
-			], ['-title']);
+			const result = core.orderDocuments(
+				[
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+					},
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+					},
+				],
+				['-title']
+			);
 			expect(_.map(result, 'title')).to.eql(['Post 2', 'Post 1', 'About']);
 		});
 		it('should sort array by miltiple fields', () => {
-			const result = core.orderDocuments([
-				{
-					title: 'Post 1',
-					sourcePath: 'all/post1.md',
-					layout: 'post',
-				},
-				{
-					title: 'About',
-					sourcePath: 'about.md',
-					layout: 'about',
-				},
-				{
-					title: 'Post 2',
-					sourcePath: 'all/post2.md',
-					layout: 'post',
-				},
-			], ['-layout', 'title']);
+			const result = core.orderDocuments(
+				[
+					{
+						title: 'Post 1',
+						sourcePath: 'all/post1.md',
+						layout: 'post',
+					},
+					{
+						title: 'About',
+						sourcePath: 'about.md',
+						layout: 'about',
+					},
+					{
+						title: 'Post 2',
+						sourcePath: 'all/post2.md',
+						layout: 'post',
+					},
+				],
+				['-layout', 'title']
+			);
 			expect(_.map(result, 'title')).to.eql(['Post 1', 'Post 2', 'About']);
 		});
 	});
 
 	describe('groupDocuments', () => {
 		it('should group documents by a single value', () => {
-			const result = core.groupDocuments([
-				{
-					title: 'Post 1',
-					layout: 'post',
-				},
-				{
-					title: 'Post 2',
-					layout: 'post',
-				},
-				{
-					title: 'About',
-					layout: 'about',
-				},
-			], 'layout');
+			const result = core.groupDocuments(
+				[
+					{
+						title: 'Post 1',
+						layout: 'post',
+					},
+					{
+						title: 'Post 2',
+						layout: 'post',
+					},
+					{
+						title: 'About',
+						layout: 'about',
+					},
+				],
+				'layout'
+			);
 			expect(result).to.eql({
-				post: [
-					{ title: 'Post 1', layout: 'post' },
-					{ title: 'Post 2', layout: 'post' },
-				],
-				about: [
-					{ title: 'About', layout: 'about' },
-				],
+				post: [{ title: 'Post 1', layout: 'post' }, { title: 'Post 2', layout: 'post' }],
+				about: [{ title: 'About', layout: 'about' }],
 			});
 		});
 		it('should group documents by every item if the value is an array', () => {
-			const result = core.groupDocuments([
-				{
-					title: 'Post 1',
-					tags: 'foo',
-				},
-				{
-					title: 'Post 2',
-					tags: ['bar', 'foo'],
-				},
-				{
-					title: 'Post 3',
-					tags: ['foo'],
-				},
-			], 'tags');
+			const result = core.groupDocuments(
+				[
+					{
+						title: 'Post 1',
+						tags: 'foo',
+					},
+					{
+						title: 'Post 2',
+						tags: ['bar', 'foo'],
+					},
+					{
+						title: 'Post 3',
+						tags: ['foo'],
+					},
+				],
+				'tags'
+			);
 			expect(result).to.eql({
 				foo: [
 					{ title: 'Post 1', tags: 'foo' },
 					{ title: 'Post 2', tags: ['bar', 'foo'] },
 					{ title: 'Post 3', tags: ['foo'] },
 				],
-				bar: [
-					{ title: 'Post 2', tags: ['bar', 'foo'] },
-				],
+				bar: [{ title: 'Post 2', tags: ['bar', 'foo'] }],
 			});
 		});
 		it('should skip document if the field value is undefined', () => {
-			const result = core.groupDocuments([
-				{
-					title: 'Post 1',
-					layout: 'post',
-				},
-				{
-					title: 'Post 2',
-				},
-				{
-					title: 'About',
-					layout: 'about',
-				},
-			], 'layout');
+			const result = core.groupDocuments(
+				[
+					{
+						title: 'Post 1',
+						layout: 'post',
+					},
+					{
+						title: 'Post 2',
+					},
+					{
+						title: 'About',
+						layout: 'about',
+					},
+				],
+				'layout'
+			);
 			expect(result).to.eql({
-				post: [
-					{ title: 'Post 1', layout: 'post' },
-				],
-				about: [
-					{ title: 'About', layout: 'about' },
-				],
+				post: [{ title: 'Post 1', layout: 'post' }],
+				about: [{ title: 'About', layout: 'about' }],
 			});
 		});
 		it('should group documents by the result of function call', () => {
-			const result = core.groupDocuments([
-				{
-					title: 'Post 1',
-					date: '2014-06-17',
-				},
-				{
-					title: 'Post 2',
-					date: '2015-09-01',
-				},
-				{
-					title: 'About',
-					date: '2014-01-12',
-				},
-			], d => Number(d.date.split('-')[0]));
+			const result = core.groupDocuments(
+				[
+					{
+						title: 'Post 1',
+						date: '2014-06-17',
+					},
+					{
+						title: 'Post 2',
+						date: '2015-09-01',
+					},
+					{
+						title: 'About',
+						date: '2014-01-12',
+					},
+				],
+				d => Number(d.date.split('-')[0])
+			);
 			expect(result).to.eql({
-				2014: [
-					{ title: 'Post 1', date: '2014-06-17' },
-					{ title: 'About', date: '2014-01-12' },
-				],
-				2015: [
-					{ title: 'Post 2', date: '2015-09-01' },
-				],
+				2014: [{ title: 'Post 1', date: '2014-06-17' }, { title: 'About', date: '2014-01-12' }],
+				2015: [{ title: 'Post 2', date: '2015-09-01' }],
 			});
 		});
 	});
 
 	describe('generatePage', () => {
 		it('should render page using template from frontmatter', () => {
-			const result = core.generatePage({
-				title: 'Hello',
-				layout: 'layout',
-				sourcePath: 'all/post.md',
-				content: '<b>Test</b>',
-			}, {
-				base: {},
-			}, {
-			}, { jsx: renderTemplate });
+			const result = core.generatePage(
+				{
+					title: 'Hello',
+					layout: 'layout',
+					sourcePath: 'all/post.md',
+					content: '<b>Test</b>',
+				},
+				{
+					base: {},
+				},
+				{},
+				{ jsx: renderTemplate }
+			);
 			expect(result.content).to.eql('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
 			expect(result.pagePath).to.eql('all/post.html');
 		});
 		it('should use layout extension if it is specified (feed.xml.jsx → feed.xml)', () => {
-			const result = core.generatePage({
-				title: 'Hello',
-				layout: 'layout.xml',
-				sourcePath: 'all/feed.md',
-				content: '<b>Test</b>',
-			}, {
-				base: {},
-			}, {
-			}, { jsx: renderTemplate });
+			const result = core.generatePage(
+				{
+					title: 'Hello',
+					layout: 'layout.xml',
+					sourcePath: 'all/feed.md',
+					content: '<b>Test</b>',
+				},
+				{
+					base: {},
+				},
+				{},
+				{ jsx: renderTemplate }
+			);
 			expect(result.content).to.eql('<!doctype html><foo><b>Test</b></foo>');
 			expect(result.pagePath).to.eql('all/feed.xml');
 		});
 		it('should render an RSS feed if layout is "RSS"', () => {
-			const result = core.generatePage({
-				title: 'Hello',
-				description: 'My RSS',
-				layout: 'RSS',
-				url: '/feed',
-				sourcePath: 'feed.md',
-				items: [
-					{
-						title: 'Post 1',
-						content: 'Hello world 1.',
-						url: '/blog/1',
-						date: 'Jan 1, 2016',
-					},
-					{
-						title: 'Post 2',
-						content: '<p>Read more in <a href="/blog/22">this post</a>.</p>',
-						url: '/blog/2',
-						date: 'Jan 2, 2016',
-					},
-				],
-			}, {
-				base: {
-					url: 'http://example.com/',
+			const result = core.generatePage(
+				{
+					title: 'Hello',
+					description: 'My RSS',
+					layout: 'RSS',
+					url: '/feed',
+					sourcePath: 'feed.md',
+					items: [
+						{
+							title: 'Post 1',
+							content: 'Hello world 1.',
+							url: '/blog/1',
+							date: 'Jan 1, 2016',
+						},
+						{
+							title: 'Post 2',
+							content: '<p>Read more in <a href="/blog/22">this post</a>.</p>',
+							url: '/blog/2',
+							date: 'Jan 2, 2016',
+						},
+					],
 				},
-			}, helpers, {
-				jsx: renderTemplate,
-			});
+				{
+					base: {
+						url: 'http://example.com/',
+					},
+				},
+				helpers,
+				{
+					jsx: renderTemplate,
+				}
+			);
 
 			const content = result.content.replace(
 				/<(\w+Date)>\w+, \d+ \w+ 20\d\d \d\d:\d\d:\d\d GMT<\/(?:\w+Date)>/g,
@@ -501,14 +535,18 @@ describe('core', () => {
 		});
 		it('should throw if layout is not specified', () => {
 			const func = () => {
-				core.generatePage({
-					title: 'Hello',
-					sourcePath: 'all/post.md',
-					content: '<b>Test</b>',
-				}, {
-					base: {},
-				}, {
-				}, { jsx: renderTemplate });
+				core.generatePage(
+					{
+						title: 'Hello',
+						sourcePath: 'all/post.md',
+						content: '<b>Test</b>',
+					},
+					{
+						base: {},
+					},
+					{},
+					{ jsx: renderTemplate }
+				);
 			};
 			expect(func).to.throw;
 		});
@@ -516,23 +554,27 @@ describe('core', () => {
 
 	describe('generatePages', () => {
 		it('should render array of pages', () => {
-			const result = core.generatePages([
+			const result = core.generatePages(
+				[
+					{
+						title: 'Hello',
+						layout: 'layout',
+						sourcePath: 'all/post.md',
+						content: '<b>Test</b>',
+					},
+					{
+						title: 'Bye',
+						layout: 'layout',
+						sourcePath: 'all/post2.md',
+						content: '<b>Foobarbaz</b>',
+					},
+				],
 				{
-					title: 'Hello',
-					layout: 'layout',
-					sourcePath: 'all/post.md',
-					content: '<b>Test</b>',
+					base: {},
 				},
-				{
-					title: 'Bye',
-					layout: 'layout',
-					sourcePath: 'all/post2.md',
-					content: '<b>Foobarbaz</b>',
-				},
-			], {
-				base: {},
-			}, {
-			}, { jsx: renderTemplate });
+				{},
+				{ jsx: renderTemplate }
+			);
 			expect(result.length).to.eql(2);
 			expect(result[0].content).to.eql('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
 			expect(result[0].pagePath).to.eql('all/post.html');
@@ -617,10 +659,13 @@ describe('core', () => {
 	describe('savePage', () => {
 		beforeEach(done => rimraf('test/tmp', done));
 		it('should save page to HTML file', () => {
-			core.savePage({
-				pagePath: 'all/post.html',
-				content: '<h1>Hello</h1>\n<b>Test</b>',
-			}, 'test/tmp');
+			core.savePage(
+				{
+					pagePath: 'all/post.html',
+					content: '<h1>Hello</h1>\n<b>Test</b>',
+				},
+				'test/tmp'
+			);
 			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 		});
 	});
@@ -628,16 +673,19 @@ describe('core', () => {
 	describe('savePages', () => {
 		beforeEach(done => rimraf('test/tmp', done));
 		it('should save array of page to HTML files', () => {
-			core.savePages([
-				{
-					pagePath: 'all/post.html',
-					content: '<h1>Hello</h1>\n<b>Test</b>',
-				},
-				{
-					pagePath: 'all/post2.html',
-					content: '<h1>Bye</h1>\n<b>Foobarbaz</b>',
-				},
-			], 'test/tmp');
+			core.savePages(
+				[
+					{
+						pagePath: 'all/post.html',
+						content: '<h1>Hello</h1>\n<b>Test</b>',
+					},
+					{
+						pagePath: 'all/post2.html',
+						content: '<h1>Bye</h1>\n<b>Foobarbaz</b>',
+					},
+				],
+				'test/tmp'
+			);
 			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
 			expect(readFile('test/tmp/all/post2.html')).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
 		});

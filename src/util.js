@@ -70,8 +70,7 @@ export function writeFile(filepath, content) {
 export function readYamlFile(filepath) {
 	try {
 		return yaml.safeLoad(readFile(filepath));
-	}
-	catch (exception) {
+	} catch (exception) {
 		console.log(`Cannot read YAML file ${filepath}:`, exception);
 		return '';
 	}
@@ -83,12 +82,14 @@ export function readYamlFile(filepath) {
  * @return {Array}
  */
 export function formatFieldsForSortByOrder(shortFields) {
-	return _.unzip(shortFields.map((field) => {
-		if (field[0] === '-') {
-			return [field.substr(1), 'desc'];
-		}
-		return [field, 'asc'];
-	}));
+	return _.unzip(
+		shortFields.map(field => {
+			if (field[0] === '-') {
+				return [field.substr(1), 'desc'];
+			}
+			return [field, 'asc'];
+		})
+	);
 }
 
 /**
@@ -168,9 +169,9 @@ export function absolutizeUrl(url, siteUrl) {
  * @return {string}
  */
 export function absolutizeLinks(html, siteUrl) {
-	return html && (html
-		.replace(/href="\//g, 'href="' + siteUrl + '/')
-		.replace(/src="\//g, 'src="' + siteUrl + '/')
+	return (
+		html &&
+		html.replace(/href="\//g, 'href="' + siteUrl + '/').replace(/src="\//g, 'src="' + siteUrl + '/')
 	);
 }
 
@@ -205,10 +206,7 @@ export function safe(node) {
  */
 export function markdown(string) {
 	if (string) {
-		return markdownBlock(string)
-			.replace(/^\s*<p>/, '')
-			.replace(/<\/p>\s*$/, '')
-		;
+		return markdownBlock(string).replace(/^\s*<p>/, '').replace(/<\/p>\s*$/, '');
 	}
 	return '';
 }
@@ -274,7 +272,9 @@ export function errorHtml(message, file, line) {
  */
 export function errorInlineHtml(message, { block } = {}) {
 	printError(message);
-	let html = `<b style="color:${ERROR_COLOR}; font-family:Helvetica">${formatErrorHtml(message)}</b>`;
+	let html = `<b style="color:${ERROR_COLOR}; font-family:Helvetica">${formatErrorHtml(
+		message
+	)}</b>`;
 	if (block) {
 		html = `<p>${html}</p>`;
 	}
@@ -296,12 +296,7 @@ export function codeFragment(code, line) {
 	lines = lines.slice(begin - 1, end);
 	lines = lines.map((str, index) => {
 		const currentLineNum = index + begin;
-		return [
-			currentLineNum === line ? '>' : ' ',
-			_.padStart(currentLineNum, 3),
-			'|',
-			str,
-		].join(' ');
+		return [currentLineNum === line ? '>' : ' ', _.padStart(currentLineNum, 3), '|', str].join(' ');
 	});
 	return lines.join('\n');
 }
@@ -320,8 +315,10 @@ export function start(message) {
 		const minutes = Math.floor(time / 1000 / 60) % 60;
 		const seconds = Math.floor(time / 1000) % 60;
 		console.log(
-			'Done in', (minutes ? `${minutes}m ` : '') + (seconds ? `${seconds}s` : '') +
-			(!minutes && !seconds ? 'a moment' : '')
+			'Done in',
+			(minutes ? `${minutes}m ` : '') +
+				(seconds ? `${seconds}s` : '') +
+				(!minutes && !seconds ? 'a moment' : '')
 		);
 	});
 }

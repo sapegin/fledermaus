@@ -28,9 +28,7 @@ import {
 	absolutizeLinks as absolutizeLinksBase,
 } from './util';
 
-export {
-	safe,
-} from './util';
+export { safe } from './util';
 
 /**
  * Localized config option.
@@ -127,8 +125,7 @@ export function dateToString(date) {
 	});
 	try {
 		return format.format(date);
-	}
-	catch (exception) {
+	} catch (exception) {
 		return errorInlineHtml(`dateToString: invalid date "${date}" at ${this.sourcePath}`);
 	}
 }
@@ -163,7 +160,6 @@ export const fingerprint = _.memoize(function(url) {
 export const embedFile = _.memoize(function(url) {
 	return readFile(this.assetFilepath(url));
 });
-
 
 /**
  * Return a static file content prefixed with a comment with a file name.

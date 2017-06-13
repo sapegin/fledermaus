@@ -8,8 +8,11 @@ import { errorHtml } from '../util';
  * @return {string}
  */
 export default function renderRss(props = {}) {
-	const missingProp = prop => errorHtml(`Error while rendering an RSS feed ${props.sourcePath}: ` +
-		`missing required property "${prop}".`);
+	const missingProp = prop =>
+		errorHtml(
+			`Error while rendering an RSS feed ${props.sourcePath}: ` +
+				`missing required property "${prop}".`
+		);
 
 	const requiredProps = ['title', 'description', 'items'];
 	for (const prop of requiredProps) {
