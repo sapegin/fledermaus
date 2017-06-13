@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import renderRss from '../src/renderers/rss';
 import { readFile } from '../src/util';
 import * as helpers from '../src/helpers';
@@ -40,7 +38,7 @@ describe('RSS', () => {
 				/<(\w+Date)>\w+, \d+ \w+ 20\d\d \d\d:\d\d:\d\d GMT<\/(?:\w+Date)>/g,
 				'<$1>Sun, 1 Apr 2016 11:12:13 GMT</$1>'
 			);
-			expect(result).to.eql(readFile('test/expected/feed.xml'));
+			expect(result).toEqual(readFile('test/expected/feed.xml'));
 		});
 	});
 });

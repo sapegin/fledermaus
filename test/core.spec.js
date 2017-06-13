@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import path from 'path';
 import rimraf from 'rimraf';
 import _ from 'lodash';
@@ -22,28 +21,28 @@ describe('core', () => {
 	describe('filepathToUrl', () => {
 		it('should transform file path to relative URL', () => {
 			const result = core.filepathToUrl('ru/markdown.md');
-			expect(result).to.eql('/ru/markdown');
+			expect(result).toEqual('/ru/markdown');
 		});
 		it('should strip "index" at the end', () => {
 			const result = core.filepathToUrl('ru/index.md');
-			expect(result).to.eql('/ru');
+			expect(result).toEqual('/ru');
 		});
 		it('should return "/" if "index" is the only part of URL', () => {
 			const result = core.filepathToUrl('index.md');
-			expect(result).to.eql('/');
+			expect(result).toEqual('/');
 		});
 	});
 
 	describe('renderByType', () => {
 		it('should render string using a renderer that matches the file extension', () => {
 			const result = core.renderByType('Hello *Markdown*!', 'test.md', { md: renderMarkdown });
-			expect(result).to.eql('<p>Hello <em>Markdown</em>!</p>\n');
+			expect(result).toEqual('<p>Hello <em>Markdown</em>!</p>\n');
 		});
 		it('should return source string if no matching renderer found', () => {
 			const result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', {
 				md: renderMarkdown,
 			});
-			expect(result).to.eql('<p>Hello <em>HTML</em>!</p>');
+			expect(result).toEqual('<p>Hello <em>HTML</em>!</p>');
 		});
 	});
 
@@ -53,8 +52,8 @@ describe('core', () => {
 			const result = core.parseCustomFields(ddd, {
 				date: Date.parse,
 			});
-			expect(result.title).to.eql('Post');
-			expect(new Date(result.date).toDateString()).to.eql('Fri Nov 08 2013');
+			expect(result.title).toEqual('Post');
+			expect(new Date(result.date).toDateString()).toEqual('Fri Nov 08 2013');
 		});
 		it('should be able to create new attributes', () => {
 			const ddd = { title: 'Post', date: 'Nov 8, 2013' };
@@ -62,9 +61,9 @@ describe('core', () => {
 				timestamp: (t, attrs) => Date.parse(attrs.date),
 				date: d => new Date(Date.parse(d)),
 			});
-			expect(result.title).to.eql('Post');
-			expect(new Date(result.timestamp).toDateString()).to.eql('Fri Nov 08 2013');
-			expect(result.date.toDateString()).to.eql('Fri Nov 08 2013');
+			expect(result.title).toEqual('Post');
+			expect(new Date(result.timestamp).toDateString()).toEqual('Fri Nov 08 2013');
+			expect(result.date.toDateString()).toEqual('Fri Nov 08 2013');
 		});
 	});
 
@@ -74,7 +73,7 @@ describe('core', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
 			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
-			expect(result).to.eql(require('./expected/markdown-with-frontmatter.md.js'));
+			expect(result).toEqual(require('./expected/markdown-with-frontmatter.md.js'));
 		});
 		it('should modify all fields using custom field parsers', () => {
 			const folder = 'test/samples';
@@ -86,7 +85,7 @@ describe('core', () => {
 					url: u => `/ru${u}`,
 				},
 			});
-			expect(result).to.eql(require('./expected/markdown-with-custom-fields.js'));
+			expect(result).toEqual(require('./expected/markdown-with-custom-fields.js'));
 		});
 		it('should split content to excerpt and more if cut tag is used', () => {
 			const folder = 'test/samples';
@@ -95,20 +94,20 @@ describe('core', () => {
 				cutTag: '<!-- cut -->',
 				renderers,
 			});
-			expect(result).to.eql(require('./expected/markdown-with-cut.md.js'));
+			expect(result).toEqual(require('./expected/markdown-with-cut.md.js'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';
 			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
-			expect(result).to.eql(require('./expected/markdown-with-frontmatter.html.js'));
+			expect(result).toEqual(require('./expected/markdown-with-frontmatter.html.js'));
 		});
 	});
 
 	describe('getSourceFilesList', () => {
 		it('should return a list of source files', () => {
 			const result = core.getSourceFilesList('test/source', ['md', 'html']);
-			expect(result).to.eql([
+			expect(result).toEqual([
 				'en/plugins-requirejs.md',
 				'en/read-less-tech-books.md',
 				'ru/debug-mode.md',
@@ -121,27 +120,27 @@ describe('core', () => {
 			const result = core.loadSourceFiles('test/source', ['md', 'html'], {
 				renderers: { md: renderMarkdown },
 			});
-			expect(result).to.eql(require('./expected/files.js'));
+			expect(result).toEqual(require('./expected/files.js'));
 		});
 		it('should work with a single file type', () => {
 			const result = core.loadSourceFiles('test/source', ['md'], {
 				renderers: { md: renderMarkdown },
 			});
-			expect(result).to.eql(require('./expected/files.js'));
+			expect(result).toEqual(require('./expected/files.js'));
 		});
 	});
 
 	describe('getConfigFilesList', () => {
 		it('should return a list of config files', () => {
 			const result = core.getConfigFilesList('test/config');
-			expect(result).to.eql(['test/config/base.yml', 'test/config/en.yml', 'test/config/ru.yml']);
+			expect(result).toEqual(['test/config/base.yml', 'test/config/en.yml', 'test/config/ru.yml']);
 		});
 	});
 
 	describe('readConfigFiles', () => {
 		it('should read config files to an object', () => {
 			const result = core.readConfigFiles(['test/config/base.yml']);
-			expect(result).to.eql(require('./expected/configs.json'));
+			expect(result).toEqual(require('./expected/configs.json'));
 		});
 	});
 
@@ -152,25 +151,25 @@ describe('core', () => {
 				'test/config/en.yml',
 				'test/config/ru.yml',
 			]);
-			expect(result).to.eql(require('./expected/configs-langs.json'));
+			expect(result).toEqual(require('./expected/configs-langs.json'));
 		});
 	});
 
 	describe('mergeConfigs', () => {
 		it('should merge config objects', () => {
 			const result = core.mergeConfigs(require('./expected/configs.json'));
-			expect(result).to.eql(require('./expected/configs-merged.json'));
+			expect(result).toEqual(require('./expected/configs-merged.json'));
 		});
 		it('should merge config objects (with langs)', () => {
 			const result = core.mergeConfigs(require('./expected/configs-langs.json'));
-			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
+			expect(result).toEqual(require('./expected/configs-langs-merged.json'));
 		});
 	});
 
 	describe('loadConfig', () => {
 		it('should return merged config object', () => {
 			const result = core.loadConfig('test/config');
-			expect(result).to.eql(require('./expected/configs-langs-merged.json'));
+			expect(result).toEqual(require('./expected/configs-langs-merged.json'));
 		});
 	});
 
@@ -196,10 +195,10 @@ describe('core', () => {
 					},
 				}
 			);
-			expect(result.title).to.eql('Hello');
-			expect(result.config.base.title).to.eql('Blog');
-			expect(result.siteTitle()).to.eql('Blog');
-			expect(result.heading(2)).to.eql('<h2>Hello</h2>');
+			expect(result.title).toEqual('Hello');
+			expect(result.config.base.title).toEqual('Blog');
+			expect(result.siteTitle()).toEqual('Blog');
+			expect(result.heading(2)).toEqual('<h2>Hello</h2>');
 		});
 	});
 
@@ -225,8 +224,8 @@ describe('core', () => {
 				],
 				{ lang: 'ru' }
 			);
-			expect(result.length).to.eql(2);
-			expect(result[0].title).to.eql('Post 2');
+			expect(result.length).toEqual(2);
+			expect(result[0].title).toEqual('Post 2');
 		});
 		it('should filter documents by RegExp', () => {
 			const result = core.filterDocuments(
@@ -246,8 +245,8 @@ describe('core', () => {
 				],
 				{ sourcePath: /^all\// }
 			);
-			expect(result.length).to.eql(2);
-			expect(result[0].title).to.eql('Post 1');
+			expect(result.length).toEqual(2);
+			expect(result[0].title).toEqual('Post 1');
 		});
 		it('should filter documents by function result', () => {
 			const result = core.filterDocuments(
@@ -267,8 +266,8 @@ describe('core', () => {
 				],
 				{ sourcePath: val => val.startsWith('all/') }
 			);
-			expect(result.length).to.eql(2);
-			expect(result[0].title).to.eql('Post 1');
+			expect(result.length).toEqual(2);
+			expect(result[0].title).toEqual('Post 1');
 		});
 		it('should filter documents by multiple fields', () => {
 			const result = core.filterDocuments(
@@ -288,8 +287,8 @@ describe('core', () => {
 				],
 				{ title: 'Post 1', sourcePath: /^all\// }
 			);
-			expect(result.length).to.eql(1);
-			expect(result[0].title).to.eql('Post 1');
+			expect(result.length).toEqual(1);
+			expect(result[0].title).toEqual('Post 1');
 		});
 	});
 
@@ -312,7 +311,7 @@ describe('core', () => {
 				],
 				['title']
 			);
-			expect(_.map(result, 'title')).to.eql(['About', 'Post 1', 'Post 2']);
+			expect(_.map(result, 'title')).toEqual(['About', 'Post 1', 'Post 2']);
 		});
 		it('should sort array of documents backwards', () => {
 			const result = core.orderDocuments(
@@ -332,7 +331,7 @@ describe('core', () => {
 				],
 				['-title']
 			);
-			expect(_.map(result, 'title')).to.eql(['Post 2', 'Post 1', 'About']);
+			expect(_.map(result, 'title')).toEqual(['Post 2', 'Post 1', 'About']);
 		});
 		it('should sort array by miltiple fields', () => {
 			const result = core.orderDocuments(
@@ -355,7 +354,7 @@ describe('core', () => {
 				],
 				['-layout', 'title']
 			);
-			expect(_.map(result, 'title')).to.eql(['Post 1', 'Post 2', 'About']);
+			expect(_.map(result, 'title')).toEqual(['Post 1', 'Post 2', 'About']);
 		});
 	});
 
@@ -378,7 +377,7 @@ describe('core', () => {
 				],
 				'layout'
 			);
-			expect(result).to.eql({
+			expect(result).toEqual({
 				post: [{ title: 'Post 1', layout: 'post' }, { title: 'Post 2', layout: 'post' }],
 				about: [{ title: 'About', layout: 'about' }],
 			});
@@ -401,7 +400,7 @@ describe('core', () => {
 				],
 				'tags'
 			);
-			expect(result).to.eql({
+			expect(result).toEqual({
 				foo: [
 					{ title: 'Post 1', tags: 'foo' },
 					{ title: 'Post 2', tags: ['bar', 'foo'] },
@@ -427,7 +426,7 @@ describe('core', () => {
 				],
 				'layout'
 			);
-			expect(result).to.eql({
+			expect(result).toEqual({
 				post: [{ title: 'Post 1', layout: 'post' }],
 				about: [{ title: 'About', layout: 'about' }],
 			});
@@ -450,7 +449,7 @@ describe('core', () => {
 				],
 				d => Number(d.date.split('-')[0])
 			);
-			expect(result).to.eql({
+			expect(result).toEqual({
 				2014: [{ title: 'Post 1', date: '2014-06-17' }, { title: 'About', date: '2014-01-12' }],
 				2015: [{ title: 'Post 2', date: '2015-09-01' }],
 			});
@@ -472,8 +471,8 @@ describe('core', () => {
 				{},
 				{ jsx: renderTemplate }
 			);
-			expect(result.content).to.eql('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
-			expect(result.pagePath).to.eql('all/post.html');
+			expect(result.content).toEqual('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
+			expect(result.pagePath).toEqual('all/post.html');
 		});
 		it('should use layout extension if it is specified (feed.xml.jsx → feed.xml)', () => {
 			const result = core.generatePage(
@@ -489,8 +488,8 @@ describe('core', () => {
 				{},
 				{ jsx: renderTemplate }
 			);
-			expect(result.content).to.eql('<!doctype html><foo><b>Test</b></foo>');
-			expect(result.pagePath).to.eql('all/feed.xml');
+			expect(result.content).toEqual('<!doctype html><foo><b>Test</b></foo>');
+			expect(result.pagePath).toEqual('all/feed.xml');
 		});
 		it('should render an RSS feed if layout is "RSS"', () => {
 			const result = core.generatePage(
@@ -530,8 +529,8 @@ describe('core', () => {
 				/<(\w+Date)>\w+, \d+ \w+ 20\d\d \d\d:\d\d:\d\d GMT<\/(?:\w+Date)>/g,
 				'<$1>Sun, 1 Apr 2016 11:12:13 GMT</$1>'
 			);
-			expect(content).to.eql(readFile('test/expected/feed.xml'));
-			expect(result.pagePath).to.eql('feed.xml');
+			expect(content).toEqual(readFile('test/expected/feed.xml'));
+			expect(result.pagePath).toEqual('feed.xml');
 		});
 		it('should throw if layout is not specified', () => {
 			const func = () => {
@@ -548,7 +547,7 @@ describe('core', () => {
 					{ jsx: renderTemplate }
 				);
 			};
-			expect(func).to.throw;
+			expect(func).toThrow();
 		});
 	});
 
@@ -575,38 +574,38 @@ describe('core', () => {
 				{},
 				{ jsx: renderTemplate }
 			);
-			expect(result.length).to.eql(2);
-			expect(result[0].content).to.eql('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
-			expect(result[0].pagePath).to.eql('all/post.html');
-			expect(result[1].content).to.eql('<!doctype html><div><h1>Bye</h1><b>Foobarbaz</b></div>');
-			expect(result[1].pagePath).to.eql('all/post2.html');
+			expect(result.length).toEqual(2);
+			expect(result[0].content).toEqual('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
+			expect(result[0].pagePath).toEqual('all/post.html');
+			expect(result[1].content).toEqual('<!doctype html><div><h1>Bye</h1><b>Foobarbaz</b></div>');
+			expect(result[1].pagePath).toEqual('all/post2.html');
 		});
 	});
 
 	describe('getPageNumberUrl', () => {
 		it('should return pagination page number', () => {
 			const result = core.getPageNumberUrl('all', 5);
-			expect(result).to.eql('all/page/5');
+			expect(result).toEqual('all/page/5');
 		});
 		it('should return URL prefix for the first page', () => {
 			const result = core.getPageNumberUrl('all', 1);
-			expect(result).to.eql('all');
+			expect(result).toEqual('all');
 		});
 		it('should add index if index options is true', () => {
 			const result = core.getPageNumberUrl('all', 1, { index: true });
-			expect(result).to.eql('all/index');
+			expect(result).toEqual('all/index');
 		});
 		it('should not return double slash: page number', () => {
 			const result = core.getPageNumberUrl('/', 5);
-			expect(result).to.eql('/page/5');
+			expect(result).toEqual('/page/5');
 		});
 		it('should not return double slash: first page', () => {
 			const result = core.getPageNumberUrl('/', 1);
-			expect(result).to.eql('/');
+			expect(result).toEqual('/');
 		});
 		it('should not return double slash: index', () => {
 			const result = core.getPageNumberUrl('/', 1, { index: true });
-			expect(result).to.eql('/index');
+			expect(result).toEqual('/index');
 		});
 	});
 
@@ -632,7 +631,7 @@ describe('core', () => {
 					layout: 'pagination',
 				}
 			);
-			expect(result).to.eql(require('./expected/pagination.json'));
+			expect(result).toEqual(require('./expected/pagination.json'));
 		});
 		it('should add extra options to every generated document', () => {
 			const result = core.paginate(
@@ -651,8 +650,8 @@ describe('core', () => {
 					},
 				}
 			);
-			expect(result[0].foo).to.eql(42);
-			expect(result[1].bar).to.eql(13);
+			expect(result[0].foo).toEqual(42);
+			expect(result[1].bar).toEqual(13);
 		});
 	});
 
@@ -666,7 +665,7 @@ describe('core', () => {
 				},
 				'test/tmp'
 			);
-			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
+			expect(readFile('test/tmp/all/post.html')).toEqual('<h1>Hello</h1>\n<b>Test</b>');
 		});
 	});
 
@@ -686,8 +685,8 @@ describe('core', () => {
 				],
 				'test/tmp'
 			);
-			expect(readFile('test/tmp/all/post.html')).to.eql('<h1>Hello</h1>\n<b>Test</b>');
-			expect(readFile('test/tmp/all/post2.html')).to.eql('<h1>Bye</h1>\n<b>Foobarbaz</b>');
+			expect(readFile('test/tmp/all/post.html')).toEqual('<h1>Hello</h1>\n<b>Test</b>');
+			expect(readFile('test/tmp/all/post2.html')).toEqual('<h1>Bye</h1>\n<b>Foobarbaz</b>');
 		});
 	});
 });

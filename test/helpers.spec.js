@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import * as helpers from '../src/helpers';
 
 describe('helpers', () => {
@@ -17,7 +15,7 @@ describe('helpers', () => {
 				lang: 'ru',
 			});
 			const result = func('title');
-			expect(result).to.eql('Мой блог');
+			expect(result).toEqual('Мой блог');
 		});
 		it('should return base config option if there’s no language', () => {
 			const func = helpers.option.bind({
@@ -28,7 +26,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('title');
-			expect(result).to.eql('My blog');
+			expect(result).toEqual('My blog');
 		});
 		it('should return return top-level value if localized or base value not found', () => {
 			const func = helpers.option.bind({
@@ -37,7 +35,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('title');
-			expect(result).to.eql('My blog');
+			expect(result).toEqual('My blog');
 		});
 		it('should support dot notation for keys (key.subkey)', () => {
 			const func = helpers.option.bind({
@@ -50,7 +48,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('foo.bar');
-			expect(result).to.eql('Baz');
+			expect(result).toEqual('Baz');
 		});
 		it('should throw if option is not specifeid in the config', () => {
 			const func = helpers.option.bind({
@@ -60,7 +58,7 @@ describe('helpers', () => {
 					},
 				},
 			});
-			expect(() => func('bar')).to.throw(Error);
+			expect(() => func('bar')).toThrowError(Error);
 		});
 	});
 
@@ -75,7 +73,7 @@ describe('helpers', () => {
 				lang: 'ru',
 			});
 			const result = func();
-			expect(result).to.eql('ru');
+			expect(result).toEqual('ru');
 		});
 		it('should return config language if page language is not specified', () => {
 			const func = helpers.pageLang.bind({
@@ -87,7 +85,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func();
-			expect(result).to.eql('en');
+			expect(result).toEqual('en');
 		});
 	});
 
@@ -107,7 +105,7 @@ describe('helpers', () => {
 				lang: 'ru',
 			});
 			const result = func('hi', { name: 'Fledermaus' });
-			expect(result.toString()).to.eql('Привет, Fledermaus!');
+			expect(result.toString()).toEqual('Привет, Fledermaus!');
 		});
 		it('should return plural form of a number (English)', () => {
 			const func = helpers.__.bind({
@@ -121,11 +119,11 @@ describe('helpers', () => {
 				},
 				lang: 'en',
 			});
-			expect(func('posts', { num: 0 }).toString()).to.eql('No posts');
-			expect(func('posts', { num: 1 }).toString()).to.eql('One post');
-			expect(func('posts', { num: 2 }).toString()).to.eql('2 posts');
-			expect(func('posts', { num: 11 }).toString()).to.eql('11 posts');
-			expect(func('posts', { num: 21 }).toString()).to.eql('21 posts');
+			expect(func('posts', { num: 0 }).toString()).toEqual('No posts');
+			expect(func('posts', { num: 1 }).toString()).toEqual('One post');
+			expect(func('posts', { num: 2 }).toString()).toEqual('2 posts');
+			expect(func('posts', { num: 11 }).toString()).toEqual('11 posts');
+			expect(func('posts', { num: 21 }).toString()).toEqual('21 posts');
 		});
 		it('should return plural form of a number (Russian)', () => {
 			const func = helpers.__.bind({
@@ -140,12 +138,12 @@ describe('helpers', () => {
 				},
 				lang: 'ru',
 			});
-			expect(func('posts', { num: 0 }).toString()).to.eql('Нет постов');
-			expect(func('posts', { num: 1 }).toString()).to.eql('Один пост');
-			expect(func('posts', { num: 2 }).toString()).to.eql('2 поста');
-			expect(func('posts', { num: 5 }).toString()).to.eql('5 постов');
-			expect(func('posts', { num: 11 }).toString()).to.eql('11 постов');
-			expect(func('posts', { num: 121 }).toString()).to.eql('121 пост');
+			expect(func('posts', { num: 0 }).toString()).toEqual('Нет постов');
+			expect(func('posts', { num: 1 }).toString()).toEqual('Один пост');
+			expect(func('posts', { num: 2 }).toString()).toEqual('2 поста');
+			expect(func('posts', { num: 5 }).toString()).toEqual('5 постов');
+			expect(func('posts', { num: 11 }).toString()).toEqual('11 постов');
+			expect(func('posts', { num: 121 }).toString()).toEqual('121 пост');
 		});
 	});
 
@@ -160,7 +158,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('/all/post');
-			expect(result).to.eql('http://example.com/all/post');
+			expect(result).toEqual('http://example.com/all/post');
 		});
 	});
 
@@ -180,7 +178,7 @@ describe('helpers', () => {
 					<img src="/images/mac__shell_dialog_error.png" alt="AppleScript error message">
 				</div>
 			`);
-			expect(result).to.eql(`
+			expect(result).toEqual(`
 				<p>Or you can just download <a href="https://github.com/sapegin/dotfiles/blob/master/bin/dlg-error">dlg-error</a> and <a href="http://example.com/sapegin/dotfiles/blob/master/bin/dlg-prompt">dlg-prompt</a> and put them <a href="http://example.com/somewhere">somewhere</a> in <code>$PATH</code>:</p>
 				<div class="screenshot screenshot_mac">
 					<img src="http://example.com/images/mac__shell_dialog_error.png" alt="AppleScript error message">
@@ -201,7 +199,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func();
-			expect(result).to.eql('Foo — My blog');
+			expect(result).toEqual('Foo — My blog');
 		});
 		it('should return a title if suffix=false', () => {
 			const func = helpers.getPageTitle.bind({
@@ -214,7 +212,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func({ suffix: false });
-			expect(result).to.eql('Foo');
+			expect(result).toEqual('Foo');
 		});
 		it('should return a page title if is defined', () => {
 			const func = helpers.getPageTitle.bind({
@@ -228,7 +226,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func();
-			expect(result).to.eql('Bar');
+			expect(result).toEqual('Bar');
 		});
 		it('should return site title if title is not defined', () => {
 			const func = helpers.getPageTitle.bind({
@@ -240,7 +238,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func();
-			expect(result).to.eql('My blog');
+			expect(result).toEqual('My blog');
 		});
 		it('should return a passed title and suffix if title is not defined', () => {
 			const func = helpers.getPageTitle.bind({
@@ -252,7 +250,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func({ title: 'My custom title' });
-			expect(result).to.eql('My custom title — My blog');
+			expect(result).toEqual('My custom title — My blog');
 		});
 	});
 
@@ -263,7 +261,7 @@ describe('helpers', () => {
 				lang: 'en',
 			});
 			const result = func(new Date(1445543242080));
-			expect(result).to.eql('October 22, 2015');
+			expect(result).toEqual('October 22, 2015');
 		});
 		it('should return date in Russian', () => {
 			const func = helpers.dateToString.bind({
@@ -271,7 +269,7 @@ describe('helpers', () => {
 				lang: 'ru',
 			});
 			const result = func(new Date(1445543242080));
-			expect(result).to.eql('22 октября 2015 г.');
+			expect(result).toEqual('22 октября 2015 г.');
 		});
 	});
 
@@ -286,7 +284,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('images/photo.jpg');
-			expect(result).to.eql('test/samples/images/photo.jpg');
+			expect(result).toEqual('test/samples/images/photo.jpg');
 		});
 	});
 
@@ -302,7 +300,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('file.txt');
-			expect(result).to.match(/^file.txt\?[0-9a-f]{32}$/);
+			expect(result).toMatch(/^file.txt\?[0-9a-f]{32}$/);
 		});
 	});
 
@@ -318,7 +316,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('file.txt');
-			expect(result).to.eql('Hello.');
+			expect(result).toEqual('Hello.');
 		});
 	});
 
@@ -334,7 +332,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('file.txt');
-			expect(result).to.eql('/*file*/Hello.');
+			expect(result).toEqual('/*file*/Hello.');
 		});
 	});
 
@@ -345,8 +343,8 @@ describe('helpers', () => {
 				lang: 'en',
 			});
 			const result = func('no-no');
-			expect(result).to.be.an('object');
-			expect(result.nodeValue).to.eql('<nobr>no-no</nobr>');
+			expect(typeof result).toBe('object');
+			expect(result.nodeValue).toEqual('<nobr>no-no</nobr>');
 		});
 	});
 
@@ -357,8 +355,8 @@ describe('helpers', () => {
 				lang: 'en',
 			});
 			const result = func('No &amp; No');
-			expect(result).to.be.an('object');
-			expect(result.nodeValue).to.eql('No\xA0<span class="amp">&amp;</span> No');
+			expect(typeof result).toBe('object');
+			expect(result.nodeValue).toEqual('No\xA0<span class="amp">&amp;</span> No');
 		});
 	});
 
@@ -366,8 +364,8 @@ describe('helpers', () => {
 		it('should return json string', () => {
 			const func = helpers.json;
 			const result = func({ a: 42 });
-			expect(result).to.be.an('object');
-			expect(result.nodeValue).to.eql('{"a":42}');
+			expect(typeof result).toBe('object');
+			expect(result.nodeValue).toEqual('{"a":42}');
 		});
 	});
 });
