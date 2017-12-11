@@ -14,7 +14,7 @@
 
 import path from 'path';
 import richtypo from 'richtypo';
-import md5File from 'md5-file';
+import hashSum from 'hash-sum';
 import vdo from 'vdo';
 import _ from 'lodash';
 import {
@@ -155,7 +155,7 @@ export function assetFilepath(url) {
  * @return {string}
  */
 export const fingerprint = _.memoize(function(url) {
-	const hash = md5File.sync(this.assetFilepath(url));
+	const hash = hashSum(this.assetFilepath(url));
 	return `${url}?${hash}`;
 });
 

@@ -300,7 +300,7 @@ describe('helpers', () => {
 				},
 			});
 			const result = func('file.txt');
-			expect(result).toMatch(/^file.txt\?[0-9a-f]{32}$/);
+			expect(result).toMatch(/^file.txt\?[0-9a-f]{8}$/);
 		});
 	});
 
