@@ -422,8 +422,9 @@ export function generatePage(document, config, helpers, render) {
  * @return {Array} [{ pagePath, content }, ...]
  */
 export function generatePages(documents, config, helpers, renderers) {
+	const [templateExtension, renderLayout] = _.toPairs(renderers).shift();
+
 	function render(layout, context) {
-		const [templateExtension, renderLayout] = _.toPairs(renderers).shift();
 		const templateFile = `${layout}.${templateExtension}`;
 		return renderLayout(templateFile, context);
 	}
