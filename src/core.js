@@ -380,10 +380,10 @@ export function makeContext(document, config, helpers) {
  * @param {object} document
  * @param {object} config
  * @param {object} helpers
- * @param {object} renderers {extension: renderFunction}
+ * @param {function} render
  * @return {object} { pagePath, content }
  */
-export function generatePage(document, config, helpers, renderers) {
+export function generatePage(document, config, helpers, render) {
 	if (!document.sourcePath) {
 		throw new Error('Source path not specified. Add "sourcePath" front matter field.');
 	}
@@ -403,10 +403,7 @@ export function generatePage(document, config, helpers, renderers) {
 		};
 	}
 
-	const [templateExtension, render] = _.toPairs(renderers).shift();
-	const templateFile = `${document.layout}.${templateExtension}`;
-	const content = render(templateFile, pageContext);
-
+	const content = render(document.layout, pageContext);
 	const pageExtension = getExtension(document.layout) || 'html';
 
 	return {
@@ -425,7 +422,13 @@ export function generatePage(document, config, helpers, renderers) {
  * @return {Array} [{ pagePath, content }, ...]
  */
 export function generatePages(documents, config, helpers, renderers) {
-	return documents.map(document => generatePage(document, config, helpers, renderers));
+	function render(layout, context) {
+		const [templateExtension, renderLayout] = _.toPairs(renderers).shift();
+		const templateFile = `${layout}.${templateExtension}`;
+		return renderLayout(templateFile, context);
+	}
+
+	return documents.map(document => generatePage(document, config, helpers, render));
 }
 
 /**

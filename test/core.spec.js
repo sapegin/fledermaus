@@ -457,6 +457,8 @@ describe('core', () => {
 	});
 
 	describe('generatePage', () => {
+		const render = (layout, context) => renderTemplate(`${layout}.jsx`, context);
+
 		it('should render page using template from frontmatter', () => {
 			const result = core.generatePage(
 				{
@@ -469,7 +471,7 @@ describe('core', () => {
 					base: {},
 				},
 				{},
-				{ jsx: renderTemplate }
+				render
 			);
 			expect(result.content).toEqual('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
 			expect(result.pagePath).toEqual('all/post.html');
@@ -486,7 +488,7 @@ describe('core', () => {
 					base: {},
 				},
 				{},
-				{ jsx: renderTemplate }
+				render
 			);
 			expect(result.content).toEqual('<!doctype html><foo><b>Test</b></foo>');
 			expect(result.pagePath).toEqual('all/feed.xml');
