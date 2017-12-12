@@ -30,14 +30,8 @@ import {
 
 export { safe } from './util';
 
-/**
- * Localized config option.
- *
- * @param {string} key Config key: bla.bla.
- * @return {string}
- */
-export function option(key) {
-	let value = _.get(this.config[this.lang || 'base'], key);
+const getOption = _.memoize(function(key, lang) {
+	let value = _.get(this.config[lang], key);
 	if (value === undefined) {
 		value = this.config[key];
 	}
@@ -45,6 +39,22 @@ export function option(key) {
 		throw new Error(`Config option "${key}" not found.`);
 	}
 	return value;
+}, (key, lang) => `${key}/${lang}`);
+
+const getMessage = _.memoize(function(key, lang, params) {
+	const string = getOption.call(this, key, lang);
+	const message = getMessageFormat(string, lang);
+	return vdo.markSafe(message.format(params));
+}, (key, lang, params) => `${key}/${lang}/${JSON.stringify(params)}`);
+
+/**
+ * Localized config option.
+ *
+ * @param {string} key Config key: bla.bla.
+ * @return {string}
+ */
+export function option(key) {
+	return getOption.call(this, key, this.lang || 'base');
 }
 
 /**
@@ -53,7 +63,7 @@ export function option(key) {
  * @return {string}
  */
 export function pageLang() {
-	return this.lang || this.option('lang');
+	return this.lang || this.config.base.lang;
 }
 
 /**
@@ -64,9 +74,7 @@ export function pageLang() {
  * @return {string}
  */
 export function __(key, params = {}) {
-	const string = this.option(key);
-	const message = getMessageFormat(string, this.pageLang());
-	return vdo.markSafe(message.format(params));
+	return getMessage.call(this, key, this.pageLang(), params);
 }
 
 /**
