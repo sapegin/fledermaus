@@ -206,7 +206,9 @@ export function safe(node) {
  */
 export function markdown(string) {
 	if (string) {
-		return markdownBlock(string).replace(/^\s*<p>/, '').replace(/<\/p>\s*$/, '');
+		return markdownBlock(string)
+			.replace(/^\s*<p>/, '')
+			.replace(/<\/p>\s*$/, '');
 	}
 	return '';
 }
