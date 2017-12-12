@@ -12,6 +12,7 @@ import {
 	readYamlFile,
 	formatFieldsForSortByOrder,
 } from './util';
+import { isPageUpdated } from './caches/pages';
 
 /**
  * Convert file path to URL.
@@ -439,7 +440,9 @@ export function generatePages(documents, config, helpers, renderers) {
  * @param {string} folder Folder to save files.
  */
 export function savePage(page, folder) {
-	writeFile(path.join(folder, page.pagePath), page.content);
+	if (isPageUpdated(page.pagePath, page.content)) {
+		writeFile(path.join(folder, page.pagePath), page.content);
+	}
 }
 
 /**

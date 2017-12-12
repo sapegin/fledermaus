@@ -3,7 +3,7 @@ import _ from 'lodash';
 import hashSum from 'hash-sum';
 import { writeFile } from '../util';
 
-const FILE = path.join(__dirname, '.cahe/pages.json');
+const FILE = path.resolve(__dirname, '../.cache/pages.json');
 
 let cache = {};
 try {
@@ -28,7 +28,7 @@ process.on('exit', () => {
  * @param {string} content
  * @return {boolean}
  */
-function isPageUpdated(pagePath, content) {
+export function isPageUpdated(pagePath, content) {
 	alive[pagePath] = true;
 
 	const hash = cache[pagePath];
@@ -43,4 +43,16 @@ function isPageUpdated(pagePath, content) {
 	return true;
 }
 
-export default isPageUpdated;
+/**
+ * @return {object}
+ */
+export function getPageCache() {
+	return cache;
+}
+
+/**
+ * @param {object} newCache
+ */
+export function setPageCache(newCache) {
+	cache = newCache;
+}

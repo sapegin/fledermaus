@@ -7,6 +7,7 @@ import { readFile } from '../src/util';
 import * as helpers from '../src/helpers';
 import createTemplateRenderer from '../src/renderers/template';
 import createMarkdownRenderer from '../src/renderers/markdown';
+import { setPageCache } from '../src/caches/pages';
 
 /* eslint-disable object-shorthand, object-property-newline */
 
@@ -15,7 +16,9 @@ const renderTemplate = createTemplateRenderer({
 });
 const renderMarkdown = createMarkdownRenderer();
 
-// console.log(JSON.stringify(result));
+beforeEach(() => {
+	setPageCache({});
+});
 
 describe('core', () => {
 	describe('filepathToUrl', () => {
