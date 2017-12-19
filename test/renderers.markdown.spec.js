@@ -36,8 +36,12 @@ describe('markdown', () => {
 					foo: ({ children }) => `<div>${children}</div>\n`,
 				},
 			});
-			const result = render(readFile('test/samples/markdown-with-tag-children.md'));
-			expect(result).toEqual(readFile('test/expected/markdown-with-tag-children.html'));
+			const result = render(
+				readFile('test/samples/markdown-with-tag-children.md')
+			);
+			expect(result).toEqual(
+				readFile('test/expected/markdown-with-tag-children.html')
+			);
 		});
 		it('should treat undefined or null returned from a custom tag as an empty string', () => {
 			const render = createMarkdownRenderer({
@@ -46,7 +50,9 @@ describe('markdown', () => {
 				},
 			});
 			const result = render(readFile('test/samples/markdown-with-tag.md'));
-			expect(result).toEqual(readFile('test/expected/markdown-with-tag-empty.html'));
+			expect(result).toEqual(
+				readFile('test/expected/markdown-with-tag-empty.html')
+			);
 		});
 		it('should return an error message when a custom tag throws', () => {
 			const render = createMarkdownRenderer({
@@ -57,7 +63,9 @@ describe('markdown', () => {
 				},
 			});
 			const result = render(readFile('test/samples/markdown-with-tag.md'));
-			expect(result).toEqual(readFile('test/expected/markdown-with-tag-error.html'));
+			expect(result).toEqual(
+				readFile('test/expected/markdown-with-tag-error.html')
+			);
 		});
 		it('should throw if tag function is not specified', () => {
 			const render = createMarkdownRenderer({
@@ -84,11 +92,17 @@ describe('markdown', () => {
 
 	describe('functions', () => {
 		it('escapeMarkdownInTags should escape Markdown in custom tags', () => {
-			const result = escapeMarkdownInTags(readFile('test/samples/markdown-with-tag-escape.md'));
-			expect(result).toEqual(readFile('test/expected/markdown-with-tag-escape.md'));
+			const result = escapeMarkdownInTags(
+				readFile('test/samples/markdown-with-tag-escape.md')
+			);
+			expect(result).toEqual(
+				readFile('test/expected/markdown-with-tag-escape.md')
+			);
 		});
 		it('unescapeMarkdown should unescape Markdown', () => {
-			const result = unescapeMarkdown('https:\\/\\/instagram.com\nhttps:\\/\\/facebook.com');
+			const result = unescapeMarkdown(
+				'https:\\/\\/instagram.com\nhttps:\\/\\/facebook.com'
+			);
 			expect(result).toEqual('https://instagram.com\nhttps://facebook.com');
 		});
 	});

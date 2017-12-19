@@ -52,22 +52,30 @@ describe('util', () => {
 	describe('meta', () => {
 		it('should return HTML meta tag', () => {
 			const result = util.meta('description', 'My blog');
-			expect(result.toString()).toEqual('<meta name="description" content="My blog">');
+			expect(result.toString()).toEqual(
+				'<meta name="description" content="My blog">'
+			);
 		});
 		it('should strip HTML and escape special characters', () => {
 			const result = util.meta('description', 'My <b>"blog"</b>');
-			expect(result.toString()).toEqual('<meta name="description" content="My &quot;blog&quot;">');
+			expect(result.toString()).toEqual(
+				'<meta name="description" content="My &quot;blog&quot;">'
+			);
 		});
 		it('should work with numbers', () => {
 			const result = util.meta('description', 42);
-			expect(result.toString()).toEqual('<meta name="description" content="42">');
+			expect(result.toString()).toEqual(
+				'<meta name="description" content="42">'
+			);
 		});
 	});
 
 	describe('og', () => {
 		it('should return HTML meta tag for Open Graph', () => {
 			const result = util.og('description', 'My blog');
-			expect(result.toString()).toEqual('<meta property="description" content="My blog">');
+			expect(result.toString()).toEqual(
+				'<meta property="description" content="My blog">'
+			);
 		});
 		it('should strip HTML and escape special characters', () => {
 			const result = util.og('description', 'My <b>"blog"</b>');
@@ -77,7 +85,9 @@ describe('util', () => {
 		});
 		it('should work with numbers', () => {
 			const result = util.og('description', 42);
-			expect(result.toString()).toEqual('<meta property="description" content="42">');
+			expect(result.toString()).toEqual(
+				'<meta property="description" content="42">'
+			);
 		});
 	});
 
@@ -115,7 +125,10 @@ describe('util', () => {
 			expect(result).toEqual('http://example.com/all/post');
 		});
 		it('should return absolute URLs as is', () => {
-			const result = util.absolutizeUrl('http://example.com/all/post', 'http://example.com/');
+			const result = util.absolutizeUrl(
+				'http://example.com/all/post',
+				'http://example.com/'
+			);
 			expect(result).toEqual('http://example.com/all/post');
 		});
 	});

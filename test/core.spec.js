@@ -38,13 +38,19 @@ describe('core', () => {
 
 	describe('renderByType', () => {
 		it('should render string using a renderer that matches the file extension', () => {
-			const result = core.renderByType('Hello *Markdown*!', 'test.md', { md: renderMarkdown });
+			const result = core.renderByType('Hello *Markdown*!', 'test.md', {
+				md: renderMarkdown,
+			});
 			expect(result).toEqual('<p>Hello <em>Markdown</em>!</p>\n');
 		});
 		it('should return source string if no matching renderer found', () => {
-			const result = core.renderByType('<p>Hello <em>HTML</em>!</p>', 'test.html', {
-				md: renderMarkdown,
-			});
+			const result = core.renderByType(
+				'<p>Hello <em>HTML</em>!</p>',
+				'test.html',
+				{
+					md: renderMarkdown,
+				}
+			);
 			expect(result).toEqual('<p>Hello <em>HTML</em>!</p>');
 		});
 	});
@@ -65,7 +71,9 @@ describe('core', () => {
 				date: d => new Date(Date.parse(d)),
 			});
 			expect(result.title).toEqual('Post');
-			expect(new Date(result.timestamp).toDateString()).toEqual('Fri Nov 08 2013');
+			expect(new Date(result.timestamp).toDateString()).toEqual(
+				'Fri Nov 08 2013'
+			);
 			expect(result.date.toDateString()).toEqual('Fri Nov 08 2013');
 		});
 	});
@@ -75,35 +83,57 @@ describe('core', () => {
 		it('should parse Markdown source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
-			expect(result).toEqual(require('./expected/markdown-with-frontmatter.md.js'));
+			const result = core.parsePage(
+				readFile(path.join(folder, filepath)),
+				filepath,
+				{ renderers }
+			);
+			expect(result).toEqual(
+				require('./expected/markdown-with-frontmatter.md.js')
+			);
 		});
 		it('should modify all fields using custom field parsers', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
-			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
-				renderers,
-				fieldParsers: {
-					lang: () => 'ru',
-					url: u => `/ru${u}`,
-				},
-			});
-			expect(result).toEqual(require('./expected/markdown-with-custom-fields.js'));
+			const result = core.parsePage(
+				readFile(path.join(folder, filepath)),
+				filepath,
+				{
+					renderers,
+					fieldParsers: {
+						lang: () => 'ru',
+						url: u => `/ru${u}`,
+					},
+				}
+			);
+			expect(result).toEqual(
+				require('./expected/markdown-with-custom-fields.js')
+			);
 		});
 		it('should split content to excerpt and more if cut tag is used', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-cut.md';
-			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, {
-				cutTag: '<!-- cut -->',
-				renderers,
-			});
+			const result = core.parsePage(
+				readFile(path.join(folder, filepath)),
+				filepath,
+				{
+					cutTag: '<!-- cut -->',
+					renderers,
+				}
+			);
 			expect(result).toEqual(require('./expected/markdown-with-cut.md.js'));
 		});
 		it('should parse HTML source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.html';
-			const result = core.parsePage(readFile(path.join(folder, filepath)), filepath, { renderers });
-			expect(result).toEqual(require('./expected/markdown-with-frontmatter.html.js'));
+			const result = core.parsePage(
+				readFile(path.join(folder, filepath)),
+				filepath,
+				{ renderers }
+			);
+			expect(result).toEqual(
+				require('./expected/markdown-with-frontmatter.html.js')
+			);
 		});
 	});
 
@@ -136,7 +166,11 @@ describe('core', () => {
 	describe('getConfigFilesList', () => {
 		it('should return a list of config files', () => {
 			const result = core.getConfigFilesList('test/config');
-			expect(result).toEqual(['test/config/base.yml', 'test/config/en.yml', 'test/config/ru.yml']);
+			expect(result).toEqual([
+				'test/config/base.yml',
+				'test/config/en.yml',
+				'test/config/ru.yml',
+			]);
 		});
 	});
 
@@ -164,7 +198,9 @@ describe('core', () => {
 			expect(result).toEqual(require('./expected/configs-merged.json'));
 		});
 		it('should merge config objects (with langs)', () => {
-			const result = core.mergeConfigs(require('./expected/configs-langs.json'));
+			const result = core.mergeConfigs(
+				require('./expected/configs-langs.json')
+			);
 			expect(result).toEqual(require('./expected/configs-langs-merged.json'));
 		});
 	});
@@ -381,7 +417,10 @@ describe('core', () => {
 				'layout'
 			);
 			expect(result).toEqual({
-				post: [{ title: 'Post 1', layout: 'post' }, { title: 'Post 2', layout: 'post' }],
+				post: [
+					{ title: 'Post 1', layout: 'post' },
+					{ title: 'Post 2', layout: 'post' },
+				],
 				about: [{ title: 'About', layout: 'about' }],
 			});
 		});
@@ -453,14 +492,18 @@ describe('core', () => {
 				d => Number(d.date.split('-')[0])
 			);
 			expect(result).toEqual({
-				2014: [{ title: 'Post 1', date: '2014-06-17' }, { title: 'About', date: '2014-01-12' }],
+				2014: [
+					{ title: 'Post 1', date: '2014-06-17' },
+					{ title: 'About', date: '2014-01-12' },
+				],
 				2015: [{ title: 'Post 2', date: '2015-09-01' }],
 			});
 		});
 	});
 
 	describe('generatePage', () => {
-		const render = (layout, context) => renderTemplate(`${layout}.jsx`, context);
+		const render = (layout, context) =>
+			renderTemplate(`${layout}.jsx`, context);
 
 		it('should render page using template from frontmatter', () => {
 			const result = core.generatePage(
@@ -476,7 +519,9 @@ describe('core', () => {
 				{},
 				render
 			);
-			expect(result.content).toEqual('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
+			expect(result.content).toEqual(
+				'<!doctype html><div><h1>Hello</h1><b>Test</b></div>'
+			);
 			expect(result.pagePath).toEqual('all/post.html');
 		});
 		it('should use layout extension if it is specified (feed.xml.jsx → feed.xml)', () => {
@@ -580,9 +625,13 @@ describe('core', () => {
 				{ jsx: renderTemplate }
 			);
 			expect(result.length).toEqual(2);
-			expect(result[0].content).toEqual('<!doctype html><div><h1>Hello</h1><b>Test</b></div>');
+			expect(result[0].content).toEqual(
+				'<!doctype html><div><h1>Hello</h1><b>Test</b></div>'
+			);
 			expect(result[0].pagePath).toEqual('all/post.html');
-			expect(result[1].content).toEqual('<!doctype html><div><h1>Bye</h1><b>Foobarbaz</b></div>');
+			expect(result[1].content).toEqual(
+				'<!doctype html><div><h1>Bye</h1><b>Foobarbaz</b></div>'
+			);
 			expect(result[1].pagePath).toEqual('all/post2.html');
 		});
 	});
@@ -618,16 +667,66 @@ describe('core', () => {
 		it('should return an array of documents with pagination info', () => {
 			const result = core.paginate(
 				[
-					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>' },
-					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>' },
-					{ title: 'Post 3', layout: 'post', sourcePath: 'all/post3.md', content: '<b>3</b>' },
-					{ title: 'Post 4', layout: 'post', sourcePath: 'all/post4.md', content: '<b>4</b>' },
-					{ title: 'Post 5', layout: 'post', sourcePath: 'all/post5.md', content: '<b>5</b>' },
-					{ title: 'Post 6', layout: 'post', sourcePath: 'all/post6.md', content: '<b>6</b>' },
-					{ title: 'Post 7', layout: 'post', sourcePath: 'all/post7.md', content: '<b>7</b>' },
-					{ title: 'Post 8', layout: 'post', sourcePath: 'all/post8.md', content: '<b>8</b>' },
-					{ title: 'Post 9', layout: 'post', sourcePath: 'all/post9.md', content: '<b>9</b>' },
-					{ title: 'Post 10', layout: 'post', sourcePath: 'all/post10.md', content: '<b>10</b>' },
+					{
+						title: 'Post 1',
+						layout: 'post',
+						sourcePath: 'all/post1.md',
+						content: '<b>1</b>',
+					},
+					{
+						title: 'Post 2',
+						layout: 'post',
+						sourcePath: 'all/post2.md',
+						content: '<b>2</b>',
+					},
+					{
+						title: 'Post 3',
+						layout: 'post',
+						sourcePath: 'all/post3.md',
+						content: '<b>3</b>',
+					},
+					{
+						title: 'Post 4',
+						layout: 'post',
+						sourcePath: 'all/post4.md',
+						content: '<b>4</b>',
+					},
+					{
+						title: 'Post 5',
+						layout: 'post',
+						sourcePath: 'all/post5.md',
+						content: '<b>5</b>',
+					},
+					{
+						title: 'Post 6',
+						layout: 'post',
+						sourcePath: 'all/post6.md',
+						content: '<b>6</b>',
+					},
+					{
+						title: 'Post 7',
+						layout: 'post',
+						sourcePath: 'all/post7.md',
+						content: '<b>7</b>',
+					},
+					{
+						title: 'Post 8',
+						layout: 'post',
+						sourcePath: 'all/post8.md',
+						content: '<b>8</b>',
+					},
+					{
+						title: 'Post 9',
+						layout: 'post',
+						sourcePath: 'all/post9.md',
+						content: '<b>9</b>',
+					},
+					{
+						title: 'Post 10',
+						layout: 'post',
+						sourcePath: 'all/post10.md',
+						content: '<b>10</b>',
+					},
 				],
 				{
 					sourcePathPrefix: 'all',
@@ -641,8 +740,18 @@ describe('core', () => {
 		it('should add extra options to every generated document', () => {
 			const result = core.paginate(
 				[
-					{ title: 'Post 1', layout: 'post', sourcePath: 'all/post1.md', content: '<b>1</b>' },
-					{ title: 'Post 2', layout: 'post', sourcePath: 'all/post2.md', content: '<b>2</b>' },
+					{
+						title: 'Post 1',
+						layout: 'post',
+						sourcePath: 'all/post1.md',
+						content: '<b>1</b>',
+					},
+					{
+						title: 'Post 2',
+						layout: 'post',
+						sourcePath: 'all/post2.md',
+						content: '<b>2</b>',
+					},
 				],
 				{
 					sourcePathPrefix: 'all',
@@ -670,7 +779,9 @@ describe('core', () => {
 				},
 				'test/tmp'
 			);
-			expect(readFile('test/tmp/all/post.html')).toEqual('<h1>Hello</h1>\n<b>Test</b>');
+			expect(readFile('test/tmp/all/post.html')).toEqual(
+				'<h1>Hello</h1>\n<b>Test</b>'
+			);
 		});
 	});
 
@@ -690,8 +801,12 @@ describe('core', () => {
 				],
 				'test/tmp'
 			);
-			expect(readFile('test/tmp/all/post.html')).toEqual('<h1>Hello</h1>\n<b>Test</b>');
-			expect(readFile('test/tmp/all/post2.html')).toEqual('<h1>Bye</h1>\n<b>Foobarbaz</b>');
+			expect(readFile('test/tmp/all/post.html')).toEqual(
+				'<h1>Hello</h1>\n<b>Test</b>'
+			);
+			expect(readFile('test/tmp/all/post2.html')).toEqual(
+				'<h1>Bye</h1>\n<b>Foobarbaz</b>'
+			);
 		});
 	});
 });

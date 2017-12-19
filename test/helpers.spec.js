@@ -356,7 +356,9 @@ describe('helpers', () => {
 			});
 			const result = func('No &amp; No');
 			expect(typeof result).toBe('object');
-			expect(result.nodeValue).toEqual('No\xA0<span class="amp">&amp;</span>\xA0No');
+			expect(result.nodeValue).toEqual(
+				'No\xA0<span class="amp">&amp;</span>\xA0No'
+			);
 		});
 	});
 

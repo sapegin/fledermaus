@@ -28,11 +28,12 @@
     "@babel/preset-env": "^7.0.0-beta.34",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^21.2.0",
-    "eslint": "^4.13.0",
-    "eslint-config-tamia": "^4.2.3",
-    "eslint-plugin-prettier": "^2.3.1",
+    "eslint": "^4.13.1",
+    "eslint-config-tamia": "^5.0.0",
+    "husky": "^0.14.3",
     "jest": "^21.2.1",
-    "prettier": "1.9.1",
+    "lint-staged": "^6.0.0",
+    "prettier": "1.9.2",
     "rimraf": "^2.6.2",
     "semantic-release": "^6.3.6",
     "semantic-release-tamia": "^1.1.1"
@@ -69,7 +70,10 @@
     "test:coverage": "jest --coverage",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "format": "prettier --write '**/*.{js,md}'",
+    "posttest": "npm run format",
+    "precommit": "lint-staged"
   },
   "release": {
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
@@ -79,6 +83,16 @@
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>/lib/"
+    ]
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{js,md}": [
+      "prettier --write",
+      "git add"
     ]
   }
 }

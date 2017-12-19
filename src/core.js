@@ -75,7 +75,11 @@ export function parseCustomFields(attributes, fieldParsers) {
  * @param {object} $2.cutTag Cut separator.
  * @return {object} { sourcePath, content, excerpt, more, url }
  */
-export function parsePage(source, filepath, { renderers = {}, fieldParsers = {}, cutTag } = {}) {
+export function parsePage(
+	source,
+	filepath,
+	{ renderers = {}, fieldParsers = {}, cutTag } = {}
+) {
 	const { attributes, body } = fastmatter(source);
 
 	const url = filepathToUrl(filepath);
@@ -126,7 +130,9 @@ export function loadSourceFiles(folder, types, options) {
 	if (!files.length) {
 		/* eslint-disable no-console */
 		console.warn(
-			`No source files found in a folder ${path.resolve(folder)} with types ${types.join(', ')}`
+			`No source files found in a folder ${path.resolve(
+				folder
+			)} with types ${types.join(', ')}`
 		);
 		/* eslint-enable no-console */
 	}
@@ -318,7 +324,14 @@ export function getPageNumberUrl(urlPrefix, pageNumber, { index } = {}) {
  */
 export function paginate(
 	documents,
-	{ sourcePathPrefix, urlPrefix, documentsPerPage, layout, index, extra = {} } = {}
+	{
+		sourcePathPrefix,
+		urlPrefix,
+		documentsPerPage,
+		layout,
+		index,
+		extra = {},
+	} = {}
 ) {
 	if (sourcePathPrefix === undefined) {
 		throw new Error('"sourcePathPrefix" not specified for paginate().');
@@ -337,13 +350,19 @@ export function paginate(
 
 	return _.range(totalPages).map(pageNumber => {
 		pageNumber++;
-		const sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber, { index });
+		const sourcePath = getPageNumberUrl(sourcePathPrefix, pageNumber, {
+			index,
+		});
 		const url = getPageNumberUrl(urlPrefix, pageNumber);
 		const begin = (pageNumber - 1) * documentsPerPage;
 		return {
 			...extra,
-			previousUrl: pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
-			nextUrl: pageNumber < totalPages ? getPageNumberUrl(urlPrefix, pageNumber + 1) : null,
+			previousUrl:
+				pageNumber > 1 ? getPageNumberUrl(urlPrefix, pageNumber - 1) : null,
+			nextUrl:
+				pageNumber < totalPages
+					? getPageNumberUrl(urlPrefix, pageNumber + 1)
+					: null,
 			documents: documents.slice(begin, begin + documentsPerPage),
 			documentsTotal: documents.length,
 			sourcePath,
@@ -386,11 +405,15 @@ export function makeContext(document, config, helpers) {
  */
 export function generatePage(document, config, helpers, render) {
 	if (!document.sourcePath) {
-		throw new Error('Source path not specified. Add "sourcePath" front matter field.');
+		throw new Error(
+			'Source path not specified. Add "sourcePath" front matter field.'
+		);
 	}
 	if (!document.layout) {
 		throw new Error(
-			`Layout not specified for ${document.sourcePath}. Add "layout" front matter field.`
+			`Layout not specified for ${
+				document.sourcePath
+			}. Add "layout" front matter field.`
 		);
 	}
 
@@ -430,7 +453,9 @@ export function generatePages(documents, config, helpers, renderers) {
 		return renderLayout(templateFile, context);
 	}
 
-	return documents.map(document => generatePage(document, config, helpers, render));
+	return documents.map(document =>
+		generatePage(document, config, helpers, render)
+	);
 }
 
 /**

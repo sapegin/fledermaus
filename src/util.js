@@ -171,7 +171,9 @@ export function absolutizeUrl(url, siteUrl) {
 export function absolutizeLinks(html, siteUrl) {
 	return (
 		html &&
-		html.replace(/href="\//g, 'href="' + siteUrl + '/').replace(/src="\//g, 'src="' + siteUrl + '/')
+		html
+			.replace(/href="\//g, 'href="' + siteUrl + '/')
+			.replace(/src="\//g, 'src="' + siteUrl + '/')
 	);
 }
 
@@ -298,7 +300,12 @@ export function codeFragment(code, line) {
 	lines = lines.slice(begin - 1, end);
 	lines = lines.map((str, index) => {
 		const currentLineNum = index + begin;
-		return [currentLineNum === line ? '>' : ' ', _.padStart(currentLineNum, 3), '|', str].join(' ');
+		return [
+			currentLineNum === line ? '>' : ' ',
+			_.padStart(currentLineNum, 3),
+			'|',
+			str,
+		].join(' ');
 	});
 	return lines.join('\n');
 }

@@ -28,10 +28,15 @@ export default function createTemplateRenderer(options = {}) {
 			const page = require(filepath).default;
 			return '<!doctype html>' + vdo.with(props, page);
 		} catch (exception) {
-			const error = exception.message.replace(`${path.resolve(options.root)}/`, '');
+			const error = exception.message.replace(
+				`${path.resolve(options.root)}/`,
+				''
+			);
 			return errorHtml(
 				[
-					`Error while rendering a page ${props.sourcePath} with a template ${template}:`,
+					`Error while rendering a page ${
+						props.sourcePath
+					} with a template ${template}:`,
 					error,
 					exception.stack,
 				].join('\n')

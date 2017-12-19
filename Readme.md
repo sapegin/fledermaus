@@ -1,7 +1,6 @@
 # Fledermaus: Batman’s toolbelt for static site generation
 
-[![npm](https://img.shields.io/npm/v/fledermaus.svg)](https://www.npmjs.com/package/fledermaus)
-[![Build Status](https://travis-ci.org/sapegin/fledermaus.svg)](https://travis-ci.org/sapegin/fledermaus)
+[![npm](https://img.shields.io/npm/v/fledermaus.svg)](https://www.npmjs.com/package/fledermaus) [![Build Status](https://travis-ci.org/sapegin/fledermaus.svg)](https://travis-ci.org/sapegin/fledermaus)
 
 Infinitely extensible simple static site generator.
 
@@ -61,7 +60,8 @@ Your `package.json` should look like this:
   "scripts": {
     "start": "npm run server & npm run watch",
     "build": "babel-node src",
-    "build:watch": "chokidar templates source src -c 'babel-node src'",
+    "build:watch":
+      "chokidar templates source src -c 'babel-node src'",
     "server": "http-server public -p 4242 -o"
   }
 }
@@ -73,13 +73,14 @@ Your `.babelrc` should look like this:
 
 ```json
 {
-  "presets": [
-    "tamia"
-  ],
+  "presets": ["tamia"],
   "plugins": [
-    ["transform-react-jsx", {
-      "pragma": "vdo"
-    }]
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "vdo"
+      }
+    ]
   ]
 }
 ```
@@ -115,7 +116,7 @@ import {
   savePages,
   createMarkdownRenderer,
   createTemplateRenderer,
-  helpers,
+  helpers
 } from 'fledermaus';
 
 start('Building the page...');
@@ -127,11 +128,16 @@ let renderTemplate = createTemplateRenderer({ root: '.' });
 
 let documents = loadSourceFiles('.', ['md'], {
   renderers: {
-    md: renderMarkdown,
-  },
+    md: renderMarkdown
+  }
 });
 
-let pages = generatePages(documents, { assetsFolder: 'public' }, helpers, { jsx: renderTemplate });
+let pages = generatePages(
+  documents,
+  { assetsFolder: 'public' },
+  helpers,
+  { jsx: renderTemplate }
+);
 
 savePages(pages, 'public');
 ```
@@ -151,7 +157,7 @@ import {
   savePages,
   createMarkdownRenderer,
   createTemplateRenderer,
-  helpers,
+  helpers
 } from 'fledermaus';
 
 start('Building the site...');
@@ -161,16 +167,22 @@ let options = config.base;
 
 let renderMarkdown = createMarkdownRenderer();
 let renderTemplate = createTemplateRenderer({
-  root: options.templatesFolder,
+  root: options.templatesFolder
 });
 
-let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {
-  renderers: {
-    md: renderMarkdown,
-  },
-});
+let documents = loadSourceFiles(
+  options.sourceFolder,
+  options.sourceTypes,
+  {
+    renderers: {
+      md: renderMarkdown
+    }
+  }
+);
 
-let pages = generatePages(documents, config, helpers, { jsx: renderTemplate });
+let pages = generatePages(documents, config, helpers, {
+  jsx: renderTemplate
+});
 
 savePages(pages, options.publicFolder);
 ```
@@ -216,7 +228,7 @@ import {
   groupDocuments,
   createMarkdownRenderer,
   createTemplateRenderer,
-  helpers,
+  helpers
 } from 'fledermaus';
 
 start('Building the blog...');
@@ -229,23 +241,27 @@ let removeLang = url => url.replace(/(en|ru)\//, '');
 
 let renderMarkdown = createMarkdownRenderer();
 let renderTemplate = createTemplateRenderer({
-  root: options.templatesFolder,
+  root: options.templatesFolder
 });
 
-let documents = loadSourceFiles(options.sourceFolder, options.sourceTypes, {
-  renderers: {
-    md: renderMarkdown,
-  },
-  // Custom front matter field parsers
-  fieldParsers: {
-    // Save `date` field as a timestamp
-    timestamp: (timestamp, attrs) => Date.parse(attrs.date),
-    // Convert `date` field to a Date object
-    date: (date, attrs) => new Date(Date.parse(date)),
-  },
-  // Cut separator
-  cutTag: options.cutTag,
-});
+let documents = loadSourceFiles(
+  options.sourceFolder,
+  options.sourceTypes,
+  {
+    renderers: {
+      md: renderMarkdown
+    },
+    // Custom front matter field parsers
+    fieldParsers: {
+      // Save `date` field as a timestamp
+      timestamp: (timestamp, attrs) => Date.parse(attrs.date),
+      // Convert `date` field to a Date object
+      date: (date, attrs) => new Date(Date.parse(date))
+    },
+    // Cut separator
+    cutTag: options.cutTag
+  }
+);
 
 // Oder by date, newest first
 documents = orderDocuments(documents, ['-timestamp']);
@@ -262,46 +278,52 @@ documents = languages.reduce((result, lang) => {
   // Append all posts with a field indicating whether this post has a translation
   // (post with the same URL in another language)
   let translationLang = lang === 'ru' ? 'en' : 'ru';
-  let hasTranslation = (url) => {
+  let hasTranslation = url => {
     url = removeLang(url);
-    return !!documentsByLanguage[translationLang].find(doc => removeLang(doc.url) === url);
-  }
-  docs = docs.map((doc) => {
+    return !!documentsByLanguage[translationLang].find(
+      doc => removeLang(doc.url) === url
+    );
+  };
+  docs = docs.map(doc => {
     return {
       ...doc,
-      translation: hasTranslation(doc.url),
+      translation: hasTranslation(doc.url)
     };
   });
 
   // Pagination
-  newDocs.push(...paginate(docs, {
-    sourcePathPrefix: lang,
-    urlPrefix: `/${lang}/`,
-    documentsPerPage: options.postsPerPage,
-    layout: 'index',
-    index: true,
-    extra: {
-      lang,
-    },
-  }));
+  newDocs.push(
+    ...paginate(docs, {
+      sourcePathPrefix: lang,
+      urlPrefix: `/${lang}/`,
+      documentsPerPage: options.postsPerPage,
+      layout: 'index',
+      index: true,
+      extra: {
+        lang
+      }
+    })
+  );
 
   // Tags
   let postsByTag = groupDocuments(docs, 'tags');
   let tags = Object.keys(postsByTag);
-  newDocs.push(...tags.reduce((tagsResult, tag) => {
-    let tagDocs = postsByTag[tag];
-    let tagsNewDocs = paginate(tagDocs, {
-      sourcePathPrefix: `${lang}/tags/${tag}`,
-      urlPrefix: `/${lang}/tags/${tag}`,
-      documentsPerPage: options.postsPerPage,
-      layout: 'tag',
-      extra: {
-        lang,
-        tag,
-      },
-    });
-    return [...tagsResult, ...tagsNewDocs];
-  }, []));
+  newDocs.push(
+    ...tags.reduce((tagsResult, tag) => {
+      let tagDocs = postsByTag[tag];
+      let tagsNewDocs = paginate(tagDocs, {
+        sourcePathPrefix: `${lang}/tags/${tag}`,
+        urlPrefix: `/${lang}/tags/${tag}`,
+        documentsPerPage: options.postsPerPage,
+        layout: 'tag',
+        extra: {
+          lang,
+          tag
+        }
+      });
+      return [...tagsResult, ...tagsNewDocs];
+    }, [])
+  );
 
   // RSS feed
   newDocs.push({
@@ -313,13 +335,15 @@ documents = languages.reduce((result, lang) => {
     description: config[lang].description,
     copyright: config[lang].author,
     imageUrl: '/images/userpic.jpg',
-    lang,
+    lang
   });
 
   return [...result, ...docs, ...newDocs];
 }, []);
 
-let pages = generatePages(documents, config, helpers, { jsx: renderTemplate });
+let pages = generatePages(documents, config, helpers, {
+  jsx: renderTemplate
+});
 
 savePages(pages, options.publicFolder);
 ```
@@ -388,7 +412,7 @@ export function getPageTitle(suffix) {
 ```js
 import {
   // ...
-  helpers as defaultHelpers,
+  helpers as defaultHelpers
 } from 'fledermaus';
 import * as customHelpers from './helpers';
 
@@ -398,7 +422,9 @@ let helpers = { ...defaultHelpers, ...customHelpers };
 
 // ...
 
-let pages = generatePages(documents, config, helpers, { jsx: renderTemplate });
+let pages = generatePages(documents, config, helpers, {
+  jsx: renderTemplate
+});
 
 // ...
 ```
@@ -416,7 +442,7 @@ Template:
 ```js
 import {
   // ...
-  createMarkdownRenderer,
+  createMarkdownRenderer
 } from 'fledermaus';
 import { MarkdownRenderer } from 'fledermaus/lib/renderers/markdown';
 
@@ -451,26 +477,30 @@ Markdown source (on a separate line):
 ```javascript
 import {
   // ...
-  createMarkdownRenderer,
+  createMarkdownRenderer
 } from 'fledermaus';
 import visit from 'unist-util-visit';
 
 function remarkScreenshot(processor) {
-  return ast => visit(ast, 'paragraph', node => {
-    // Screenshots: /images/mac__shipit.png or /images/win__shipit.png
-    let child = node.children && node.children[0];
-    if (child && child.type === 'image') {
-     let m = child.url.match(/\/(\w+)__/);
-      if (m) {
-        node.children = null;
-        node.type = 'html';
-        node.value = `<div class="screenshot screenshot_${m[1]}"><img src="${child.url}" alt="${child.title || ''}"></div>`;
+  return ast =>
+    visit(ast, 'paragraph', node => {
+      // Screenshots: /images/mac__shipit.png or /images/win__shipit.png
+      let child = node.children && node.children[0];
+      if (child && child.type === 'image') {
+        let m = child.url.match(/\/(\w+)__/);
+        if (m) {
+          node.children = null;
+          node.type = 'html';
+          node.value = `<div class="screenshot screenshot_${
+            m[1]
+          }"><img src="${child.url}" alt="${child.title ||
+            ''}"></div>`;
+        }
       }
-    }
-  });
+    });
 }
 let renderMarkdown = createMarkdownRenderer({
-  plugins: [remarkScreenshot],
+  plugins: [remarkScreenshot]
 });
 ```
 
@@ -505,7 +535,6 @@ Now you can use `npm run deploy` to build and upload your site to GitHub Pages.
 ## Change log
 
 The change log can be found on the [Releases page](https://github.com/sapegin/fledermaus/releases).
-
 
 ## Author
 

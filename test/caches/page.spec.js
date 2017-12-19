@@ -1,5 +1,9 @@
 import hashSum from 'hash-sum';
-import { isPageUpdated, getPageCache, setPageCache } from '../../src/caches/pages';
+import {
+	isPageUpdated,
+	getPageCache,
+	setPageCache,
+} from '../../src/caches/pages';
 
 describe('page cache', () => {
 	test('return true for new pages', () => {

@@ -134,7 +134,9 @@ export function dateToString(date) {
 	try {
 		return format.format(date);
 	} catch (exception) {
-		return errorInlineHtml(`dateToString: invalid date "${date}" at ${this.sourcePath}`);
+		return errorInlineHtml(
+			`dateToString: invalid date "${date}" at ${this.sourcePath}`
+		);
 	}
 }
 
@@ -188,7 +190,9 @@ export const inlineFile = _.memoize(function(url) {
  * @return {string}
  */
 export function typo(string) {
-	return string && vdo.markSafe(richtypo.rich(string.toString(), this.pageLang()));
+	return (
+		string && vdo.markSafe(richtypo.rich(string.toString(), this.pageLang()))
+	);
 }
 
 /**
@@ -198,7 +202,9 @@ export function typo(string) {
  * @return {string}
  */
 export function typoTitle(string) {
-	return string && vdo.markSafe(richtypo.title(string.toString(), this.pageLang()));
+	return (
+		string && vdo.markSafe(richtypo.title(string.toString(), this.pageLang()))
+	);
 }
 
 /**

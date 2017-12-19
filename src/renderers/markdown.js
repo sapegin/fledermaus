@@ -72,7 +72,9 @@ function remarkCustomTags(customTags) {
 				// Check tag function
 				const tagFunction = customTags[tagName];
 				if (!tagFunction || !_.isFunction(tagFunction)) {
-					throw new Error(`Custom tag "${tagName}" is not defined or is not a function.`);
+					throw new Error(
+						`Custom tag "${tagName}" is not defined or is not a function.`
+					);
 				}
 
 				// Unzip attributes
@@ -87,7 +89,9 @@ function remarkCustomTags(customTags) {
 					result = tagFunction(attrs) || '';
 				} catch (exception) {
 					result = errorInlineHtml(
-						`Error while rendering custom tag <x-${tagName}>: ${exception.message}`,
+						`Error while rendering custom tag <x-${tagName}>: ${
+							exception.message
+						}`,
 						{ block: true }
 					);
 				}
@@ -151,7 +155,10 @@ export default function createMarkdownRenderer(options = {}) {
 
 	// Attach plugins
 	const plugins = options.plugins;
-	plugins.push([remarkCustomTags, options.customTags], [remarkHtml, remarkHtmlOptions]);
+	plugins.push(
+		[remarkCustomTags, options.customTags],
+		[remarkHtml, remarkHtmlOptions]
+	);
 	if (options.hljs) {
 		plugins.push([remarkHljs, options.hljs]);
 	}
