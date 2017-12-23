@@ -311,6 +311,25 @@ export function codeFragment(code, line) {
 }
 
 /**
+ * Returns formatted VDO components stack trace:
+ * components/Component1.jsx <- template/Component2.jsx
+ *
+ * @param {string} stack
+ * @return {string}
+ */
+export function getComponentStack(stack) {
+	const calls = stack.split('at ').slice(1);
+	return calls
+		.filter(s => !/\/(fledermaus|node_modules)\//.test(s))
+		.map(s => {
+			const m = s.match(/\/([^/\\]+\/[^/\\]+):\d+:\d+/);
+			return m && m[1];
+		})
+		.filter(Boolean)
+		.join(' <- ');
+}
+
+/**
  * Print message immidiately and show execution time on process exit.
  *
  * @param {string} message

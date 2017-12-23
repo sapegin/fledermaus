@@ -24,6 +24,7 @@ import {
 	getMessageFormat,
 	getDateTimeFormat,
 	errorInlineHtml,
+	getComponentStack,
 	absolutizeUrl as absolutizeUrlBase,
 	absolutizeLinks as absolutizeLinksBase,
 } from './util';
@@ -135,7 +136,9 @@ export function dateToString(date) {
 		return format.format(date);
 	} catch (exception) {
 		return errorInlineHtml(
-			`dateToString: invalid date "${date}" at ${this.sourcePath}`
+			`dateToString: invalid date "${date}" while rendering ${
+				this.sourcePath
+			}.\nComponent stack: ${getComponentStack(exception.stack)}`
 		);
 	}
 }

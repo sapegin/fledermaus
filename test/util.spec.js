@@ -216,4 +216,23 @@ describe('util', () => {
 			expect(result).toEqual(util.readFile('test/expected/code-snippet.txt'));
 		});
 	});
+
+	describe('getComponentStack', () => {
+		it('should return formatter stack trace', () => {
+			const result = util.getComponentStack(`RangeError: Invalid valid date passed to format
+at CreateDateTimeParts (/Users/tema/_/fledermaus/node_modules/intl/lib/core.js:3885:29)
+at FormatDateTime (/Users/tema/_/fledermaus/node_modules/intl/lib/core.js:4079:17)
+at DateTimeFormatConstructor.F (/Users/tema/_/fledermaus/node_modules/intl/lib/core.js:3848:20)
+at Object.dateToString (/Users/tema/_/fledermaus/lib/helpers.js:197:17)
+at _default (/Users/tema/_/morning.photos/templates/components/PostMeta.jsx:22:6)
+at vdo (/Users/tema/_/fledermaus/node_modules/vdo/lib/index.js:37:14)
+at _default (/Users/tema/_/morning.photos/templates/components/PostExcerpt.jsx:67:21)
+at vdo (/Users/tema/_/fledermaus/node_modules/vdo/lib/index.js:37:14)
+at /Users/tema/_/morning.photos/templates/Posts.jsx:32:12
+at Array.map (<anonymous>)`);
+			expect(result).toEqual(
+				'components/PostMeta.jsx <- components/PostExcerpt.jsx <- templates/Posts.jsx'
+			);
+		});
+	});
 });
