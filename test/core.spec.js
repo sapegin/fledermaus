@@ -7,7 +7,7 @@ import { readFile } from '../src/util';
 import * as helpers from '../src/helpers';
 import createTemplateRenderer from '../src/renderers/template';
 import createMarkdownRenderer from '../src/renderers/markdown';
-import { setPageCache } from '../src/caches/pages';
+import { setSourceCache } from '../src/caches/sources';
 
 /* eslint-disable object-shorthand, object-property-newline */
 
@@ -15,9 +15,10 @@ const renderTemplate = createTemplateRenderer({
 	root: 'test/samples',
 });
 const renderMarkdown = createMarkdownRenderer();
+const renderers = { md: renderMarkdown };
 
-beforeEach(() => {
-	setPageCache({});
+afterEach(() => {
+	setSourceCache();
 });
 
 describe('core', () => {
@@ -79,7 +80,6 @@ describe('core', () => {
 	});
 
 	describe('parsePage', () => {
-		const renderers = { md: renderMarkdown };
 		it('should parse Markdown source with frontmatter to an object', () => {
 			const folder = 'test/samples';
 			const filepath = 'markdown-with-frontmatter.md';
@@ -90,24 +90,6 @@ describe('core', () => {
 			);
 			expect(result).toEqual(
 				require('./expected/markdown-with-frontmatter.md.js')
-			);
-		});
-		it('should modify all fields using custom field parsers', () => {
-			const folder = 'test/samples';
-			const filepath = 'markdown-with-frontmatter.md';
-			const result = core.parsePage(
-				readFile(path.join(folder, filepath)),
-				filepath,
-				{
-					renderers,
-					fieldParsers: {
-						lang: () => 'ru',
-						url: u => `/ru${u}`,
-					},
-				}
-			);
-			expect(result).toEqual(
-				require('./expected/markdown-with-custom-fields.js')
 			);
 		});
 		it('should split content to excerpt and more if cut tag is used', () => {
@@ -145,6 +127,23 @@ describe('core', () => {
 				'en/read-less-tech-books.md',
 				'ru/debug-mode.md',
 			]);
+		});
+	});
+
+	describe('loadSourceFile', () => {
+		it('should modify all fields using custom field parsers', () => {
+			const folder = 'test/samples';
+			const filepath = 'markdown-with-frontmatter.md';
+			const result = core.loadSourceFile(filepath, folder, {
+				renderers,
+				fieldParsers: {
+					lang: () => 'ru',
+					url: u => `/ru${u}`,
+				},
+			});
+			expect(result).toEqual(
+				require('./expected/markdown-with-custom-fields.js')
+			);
 		});
 	});
 

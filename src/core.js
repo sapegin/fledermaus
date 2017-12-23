@@ -12,7 +12,11 @@ import {
 	readYamlFile,
 	formatFieldsForSortByOrder,
 } from './util';
-import { isPageUpdated } from './caches/pages';
+import {
+	isSourceUpdated,
+	updateSourceCache,
+	getSourceFromCache,
+} from './caches/sources';
 
 /**
  * Convert file path to URL.
@@ -71,15 +75,10 @@ export function parseCustomFields(attributes, fieldParsers) {
  * @param {string} filepath Source file path relative to `folder`.
  * @param {Object} $2
  * @param {object} $2.renderers Content renderers: {ext: renderFunction}.
- * @param {object} $2.fieldParsers Custom field parsers: {name: parseFunction}.
  * @param {object} $2.cutTag Cut separator.
  * @return {object} { sourcePath, content, excerpt, more, url }
  */
-export function parsePage(
-	source,
-	filepath,
-	{ renderers = {}, fieldParsers = {}, cutTag } = {}
-) {
+export function parsePage(source, filepath, { renderers = {}, cutTag } = {}) {
 	const { attributes, body } = fastmatter(source);
 
 	const url = filepathToUrl(filepath);
@@ -92,7 +91,7 @@ export function parsePage(
 		[excerpt, more] = content.split(cutTag);
 	}
 
-	const extendedAttributes = {
+	return {
 		...attributes,
 		sourcePath: filepath,
 		content: content && content.trim(),
@@ -100,8 +99,6 @@ export function parsePage(
 		more: more && more.trim(),
 		url,
 	};
-
-	return parseCustomFields(extendedAttributes, fieldParsers);
 }
 
 /**
@@ -128,18 +125,35 @@ export function getSourceFilesList(folder, types) {
 export function loadSourceFiles(folder, types, options) {
 	const files = getSourceFilesList(folder, types);
 	if (!files.length) {
-		/* eslint-disable no-console */
+		// eslint-disable-next-line no-console
 		console.warn(
 			`No source files found in a folder ${path.resolve(
 				folder
 			)} with types ${types.join(', ')}`
 		);
-		/* eslint-enable no-console */
 	}
-	return files.map(filepath => {
-		const source = readFile(path.join(folder, filepath));
-		return parsePage(source, filepath, options);
-	});
+	return files.map(f => loadSourceFile(f, folder, options));
+}
+
+/**
+ * Load source file from a disk.
+ *
+ * @param {string} filepath
+ * @param {string} folder
+ * @param {object} options
+ * @return {object}
+ */
+export function loadSourceFile(filepath, folder, options) {
+	const fullPath = path.join(folder, filepath);
+
+	let page;
+	if (isSourceUpdated(fullPath)) {
+		page = parsePage(readFile(fullPath), filepath, options);
+		updateSourceCache(fullPath, page, options);
+	}
+	page = getSourceFromCache(fullPath);
+
+	return parseCustomFields(page, options.fieldParsers);
 }
 
 /**
@@ -465,9 +479,7 @@ export function generatePages(documents, config, helpers, renderers) {
  * @param {string} folder Folder to save files.
  */
 export function savePage(page, folder) {
-	if (isPageUpdated(page.pagePath, page.content)) {
-		writeFile(path.join(folder, page.pagePath), page.content);
-	}
+	writeFile(path.join(folder, page.pagePath), page.content);
 }
 
 /**
