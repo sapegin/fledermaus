@@ -42,12 +42,6 @@ const getOption = _.memoize(function(key, lang) {
 	return value;
 }, (key, lang) => `${key}/${lang}`);
 
-const getMessage = _.memoize(function(key, lang, params) {
-	const string = getOption.call(this, key, lang);
-	const message = getMessageFormat(string, lang);
-	return vdo.markSafe(message.format(params));
-}, (key, lang, params) => `${key}/${lang}/${JSON.stringify(params)}`);
-
 /**
  * Localized config option.
  *
@@ -75,7 +69,10 @@ export function pageLang() {
  * @return {string}
  */
 export function __(key, params = {}) {
-	return getMessage.call(this, key, this.pageLang(), params);
+	const lang = this.pageLang();
+	const string = getOption.call(this, key, lang);
+	const message = getMessageFormat(string, lang);
+	return vdo.markSafe(message.format(params));
 }
 
 /**
