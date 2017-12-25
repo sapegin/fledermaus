@@ -5,11 +5,10 @@
   "presets": [
     ["@babel/env", {
       "targets": {
-        "node": "8.9",
-        "useBuiltIns": "usage",
-        "shippedProposals": true,
-        "debug": true
-      }
+        "node": "8.9"
+      },
+      "useBuiltIns": "usage",
+      "shippedProposals": true
     }]
   ]
 }
