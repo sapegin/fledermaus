@@ -53,7 +53,7 @@
     "mkdirp": "^0.5.1",
     "parse5": "^3.0.3",
     "remark": "^8.0.0",
-    "remark-html": "^7.0.0",
+    "remark-html": "^13.0.2",
     "richtypo": "^2.0.0",
     "rss": "^1.2.2",
     "strip-ansi": "^4.0.0",
